@@ -57,6 +57,9 @@ import EditOrder from '@/page/[role]/(manager)/order/_components/edit'
 import CommonLayout from '@/page/[role]/(base)/AccountPage/CommonLayout'
 import DetailOrder from '@/page/[role]/(base)/AccountPage/DetailOrder'
 import GuardPage from '@/middleware/GuardPage'
+import EditAttribute from '@/page/[role]/(manager)/attribute/_components/attribute/edit'
+import AddAttribute from '@/page/[role]/(manager)/attribute/_components/attribute/add'
+import DetailManagement from '@/page/[role]/(manager)/details'
 
 export default function Router() {
   return (
@@ -148,6 +151,7 @@ export default function Router() {
             </Route>
 
             <Route path='attributes-product' element={<AttributeManagement />}></Route>
+            <Route path='details' element={<DetailManagement />}></Route>
 
             {/* <Route path="categories" element={<CategoryManagement />}>
                   <Route path="add" element={<AddCategory />} />
@@ -172,6 +176,11 @@ export default function Router() {
             <Route path='categories' element={<CategoryManagement />}>
               <Route path='add' element={<AddCategory />} />
               <Route path=':id' element={<EditCategory />} />
+            </Route>
+
+            <Route path='attributes' element={<AttributeManagement />}>
+              <Route path='add' element={<AddAttribute />} />
+              <Route path=':id' element={<EditAttribute />} />
             </Route>
 
             <Route path='post-categories' element={<PostCategoryManagement />}>

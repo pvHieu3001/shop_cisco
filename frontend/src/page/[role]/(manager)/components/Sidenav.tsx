@@ -125,7 +125,18 @@ function Sidenav() {
                 </Flex>
               </>
             ),
-            link: '/admin/attributes-produc t'
+            link: '/admin/attributes'
+          },
+          {
+            label: (
+              <>
+                <Flex align="center" gap={10} justify="center" className="children-menu">
+                  {<Tables color={darkColor} />}
+                  <span className="label font-bold text-gray-400">Chi tiết</span>
+                </Flex>
+              </>
+            ),
+            link: '/admin/details'
           },
           {
             label: (

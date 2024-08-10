@@ -7,44 +7,41 @@ import { Table, Tag } from 'antd';
 const { Column, ColumnGroup } = Table;
 
 import type { TableColumnsType, TableProps } from 'antd';
-import CategoryAttribute from "./category_attribute/List";
-import Attribute from "./attribute/list";
-import ValueAttribute from "./value_attribute/list";
-import { useDeleteAttributeMutation, useGetAttributesQuery } from "./attribute/AttributeEndpoints";
 import { popupError, popupSuccess } from "@/page/[role]/shared/Toast";
-import { IAttribute } from "@/common/types/attribute.interface";
 import { Link } from "react-router-dom";
+import { useDeleteDetailMutation, useGetDetailsQuery } from "./DetailsEndpoints";
+import { IDetail } from "@/common/types/product.interface";
 
 
 
-export default function ListAttribute() {
+export default function ListDetail() {
 
-  const { data, isLoading } = useGetAttributesQuery({});
-  const [deleteAttribute, { isLoading: isLoadingDeleteAttribute }] = useDeleteAttributeMutation();
+  const { data, isLoading } = useGetDetailsQuery({});
+  const [deleteDetail, { isLoading: isLoadingDeleteDetail }] = useDeleteDetailMutation();
   const confirm = async (id: number | string) => {
     try {
-      await deleteAttribute(id).unwrap();
-      popupSuccess('Delete attribute success');
+      await deleteDetail(id).unwrap();
+      popupSuccess('Delete detail success');
     } catch (error) {
-      popupError('Delete attribute error');
+      popupError('Delete detail error');
     }
   };
 
-  const columns: TableProps<IAttribute>['columns'] = [
+  const columns: TableProps<IDetail>['columns'] = [
     {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
       width: '5%',
-      render: (_: any, __: IAttribute, index: number) => {
+      render: (_: any, __: IDetail, index: number) => {
         return index + 1;
       },
     },
     {
-      title: 'Tên thuộc tính',
+      title: 'Tên chi tiết',
       dataIndex: 'name',
       key: 'name',
-      render: (_: any, item: IAttribute) => {
+      render: (_: any, item: IDetail) => {
         return item.name;
       },
     },
@@ -58,20 +55,20 @@ export default function ListAttribute() {
             Sửa
           </Button></Link>
           <Popconfirm
-                    disabled={isLoadingDeleteAttribute}
+                    disabled={isLoadingDeleteDetail}
                     title="Delete the user"
                     description={`Are you sure to delete "${record.name}" ?`}
                     onConfirm={() => confirm(String(record.id))}
                     okText="Yes"
                     cancelText="No">
-                    <Button danger loading={isLoadingDeleteAttribute} >Xóa</Button>
+                    <Button danger loading={isLoadingDeleteDetail} >Xóa</Button>
                   </Popconfirm>
         </Flex>
       ),
     },
   ];
 
-  const dataItem = data?.map((item : IAttribute, key : number) => {
+  const dataItem = data?.map((item : IDetail, key : number) => {
     return {
       ...item,
       key : key
@@ -82,10 +79,9 @@ export default function ListAttribute() {
   return <>
     <Typography.Title editable level={2} style={{ margin: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        Danh sách thuộc tính <Flex wrap="wrap" gap="small">
-         
+        Danh sách chi tiết <Flex wrap="wrap" gap="small">
          <Link to="add">  <Button type="primary" danger >
-            Thêm thuộc tính
+            Thêm chi tiết
           </Button></Link>
          
         </Flex>

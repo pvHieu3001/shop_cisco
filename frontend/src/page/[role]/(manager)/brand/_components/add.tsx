@@ -80,10 +80,6 @@ export default function AddBrand() {
   
   }
 
-  
- 
-
-
   const navigate = useNavigate()
 
   const handleCancel = () => {
