@@ -45,7 +45,7 @@ export const attributesApi = apiWithTag.injectEndpoints({
     updateAttribute: builder.mutation({
       query: (updatedAttribute) => ({
         url: `attribute/${updatedAttribute.id}`,
-        method: 'PUT',
+        method: 'POST',
         body: updatedAttribute,
       }),
       invalidatesTags: (id) => [

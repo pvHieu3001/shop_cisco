@@ -108,5 +108,9 @@ const columns: TableProps<IBrand>['columns'] = [
     </Typography.Title>
 
     <Table columns={columns} dataSource={dataItem} loading={isLoading} />
+
+
+
+
   </>
 }

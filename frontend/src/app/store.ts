@@ -23,7 +23,7 @@ import { ordersApi } from '@/services/OrderEndPoints'
 import cartSlide from './slices/cartSlide'
 import { voucherApi } from '@/page/[role]/(manager)/voucher/VoucherEndpoint'
 import { CommentsApi } from '@/services/CommentEndPoints'
-import { detailsApi } from '@/page/[role]/(manager)/details/_components/DetailsEndpoints'
+import { detailsApi } from '@/page/[role]/(manager)/details/_component/DetailsEndpoints'
 export const store = configureStore({
   reducer: {
     web: webReducer,
