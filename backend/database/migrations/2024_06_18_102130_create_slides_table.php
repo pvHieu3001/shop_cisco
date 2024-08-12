@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('image_url');
             $table->string('public_id');
             $table->string('image_title');
-            $table->boolean('is_active')->default(false);
+            $table->integer('is_active');
             $table->timestamps();
         });
     }

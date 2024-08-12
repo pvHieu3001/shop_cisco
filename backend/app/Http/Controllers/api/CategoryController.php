@@ -50,7 +50,7 @@ class CategoryController extends Controller
     public function edit($id){
         try {
 
-            $category = Category::with('details.attributes', 'variants')->find($id);
+            $category = Category::with('details.attributes')->find($id);
 
             if(!$category){
                 return response()->json([
@@ -178,7 +178,7 @@ class CategoryController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $valid->errors()
-            ], 422);
+            ]);
         }
 
         try {
@@ -232,7 +232,7 @@ class CategoryController extends Controller
                 ]);
 
                 foreach ($item->attribute as $value) {
-                    Attribute::create([
+                    $attribute = Attribute::create([
                         'detail_id' => $detail->id,
                         'name' => $value->value
                     ]);

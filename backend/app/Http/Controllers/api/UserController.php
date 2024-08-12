@@ -32,7 +32,7 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-
+    
     public function index(){
         try {
             $items = User::orderBy('created_at', 'desc')->get();
@@ -55,9 +55,8 @@ class UserController extends Controller
 
             return response()->json([
                 'success' => true,
-                'user' => $user,
+                'data' => $user,
             ], 200);
-
         } catch (\Exception $e) {
 
             return response()->json([
@@ -70,7 +69,7 @@ class UserController extends Controller
     public function edit($id)
     {
         try {
-
+            
             $user = User::findOrFail($id);
 
             return response()->json([
@@ -92,12 +91,14 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
+            'address_line1' => 'nullable|string|max:255',
+            'address_line2' => 'nullable|string|max:255',
             'county' => 'nullable|string|max:255',
             'district' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'role_id' => 'nullable|integer',
-            'is_active' => 'nullable|integer',
+            'in_active' => 'nullable|integer',
+            'virtual' => 'nullable|integer',
         ], [
             'image.image' => 'Hình ảnh phải là file hình ảnh',
             'image.mimes' => 'Định dạng của hình ảnh phải là jpeg, png, jpg hoặc gif',
@@ -126,7 +127,7 @@ class UserController extends Controller
 
             $validatedData['image'] = $url;
             $validatedData['public_id'] = $public_id;
-            $validatedData['is_active'] = (int)$request->get("is_active");
+            $validatedData['in_active'] = (int)$request->get("in_active");
         }
 
         $user = User::create($validatedData);
@@ -142,17 +143,19 @@ class UserController extends Controller
         try {
             // Validate request data
             $validatedData = $request->validate([
-                'username' => 'sometimes|required|string|max:255',
+                'name' => 'sometimes|required|string|max:255',
                 'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
                 'password' => 'sometimes|required|string|min:8',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'phone' => 'nullable|string|max:20',
-                'address' => 'nullable|string|max:255',
+                'address_line1' => 'nullable|string|max:255',
+                'address_line2' => 'nullable|string|max:255',
                 'county' => 'nullable|string|max:255',
                 'district' => 'nullable|string|max:255',
                 'city' => 'nullable|string|max:255',
                 'role_id' => 'nullable|integer',
-                'is_active' => 'nullable|integer',
+                'in_active' => 'nullable|integer',
+                'virtual' => 'nullable|integer',
             ], [
                 'image.image' => 'Hình ảnh phải là file hình ảnh',
                 'image.mimes' => 'Định dạng của hình ảnh phải là jpeg, png, jpg hoặc gif',

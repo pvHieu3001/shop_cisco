@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Enums\Roles;
 use App\Events\OtpRequested;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -274,35 +273,37 @@ class AuthController extends Controller
                 ], 422);
             }
 
+            UserRegistration::where('email', $userRegistration->email)->delete();
+
             $addUser = [
                 'username' => $userRegistration->username,
                 'email' => $userRegistration->email,
                 'password' => bcrypt($userRegistration->password),
-                'role_id' => Roles::getOrder(Roles::USER)
+                'role_id' => User::Role_id['USER']
             ];
 
-            $user = User::create($addUser);
+            $user = User::create($addUser)->first();
 
             if (!$token = $user->createToken('authToken')->plainTextToken) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            UserRegistration::where('email', $userRegistration->email)->delete();
-
-            $user = User::find($user->id);
-
             return response()->json([
                 'success' => true,
-                'user' => $user,
-                'access_token' => $token,
-                'token_type' => 'Bearer',
+                'result' => [
+                    'data' => $user,
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ]
             ], 200);
 
         }catch (ValidationException $e) {
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'result' => [
+                    'message' => $e->getMessage()
+                ],
             ], 422);
 
         }
@@ -310,7 +311,9 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'result' => [
+                    'message' => 'serve error',
+                ],
             ], 500);
 
         }
@@ -328,9 +331,13 @@ class AuthController extends Controller
         if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Khng tìm thấy người dùng'
+                'result' => [
+                    'message' => 'Khng tìm thấy người dùng'
+                ]
             ]);
         }
+
+
     }
 
     public function login(Request $request)
@@ -354,33 +361,44 @@ class AuthController extends Controller
             if (!$user || !Hash::check($request->password, $user->password)) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'email or password is incorrect'
+                    'result' => [
+                        'message' => 'email or password is incorrect'
+                    ]
                 ], 422);
             };
 
             if (!$token = $user->createToken('authToken')->plainTextToken) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Invalid OTP'
+                    'result' => [
+                        'message' => 'Invalid OTP'
+                    ]
                 ], 422);
             }
 
             return response()->json([
                 'success' => true,
-                'user' => $user,
-                'access_token' => $token,
-                'token_type' => 'Bearer',
+                'result' => [
+                    'message' => 'login success',
+                    'data' => $user,
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ]
             ]);
 
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'result' => [
+                    'message' => $e->getMessage()
+                ]
             ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'result' => [
+                    'message' => $e->getMessage()
+                ]
             ], 500);
         }
     }
@@ -392,13 +410,17 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'logout success'
+                'result' => [
+                    'message' => 'logout success'
+                ]
             ], 200);
 
         }catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'result' => [
+                    'message' => $e->getMessage()
+                ]
             ], 500);
         }
     }

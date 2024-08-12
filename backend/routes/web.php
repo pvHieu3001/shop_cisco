@@ -16,5 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('payment/momo/callback', [\App\Http\Controllers\api\PaymentController::class, 'callBack']);

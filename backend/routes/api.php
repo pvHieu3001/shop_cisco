@@ -5,19 +5,17 @@ use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\CartController;
-use App\Http\Controllers\api\CouponController;
 use App\Http\Controllers\api\DetailController;
-use App\Http\Controllers\api\OrderController;
-use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\RoleController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\ValueController;
-use App\Http\Controllers\api\SlideController;
+use App\Http\Controllers\SlideController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\ProductController;
-use App\Http\Controllers\api\UserCouponController;
 use App\Http\Controllers\api\VariantController;
 use App\Http\Controllers\api\VariantOptionController;
+use App\Models\Variant_option;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,17 +41,17 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('user')->group(function () {
     Route::get('list', [UserController::class, 'index']);
-    Route::get('profile', [UserController::class, 'profile'])->middleware('auth:sanctum');
+    Route::get('', [UserController::class, 'profile']);
     Route::post('', [UserController::class, 'store']);
     Route::get('{id}', [UserController::class, 'edit']);
     Route::post('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'delete']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 
 Route::middleware('auth:sanctum')->prefix('cart')->group(function () {
     Route::get('', [CartController::class, 'index']);
-    Route::post('add', [CartController::class, 'store']);
-    Route::put('/{id}', [CartController::class, 'updateQuantity']);
+    Route::post('', [CartController::class, 'store']);
+    Route::put('/{id}', [CartController::class, 'update']);
     Route::delete('/{id}', [CartController::class, 'destroy']);
 });
 
@@ -78,7 +76,7 @@ Route::prefix('detail')->group(function () {
     Route::post('', [DetailController::class, 'store']);
     Route::get('/{id}', [DetailController::class, 'edit']);
     Route::post('/{id}', [DetailController::class, 'update']);
-    Route::delete('/{id}', [DetailController::class, 'delete']);
+    Route::delete('/{id}', [DetailController::class, 'destroy']);
     Route::post('/{id}/restore', [DetailController::class, 'restore']);
 });
 
@@ -87,7 +85,7 @@ Route::prefix('attribute')->group(function () {
     Route::post('', [AttributeController::class, 'store']);
     Route::get('/{id}', [AttributeController::class, 'edit']);
     Route::post('/{id}', [AttributeController::class, 'update']);
-    Route::delete('/{id}', [AttributeController::class, 'delete']);
+    Route::delete('/{id}', [AttributeController::class, 'destroy']);
     Route::post('/{id}/restore', [AttributeController::class, 'restore']);
 });
 
@@ -96,7 +94,7 @@ Route::prefix('value')->group(function () {
     Route::post('', [ValueController::class, 'store']);
     Route::get('/{id}', [ValueController::class, 'edit']);
     Route::post('/{id}', [ValueController::class, 'update']);
-    Route::delete('/{id}', [ValueController::class, 'delete']);
+    Route::delete('/{id}', [ValueController::class, 'destroy']);
     Route::post('/{id}/restore', [ValueController::class, 'restore']);
 });
 
@@ -105,7 +103,7 @@ Route::prefix('role')->group(function () {
     Route::post('', [RoleController::class, 'store']);
     Route::get('/{id}', [RoleController::class, 'edit']);
     Route::post('/{id}', [RoleController::class, 'update']);
-    Route::delete('/{id}', [RoleController::class, 'delete']);
+    Route::delete('/{id}', [RoleController::class, 'destroy']);
     Route::post('/{id}/restore', [RoleController::class, 'restore']);
 });
 
@@ -116,23 +114,17 @@ Route::prefix('product')->group(function () {
     Route::get('/home/{feat}', [ProductController::class, 'featProducts']);
 });
 
-Route::prefix('slider')->group(function () {
 
-    Route::post('/', [SlideController::class, 'store']);
-    Route::get('/', [SlideController::class, 'show']);
-    Route::delete('/{id}', [SlideController::class, 'destroy']);
-    Route::get('/{id}', [SlideController::class, 'edit']);
-    Route::post('/{id}', [SlideController::class, 'update']);
-});
+Route::prefix('slider')
+    ->group(function () {
 
-Route::prefix('order')->middleware('auth:sanctum')->group(function () {
-    Route::get('user', [OrderController::class, 'getAllOrder']);
-    Route::get('detail/{id}', [OrderController::class, 'getOrderDetail']);
-    Route::get('', [OrderController::class, 'index']);
-    Route::post('', [OrderController::class, 'placeOrder']);
-    Route::get('{id}', [OrderController::class, 'show']);
-    Route::put('update/status/{id}', [OrderController::class, 'updateStatus'])->middleware('check.status');
-});
+        Route::post('/', [SlideController::class, 'store']);
+        Route::get('/', [SlideController::class, 'show']);
+        Route::delete('/{id}', [SlideController::class, 'destroy']);
+        Route::get('/{id}', [SlideController::class, 'edit']);
+        Route::post('/{id}', [SlideController::class, 'update']);
+    });
+
 
 Route::prefix('variant')->group(function () {
     Route::get('', [VariantController::class, 'index']);
@@ -142,8 +134,6 @@ Route::prefix('variant')->group(function () {
     Route::delete('/{id}', [VariantController::class, 'destroy']);
     Route::post('/{id}/restore', [VariantController::class, 'restore']);
 });
-
-
 Route::prefix('variant_option')->group(function () {
     Route::get('', [VariantOptionController::class, 'index']);
     Route::post('', [VariantOptionController::class, 'store']);
@@ -153,22 +143,5 @@ Route::prefix('variant_option')->group(function () {
     Route::post('/{id}/restore', [VariantOptionController::class, 'restore']);
 });
 
-Route::prefix('payment')->group(function () {
-    Route::get('momo/{orderId}', [PaymentController::class, 'momo_payment']);
-    Route::get('callback', [PaymentController::class, 'fallBack']);
-});
 
-Route::prefix('coupon')->group(function () {
-    Route::post('apply', [CouponController::class, 'apply']);
-    Route::get('', [CouponController::class, 'index']);
-    Route::post('', [CouponController::class, 'store']);
-    Route::get('/{id}', [CouponController::class, 'edit']);
-    Route::post('/{id}', [CouponController::class, 'update']);
-    Route::delete('/{id}', [CouponController::class, 'destroy']);
-    Route::post('apply', [CouponController::class, 'apply']);
-});
 
-Route::prefix('filter')->group(function () {
-    Route::post('', [ProductController::class, 'filter']);
-    Route::get('/search', [ProductController::class, 'search']);
-});

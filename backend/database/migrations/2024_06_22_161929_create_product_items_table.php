@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('product_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products');
-            $table->decimal('price', 15, 0);
-            $table->decimal('price_sale', 15, 0);
+            $table->decimal('price', 15, 0)->nullable();
+            $table->decimal('price_sale', 15, 0)->nullable();
             $table->integer('quantity')->default(0);
-            $table->string('sku')->unique();
+            $table->string('sku')->nullable();
             $table->text('image')->nullable();
             $table->text('public_id')->nullable();
             $table->softDeletes()->nullable();
