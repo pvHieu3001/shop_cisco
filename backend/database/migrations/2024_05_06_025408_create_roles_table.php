@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        foreach (Roles::getValues() as $role) {
+        foreach (array_column(Roles::cases(), 'value') as $role) {
             Role::create([
                 'name' => $role,
             ]);

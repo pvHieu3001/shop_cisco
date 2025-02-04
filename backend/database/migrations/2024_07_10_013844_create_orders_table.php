@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->decimal('total_price');
-            $table->foreignId('status_id')->constrained('order_status');
+            $table->foreignId('status_id')->constrained('order_statuses');
             $table->string('receiver_name');
             $table->string('receiver_email');
             $table->string('receiver_phone');
@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('receiver_county');
             $table->string('receiver_district');
             $table->string('receiver_address');
-            $table->
             $table->decimal('discount_code');
             $table->timestamps();
         });

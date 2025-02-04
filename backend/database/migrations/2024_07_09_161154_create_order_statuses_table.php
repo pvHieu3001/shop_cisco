@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
-
-        foreach (EnumOrderStatus::getValues() as $value){
+        
+        foreach (array_column(EnumOrderStatus::cases(), 'value') as $value){
             OrderStatus::create([
                 'name' => $value,
             ]);

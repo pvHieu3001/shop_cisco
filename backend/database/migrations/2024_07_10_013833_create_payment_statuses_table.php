@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        foreach (PaymentStatuses::getValues() as $paymentStatus) {
+        foreach (array_column(PaymentStatuses::cases(), 'value') as $paymentStatus) {
             PaymentStatus::create([
                 'name' => $paymentStatus,
             ]);
