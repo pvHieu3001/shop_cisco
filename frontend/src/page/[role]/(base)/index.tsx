@@ -13,10 +13,10 @@ function Base() {
   return (
     <HelmetProvider>
       <Helmet>
-        <title>Ciseco || Shop - eCommerce React template</title>
+        <title>Đồ gỗ Hiệp Hồng</title>
         <meta
           name="description"
-          content="Ciseco || Shop - eCommerce React template"
+          content="Đồ gỗ Hiệp Hồng"
         />
       </Helmet>
 

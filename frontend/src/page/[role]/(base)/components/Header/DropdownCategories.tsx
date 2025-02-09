@@ -73,7 +73,7 @@ export default function DropdownCategories() {
       <Popover className="relative">
         {({ open, close }) => (
           <>
-            <Link to="/category"><span>Shops</span> </Link>
+            <Link to="/category"><span>Đồ Gỗ Hiệp Hồng</span> </Link>
             <Transition
               as={Fragment}
               enter="transition ease-out duration-200"

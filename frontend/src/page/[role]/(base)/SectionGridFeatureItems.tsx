@@ -34,11 +34,11 @@ const SectionGridFeatureItems: FC<SectionGridFeatureItemsProps> = ({
         </div>
       </div>
       <div className="nc-SectionGridFeatureItems relative">
-        <HeaderFilterSection title="Ưu đãi hấp dẫn" handleFilter={setFilter}/>
+        <HeaderFilterSection title="Sản phẩm mới" handleFilter={setFilter}/>
         <div
           className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 `}
         >
-          {dataGood?.data?.map((item, index) => (
+          {dataNew?.data?.map((item, index) => (
             <ProductCard data={item} key={index} />
           ))}
         </div>
@@ -47,11 +47,11 @@ const SectionGridFeatureItems: FC<SectionGridFeatureItemsProps> = ({
         </div>
       </div>
       <div className="nc-SectionGridFeatureItems relative">
-        <HeaderFilterSection title="Sản phẩm mới" handleFilter={setFilter}/>
+        <HeaderFilterSection title="Ưu đãi hấp dẫn" handleFilter={setFilter}/>
         <div
           className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 `}
         >
-          {dataNew?.data?.map((item, index) => (
+          {dataGood?.data?.map((item, index) => (
             <ProductCard data={item} key={index} />
           ))}
         </div>

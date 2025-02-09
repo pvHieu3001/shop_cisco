@@ -5,9 +5,6 @@ import ProductCard from "./ProductCard";
 import { Product } from "../../../../data/data";
 import { useGetProductsQuery } from "../../(manager)/products/ProductsEndpoints";
 import { IProduct } from "@/common/types/product.interface";
-import { Empty, Skeleton } from "antd";
-import { RadioChangeEvent } from "antd/lib";
-import NcImage from "../shared/NcImage/NcImage";
 import LoadingProduct from "./LoadingProduct";
 export interface SectionSliderProductCardProps {
   className?: string
@@ -25,7 +22,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
   headingFontClassName,
   headingClassName,
   heading,
-  subHeading = "REY backpacks & bags",
+  subHeading = "",
 }) => {
   const sliderRef = useRef(null);
   const id = useId();
@@ -83,7 +80,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
             rightDescText={subHeading}
             hasNextPrev
           >
-            {heading || `New Arrivals`}
+            {heading || `Sản Phẩm Bán Chạy`}
           </Heading>
           {
           

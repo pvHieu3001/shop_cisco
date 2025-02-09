@@ -273,7 +273,7 @@ const CheckoutPage = () => {
   return (
     <div className='nc-CheckoutPage'>
       <Helmet>
-        <title>Checkout || Ciseco Ecommerce Template</title>
+        <title>Thanh Toán || Đồ gỗ Hiệp Hồng</title>
       </Helmet>
 
 

@@ -76,7 +76,7 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
   return (
     <div className={`nc-PageCollection2 ${className}`} data-nc-id='PageCollection2'>
       <Helmet>
-        <title>Category || Ciseco Ecommerce Template</title>
+        <title>Loại Sản Phẩm || Đồ gỗ Hiệp Hồng</title>
       </Helmet>
 
       <div className='container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28'>
