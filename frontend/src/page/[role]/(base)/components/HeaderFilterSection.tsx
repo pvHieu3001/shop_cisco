@@ -18,28 +18,11 @@ const HeaderFilterSection: FC<HeaderFilterSectionProps> = ({
   title
 }) => {
   const [isOpen, setIsOpen] = React.useState(true);
-  const [tabActive, setTabActive] = React.useState("is_hot_deal");
 
   return (
     <div className={`flex flex-col relative ${className}`}>
-      <Heading>{title}</Heading>
       <div className="flex flex-col lg:flex-row lg:items-center justify-between space-y-6 lg:space-y-0 lg:space-x-2 ">
-        <Nav
-          className="sm:space-x-2"
-          containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar"
-        >
-          {["Tất cả danh mục", "Diện thoại", "máy tính", "sạc pin"].map(
-            (item, index) => (
-              <NavItem
-                key={index}
-                isActive={tabActive === item}
-                onClick={() => setTabActive(item)}
-              >
-                {item}
-              </NavItem>
-            )
-          )}
-        </Nav>
+        <Heading className="mt" desc="">{title}</Heading>
         <span className="block flex-shrink-0">
           <ButtonPrimary
             className="w-full !pr-16"

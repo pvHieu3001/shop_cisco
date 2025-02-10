@@ -112,6 +112,7 @@ export const getOneBanner = (id: string) => async (dispatch: Dispatch) => {
 export const createNewBanner = (payload: IBanner) => async (dispatch: Dispatch) => {
   dispatch(isFetching())
   try {
+    debugger;
     const response = await createBanner(payload)
     if (response.data) {
       dispatch(createSuccess(response.data))

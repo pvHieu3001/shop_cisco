@@ -8,7 +8,6 @@ import CartDropdown from "./CartDropdown";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/app/hooks";
-import { GetAllCart } from "@/app/slices/cartSlide";
 
 export interface MainNav2Props {
   className?: string;

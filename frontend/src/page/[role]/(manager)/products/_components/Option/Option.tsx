@@ -1,10 +1,7 @@
 import { Flex, Form, InputNumber, Segmented, Select, Slider, SliderSingleProps, Switch } from 'antd';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { CloudUploadOutlined, DeleteOutlined, PlusOutlined} from '@ant-design/icons';
 import axios from 'axios';
-import { useGetBrandsQuery } from '../../../brand/BrandEndpoints';
-import { IBrand } from '@/common/types/brand.interface';
-import LoadingPage from '../../../components/util/LoadingPage';
 import { useGetCategoriesQuery } from '../../../category/CategoryEndpoints';
 import { ICategory } from '@/common/types/category.interface';
 interface option{
@@ -18,17 +15,8 @@ interface option{
 
 export default function Option({setImageUrl, discount, setDetails}: option) {
     const {data: dataCategories, isLoading : isLoadingCategory} = useGetCategoriesQuery({});
-    const {data : dataBrands, isLoading : isLoadingBrand} = useGetBrandsQuery({});
     const [DisplayPic, setDisplayPic] = useState<string>();
     const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => `${value}%`;
-   
-
-    const brands = dataBrands ? dataBrands?.data?.map((item : IBrand) => {
-        return {
-            label : item.name,
-            value : item.id
-        }
-    }) : [];
 
     const categories  = dataCategories ? dataCategories?.data?.map((item : ICategory) => {
         return {
@@ -147,37 +135,6 @@ export default function Option({setImageUrl, discount, setDetails}: option) {
             </div>
             {/* category */}
 
-            {/* Brand */}
-            <div className='sm:rounded-lg flex-1 p-2 relative' style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem'}}>
-                <div className='p-2'>
-                    <h2 className='font-bold'>Thương hiệu</h2>
-                </div>
-                <Flex justify='center' align='' vertical className='p-2' gap={10} >
-                <Form.Item 
-                    className='m-0' 
-                    name='brand_id' 
-                    rules={
-                    [
-                        {
-                        required: true,
-                        message: 'Vui lòng chọn thượng hiệu'
-                        }
-                    ]
-                    }
-                >
-                    <Select
-                     loading={isLoadingBrand}
-                    className='h-[40px] relative'
-                    options={brands}
-                    />
-                </Form.Item>
-                <Flex align='center' justify='center' className='w-[30px] h-[30px] text-white cursor-pointer rounded-[9999px] absolute top-[-10px] right-[-9px] bg-blue-500'>
-                    <PlusOutlined />
-                    </Flex>
-                </Flex>
-            </div>
-            {/* Brand */}
-
             {/* Setting */}
             <div className='sm:rounded-lg overflow-hidden flex-1 p-2' style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem'}}>
                 <div className='p-2'>
@@ -210,18 +167,6 @@ export default function Option({setImageUrl, discount, setDetails}: option) {
                 </div>
                 <div className='flex justify-between items-center p-2'>
 
-                <h2>Khuyến mãi hấp dẫn</h2>
-                <Form.Item 
-                    className='m-0' 
-                    label=''
-                    name='is_good_deal' 
-                    valuePropName="checked"
-                >
-                    <Switch />
-                </Form.Item>
-                </div>
-                <div className='flex justify-between items-center p-2'>
-
                 <h2>sản phẩm mới</h2>
                 <Form.Item 
                     className='m-0' 
@@ -232,18 +177,7 @@ export default function Option({setImageUrl, discount, setDetails}: option) {
                     <Switch />
                 </Form.Item>
                 </div>
-                <div className='flex justify-between items-center p-2'>
 
-                <h2>sản phẩm nổi bật</h2>
-                <Form.Item 
-                    className='m-0' 
-                    label=''
-                    name='is_show_home' 
-                    valuePropName="checked"
-                >
-                    <Switch />
-                </Form.Item>
-                </div>
             </div>
             {/* Setting */}
 

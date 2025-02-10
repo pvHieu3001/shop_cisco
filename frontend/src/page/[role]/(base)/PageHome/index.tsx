@@ -1,6 +1,5 @@
 import SectionHowItWork from '../components/SectionHowItWork/SectionHowItWork'
 import BackgroundSection from '../components/BackgroundSection/BackgroundSection'
-import SectionPromo1 from '../components/SectionPromo1'
 import SectionHero2 from '../components/SectionHero/SectionHero2'
 import SectionSliderLargeProduct from '../components/SectionSliderLargeProduct'
 import SectionSliderProductCard from '../components/SectionSliderProductCard'
@@ -13,7 +12,6 @@ import SectionClientSay from '../components/SectionClientSay/SectionClientSay'
 import SectionMagazine5 from '../BlogPage/SectionMagazine5'
 import Heading from '../components/Heading/Heading'
 import ButtonSecondary from '../shared/Button/ButtonSecondary'
-import { PRODUCTS, SPORT_PRODUCTS } from '../../../../data/data'
 
 function PageHome() {
   return (

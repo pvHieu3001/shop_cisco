@@ -11,7 +11,7 @@ export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
 const Heading: React.FC<HeadingProps> = ({
   children,
   desc = "Khám phá những sản phẩm thịnh hành nhất",
-  className = "mb-10 md:mb-12 text-neutral-900 dark:text-neutral-50",
+  className = "mb-10 md:mb-12 text-yellow-900 dark:text-neutral-50",
   isCenter = false,
   hasNextPrev = false,
   ...args

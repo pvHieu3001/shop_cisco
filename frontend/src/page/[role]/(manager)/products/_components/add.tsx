@@ -1,6 +1,6 @@
 import { Col, Flex, Row, Button, Form, Input, Drawer, Select, UploadProps, GetProp } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import React, {  useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import Variant from './Variant/variant';
 import getRandomNumber from '@/utils/randomNumber';
@@ -80,7 +80,6 @@ function AddProduct() {
     const name = form.getFieldValue('name');
     const content = form.getFieldValue('content');
     const category_id = form.getFieldValue('category_id');
-    const brand_id = form.getFieldValue('brand_id');
     const product_item = form.getFieldValue('variant');
     const percentage = form.getFieldValue('percentage');
     const fixed = form.getFieldValue('fixed');
@@ -133,7 +132,6 @@ function AddProduct() {
     formdata.append('name', name);
     formdata.append('content', content);
     formdata.append('category_id', category_id);
-    formdata.append('brand_id', brand_id);
     formdata.append('is_active', String(is_active));
     formdata.append('is_hot_deal', String(is_hot_deal));
     formdata.append('is_good_deal', String(is_good_deal));

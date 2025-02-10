@@ -178,7 +178,7 @@ export default function AddCategory() {
             <Flex justify='space-between' className='pb-4' align='center'>
               <h2 className=' font-bold text-[24px]'>Tạo danh mục mới</h2>
               <Button loading={isLoadingCreateCategory} disabled={isLoadingCategories} type="primary" htmlType="submit" className=" w-[100px] p-5">
-                
+                Lưu Danh Mục
               </Button>
             </Flex>
           </Form.Item>

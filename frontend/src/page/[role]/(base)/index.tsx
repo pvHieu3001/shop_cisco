@@ -1,4 +1,3 @@
-import React from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";

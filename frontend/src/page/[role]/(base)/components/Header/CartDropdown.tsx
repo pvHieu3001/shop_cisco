@@ -15,12 +15,12 @@ import { useAppDispatch } from "@/app/hooks";
 export default function CartDropdown() {
   const dispatch = useAppDispatch();
   const [user] = useLocalStorage('user', undefined);
-const {data: carts} =  useGetCartsQuery(undefined, {skip: !user}) 
+  const {data: carts} =  useGetCartsQuery(undefined, {skip: !user}) 
  
   const [deleteCart] = useDeleteCartMutation();
   const renderProduct = (item: ICart, index: number, close: () => void) => {
 
-    const { image, price, name, slug, thumbnail, quantity, user_id, product_item_id, price_sale, variants} = item;
+    const { image, price, name, thumbnail, quantity} = item;
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
