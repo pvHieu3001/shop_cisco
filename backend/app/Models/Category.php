@@ -13,15 +13,12 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'code',
         'image',
         'parent_id',
         'public_id',
         'active',
     ];
-
-    public function details(){
-        return $this->belongsToMany(Detail::class, 'detail_categories');
-    }
 
     public function parent(){
         return $this->belongsTo(Category::class);

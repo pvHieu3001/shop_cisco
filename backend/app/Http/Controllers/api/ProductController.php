@@ -5,12 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\Product;
-use App\Models\ProductDetail;
 use App\Models\ProductItem;
-use App\Models\ProductValue;
-use App\Models\Value;
-use App\Models\Variant;
-use App\Models\VariantOption;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,11 +20,7 @@ class ProductController extends Controller
     public function index(){
         try {
 
-            $products = Product::with(['products' => function ($query){
-                $query->with(['variants' => function ($query) {
-                    $query->orderBy('product_configurations.id', 'asc');
-                }]);
-            }, 'category'])->get();
+            $products = Product::with(['category'])->get();
 
             return response()->json([
                 'success' => true,
@@ -48,7 +39,45 @@ class ProductController extends Controller
 
     public function featProducts(Request $request){
         try{
-            $products = Product::where($request->feat, true)->with(['products.variants'])->get();
+            $products = Product::where($request->feat, true)->get();
+            return response()->json([
+                'success' => true,
+                'data' => $products
+            ], 200);
+        }catch (\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    public function catProducts(Request $request){
+        try{
+            $cat = $request->cat;
+            $products = Product::whereHas('category', function ($query) use ($cat) {
+                $query->where('code', 'like', '%' . $cat . '%');
+            })->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $products
+            ], 200);
+        }catch (\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
+
+    public function filterProducts(Request $request){
+        $search = request('search');
+        try{
+            $products = Product::with(['category'])
+            ->where('category.name', 'LIKE', '%' . $search . '%')
+            ->get();
+
             return response()->json([
                 'success' => true,
                 'data' => $products
@@ -64,13 +93,7 @@ class ProductController extends Controller
     public function show(Request $request){
 
         try {
-            $product = Product::where('slug', $request->slug)->with(['products.variants', 'category', 'brand', 'details.attributes' => function ($query) use ($request){
-                $query->with(['values' => function($query) use ($request) {
-                    $query->whereHas('products', function ($query) use ($request) {
-                        $query->where('slug', $request->slug);
-                    });
-                }]);
-            }])->firstOrFail();
+            $product = Product::where('slug', $request->slug)->firstOrFail();
 
             if(!$product){
                 return response()->json([
@@ -96,10 +119,7 @@ class ProductController extends Controller
             "name" => "required|max:155|min:10",
             "content" => "required",
             "category_id" => "required",
-            'brand_id' => "required",
             "is_active" => "required",
-            "product_details" => "required",
-            "product_items" => "required",
         ],
             [
                 "thumbnail" => "Sản phẩm phải có ảnh đại diện",
@@ -110,10 +130,7 @@ class ProductController extends Controller
                 "name.max" => "Tên sản phẩm không được vượt quá 155 ký tự",
                 "content" => "Chưa có nội dung giới thiệu sản phẩm",
                 "category_id" => "Chưa có danh mục",
-                "brand_id" => 'chưa có thương hiệu',
                 "is_active" => "Chưa lựa chọn loại hiển thị",
-                "product_details" => 'Chưa có thông tin chi tiết',
-                "product_items" => "Chưa có biến thể",
             ]
         );
 
@@ -127,24 +144,16 @@ class ProductController extends Controller
         $name = $request->get("name");
         $content = $request->get("content");
         $category_id = $request->get("category_id");
-        $brand_id = $request->get("brand_id");
         $is_active = $request->get("is_active") == 1 ? 1 : 0;
-        $is_host_deal = $request->get("is_hot_deal") == 1 ? 1 : 0;
-        $is_good_deal = $request->get("is_good_deal") == 1 ? 1 : 0;
+        $is_hot_deal = $request->get("is_hot_deal") == 1 ? 1 : 0;
         $is_new = $request->get("is_new") == 1 ? 1 : 0;
-        $is_show_home = $request->get("is_show_home") == 1 ? 1 : 0;
+        $quantity = $request->get("quantity") == 1 ? 1 : 0;
+        $price = $request->get("price") == 1 ? 1 : 0;
+        $price_sale = $request->get("price_sale") == 1 ? 1 : 0;
         $type_discount = $request->get("type_discount") ? $request->get("type_discount") : null;
         $discount = $request->get("discount") ? $request->get("discount") : null;
-        $product_details = json_decode($request->get('product_details'));
-        $product_items = json_decode($request->get('product_items'));
         $gallery = json_decode($request->get('gallery'));
 
-        if(count($product_items)<1){
-            return response()->json([
-                "success" => false,
-                "message" => 'Chưa có sản phẩm'
-            ], 404);
-        }
 
         try{
             DB::beginTransaction();
@@ -164,115 +173,16 @@ class ProductController extends Controller
                 'name' => $name,
                 'content' => $content,
                 'category_id' => $category_id,
-                'brand_id' => $brand_id,
                 'is_active' => $is_active,
-                'is_host_deal' => $is_host_deal,
-                'is_good_deal' => $is_good_deal,
+                'is_hot_deal' => $is_hot_deal,
                 'is_new' => $is_new,
-                'is_show_home' => $is_show_home,
                 'type_discount' => $type_discount,
                 'discount' => $discount,
+                'quantity' => $quantity,
+                'price' => $price,
+                'price_sale' => $price_sale,
                 'public_id' => $public_id,
             ]);
-
-            foreach ($product_items as $item) {
-                if (!empty($item)) {
-
-                    $hasFile = isset($item->image);
-
-                    if($hasFile){
-
-                        $imageData = $item->image;
-                        $imageData = preg_replace('/^data:image\/\w+;base64,/', '', $imageData);
-                        $imageData = base64_decode($imageData);
-
-                        $tempImagePath = storage_path('app/temp_image.jpg');
-                        file_put_contents($tempImagePath, $imageData);
-
-                        $url_item = Cloudinary::upload($tempImagePath, [
-                            'folder' => self::FOLDER,
-                            'public_id' => "variant-".implode('-', array_reduce($item->variants, function($array, $item){
-                                    $array[] = $item->attribute;
-                                    return $array;
-                                }, []))."-".rand(1, 1000000)
-                        ])->getSecurePath();
-
-                        $public_id = Cloudinary::getPublicId();
-
-                        unlink($tempImagePath);
-
-                    }
-
-                    $product_item = ProductItem::create([
-                        'product_id' => $product->id,
-                        'price' => $item->price,
-                        'price_sale' => $item->price_sale,
-                        'image' => $hasFile ? $url_item : null,
-                        'quantity' => $item->quantity,
-                        'sku' => $item->sku,
-                        'public_id' => $hasFile ? $public_id : null,
-                    ]);
-
-                    foreach ($item->variants as $variant) {
-                        $variant = \App\Helpers\Validator::validatorName($variant->variant);
-                        $attribute = \App\Helpers\Validator::validatorName($variant->attribute);
-
-                        $variantModel = Variant::firstOrCreate(
-                            [
-                                'name' => $variant
-                            ],
-                            [
-                                'category_id' => $category_id,
-                                'name' => $variant
-                            ]
-                        );
-
-
-                        $variant_option = VariantOption::firstOrCreate(
-                            [
-                                'name' => $attribute
-                            ],
-                            [
-                                'variant_id' => $variantModel->id,
-                                'name' => $attribute,
-                            ]
-                        );
-
-                        $product_item->variants()->attach($variant_option->id);
-                    }
-
-                }else{
-                    return response()->json([
-                        "success" => false,
-                        "message" => 'Thêm sản phẩm không thành công'
-                    ], 500);
-                }
-            }
-
-            foreach ($product_details as $detail) {
-                foreach ($detail->values as $value) {
-                    $name = IValidator::validatorName($value);
-                    $value = Value::firstOrCreate(
-                        [
-                            'name' => $name
-                        ],
-                        [
-                            'attribute_id' => $detail->id,
-                            'name' => $name,
-                        ]
-                    );
-
-                    ProductValue::create([
-                        'product_id' => $product->id,
-                        'value_id' => $value->id
-                    ]);
-
-                    ProductDetail::create([
-                        'product_id' => $product->id,
-                        'detail_id' => $detail->idDetail,
-                    ]);
-                }
-            }
 
             foreach ($gallery as $key => $item) {
                 $image = $item->image;

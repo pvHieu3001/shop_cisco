@@ -22,14 +22,15 @@ class Product extends Model
         'name',
         'content',
         'category_id',
-        'brand_id',
         'is_active',
         'is_hot_deal',
-        'is_good_deal',
         'is_new',
-        'is_show_home',
         'type_discount',
         'discount',
+        'price',
+        'price_sale',
+        'quantity',
+        'sku',
         'total_review',
         'avg_stars',
         'public_id',
@@ -40,24 +41,8 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function brand(){
-        return $this->belongsTo(Brand::class);
-    }
-
-    public function products(){
-        return $this->hasMany(ProductItem::class);
-    }
-
     public function galleries(){
         return $this->hasMany(Gallery::class);
-    }
-
-    public function details(){
-        return $this->belongsToMany(Detail::class, 'product_details');
-    }
-
-    public function values(){
-        return $this->belongsToMany(Value::class, 'product_values');
     }
 
     public function sluggable(): array

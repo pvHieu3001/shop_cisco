@@ -13,7 +13,7 @@ import { VND } from '@/utils/formatVietNamCurrency';
 
 export default function ListProduct(){
 
-  const { data, isLoading, isError } = useGetProductsQuery({});
+  const { data, isLoading } = useGetProductsQuery({});
   const [searchValue, setSearchValue] = useState('')
 
   const [current, setCurrent] = useState(1);
@@ -38,13 +38,12 @@ export default function ListProduct(){
     })
   };
 
-   console.log(data)
-    const dataItem = data?.data.map((item : IProduct, key : number) => {
-      return {
-        ...item,
-        key : key
-      }
-    })
+  const dataItem = data?.data.map((item : IProduct, key : number) => {
+    return {
+      ...item,
+      key : key
+    }
+  })
     
     const columns: TableProps<IProduct>['columns'] = [
         {
@@ -56,20 +55,18 @@ export default function ListProduct(){
         },
         {
           title: 'Giá',
-          dataIndex: 'products',
-            key: 'products',
-            render: (products) => {
-              console.log(products)
-              return <span> {VND(products[0].price)}</span>
-            }
+          dataIndex: 'price',
+          key: 'price',
+          render: (text) => {
+            return <span>{text}</span>
+          }
         },
         {
             title: 'Giảm giá',
-            dataIndex: 'products',
-            key: 'products',
-            render: (products) => {
-              console.log(products)
-              return <span> {VND(products[0].price_sale)}</span>
+            dataIndex: 'price_sale',
+            key: 'price_sale',
+            render: (text) => {
+              return <span>{text}</span>
             }
         },
         {

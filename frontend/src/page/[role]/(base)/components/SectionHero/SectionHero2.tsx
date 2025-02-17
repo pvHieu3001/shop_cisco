@@ -27,7 +27,7 @@ const DATA: Hero2DataType[] = [
     image: imageRightPng2,
     heading: 'Exclusive collection for everyone',
     subHeading: 'In this season, find the best 🔥',
-    btnText: 'Explore now',
+    btnText: 'Khám Phá ngay',
     btnLink: '/'
   },
   {

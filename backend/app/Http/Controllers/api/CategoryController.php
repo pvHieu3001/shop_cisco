@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attribute;
 use App\Models\Category;
-use App\Models\Detail;
-use App\Models\DetailCategory;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -50,7 +47,7 @@ class CategoryController extends Controller
     public function edit($id){
         try {
 
-            $category = Category::with('details.attributes')->find($id);
+            $category = Category::find($id);
 
             if(!$category){
                 return response()->json([
@@ -164,7 +161,6 @@ class CategoryController extends Controller
         $valid = Validator::make($request->all(), [
             'name' => 'required|unique:categories,name',
             'is_active' => 'required',
-            'detail' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ],[
             'name.required' => 'Không được để trống name',
@@ -185,16 +181,8 @@ class CategoryController extends Controller
 
             DB::beginTransaction();
 
-            $detail = json_decode($request->get('detail'));
             $parent_id = $request->get('parent_id') ?? null;
 
-            if (count($detail) < 1) {
-                return response()->json([
-                    'success' => false,
-                    'message' => "cần ít nhất 1 chi tiết danh mục"
-                ], 404);
-            }
-//
             $file = $request->file('image');
             $fileName = $file->getClientOriginalName() . '-' . time() . '.' . rand(1, 1000000);
 //
@@ -220,24 +208,6 @@ class CategoryController extends Controller
                 'parent_id' => $parent_id,
                 'is_active' => $is_active
             ]);
-
-            foreach ($detail as $item) {
-                $detail = Detail::create([
-                    'name' => $item->name,
-                ]);
-
-                DetailCategory::create([
-                    'detail_id' => $detail->id,
-                    'category_id' => $category->id,
-                ]);
-
-                foreach ($item->attribute as $value) {
-                    $attribute = Attribute::create([
-                        'detail_id' => $detail->id,
-                        'name' => $value->value
-                    ]);
-                }
-            }
 
             DB::commit();
 

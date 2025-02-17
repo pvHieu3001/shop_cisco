@@ -1,28 +1,31 @@
-import { VND } from "@/utils/formatVietNamCurrency";
-import React, { FC } from "react";
+import { VND } from '@/utils/formatVietNamCurrency'
+import React, { FC } from 'react'
 
 export interface PricesProps {
-  className?: string;
-  price: number;
-  contentClass?: string;
+  className?: string
+  price: number
+  price_sale?: number
+  contentClass?: string
 }
 
 const Prices: FC<PricesProps> = ({
-  className = "",
+  className = '',
   price,
-  contentClass = "py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium",
-}) => {  
+  price_sale,
+  contentClass = 'py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium'
+}) => {
   return (
     <div className={`${className}`}>
-      <div
-        className={`flex items-center rounded-lg ${contentClass}`}
-      >
-        <span className="text-red-400 font-bold !leading-none">
-          {VND(price)}
-        </span>
+      <div className={`flex items-center rounded-lg ${contentClass}`}>
+        <p className='text-red-500 font-bold !leading-none'>{VND(price)}/Bộ</p>
       </div>
+      {price_sale && (
+        <div className={`flex items-center rounded-lg ${contentClass}`}>
+          <p className='text-gray-500 font-bold !leading-none'>{VND(price_sale)}</p>
+        </div>
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default Prices;
+export default Prices

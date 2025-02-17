@@ -1,28 +1,17 @@
 
-import { createNewCategory } from '@/app/slices/categorySlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CloudUploadOutlined, DeleteOutlined  } from '@ant-design/icons';
-import { Flex, Form, Input, Modal, Button, Switch, Select, Drawer } from 'antd';
+import { Flex, Form, Input, Button, Switch, Select, Drawer } from 'antd';
 import { useEffect, useState } from 'react';
-import { Typography } from 'antd';
-import ButtonEdit from '../../shared/ButtonEdit/ButtonEdit';
 import { popupError, popupSuccess } from '@/page/[role]/shared/Toast';
 import {  useGetCategoriesQuery, useUpdateCategoryMutation } from '../CategoryEndpoints';
 import { ICategory } from '@/common/types/category.interface';
-import ButtonEditNext from '../../shared/ButtonEdit/ButtonEditNext';
 import getRandomNumber from '@/utils/randomNumber';
 import { useGetCategoryQuery } from '../CategoryEndpoints';
 import ErrorLoad from '../../components/util/ErrorLoad';
-import { useDeleteDetailMutation } from '../CategoryEndpoints';
 export default function EditCategory() {
-  const [deleteDetail, {isLoading : isLoadingDeleteDetail}] = useDeleteDetailMutation();
-  const [isShowInputAddDetail, setIsShowInputAddDetail] = useState<any>({
-     detailId : 0,
-     attributeId : 0
-  })
-  const [addDetail, setAddDetail] = useState<number>(0);
   const params = useParams();
-  const {refetch, data : dataItem, isLoading : isLoadingGetCategory, isError : isErrorGetCategory} = useGetCategoryQuery(params.id)
+  const {data : dataItem, isLoading : isLoadingGetCategory, isError : isErrorGetCategory} = useGetCategoryQuery(params.id)
   const {data :listCategory, isLoading : isLoadingCategories} = useGetCategoriesQuery({});
   const [updateCategory, {isLoading : loadingUpdateCategory}] = useUpdateCategoryMutation();
 
@@ -39,136 +28,23 @@ export default function EditCategory() {
   const [imageUrl, setImageUrl] = useState<File>();
   const [DisplayPic, setDisplayPic] = useState<string>();
 
-  
-  const [details, setDetails] = useState<Array <object>>([]);
-
   useEffect(() => {
     
     if(dataItem) {
         setDisplayPic(dataItem.data.image)
-        const setData = dataItem.data;
-        
-        setDetails(() => {
-          return setData.details.map((item : any) => {
-              return {
-                 detailId : item.id,
-                 id : getRandomNumber(),
-                 name : item.name,
-                 attribute : item.attributes.map((item1 : any) => {
-                  return {
-                    attributeId : item1.id,
-                    id : getRandomNumber(),
-                    value : item1.name
-                  }
-               })
-              }
-          })
-        })
     }
   },[dataItem]);
-
-  const validateNoDuplicate = (fieldName, setNo, setError) => (_, value) => {    
-    const fields = form.getFieldsValue();
-    const inputValues = Object.keys(fields)
-      .filter(key => key.startsWith(fieldName))
-      .map(key => fields[key]);
-    
-    const duplicateValues = inputValues.filter((item) => item === value && item);
-    
-    if (duplicateValues.length > 1) {
-      setNo(true)
-      return Promise.reject(`không được trùng với các cột khác!`);
-    }
-    setNo(false)
-    return Promise.resolve();
-  };
-
-  const validateOption = (fieldName, setError, field) => (_, value) => {    
-    const fields = form.getFieldsValue();
-    const inputValues = Object.keys(fields)
-      .filter(key => key.startsWith(fieldName))
-      .map(key => fields[key]);
-    
-    const duplicateValues = inputValues.filter((item) => item === value && item);
-
-    
-    if (duplicateValues.length > 1) {
-      setError((prevErrors) => ({
-        ...prevErrors,
-        [field]: 'không được trùng',
-    }));
-
-      return Promise.reject(`không được trùng với các cột khác!`);
-    }
-    return Promise.resolve();
-  };
 
   const handleCancel = () => {
     navigate('..')
   }
 
-  const handleRemoveDetail = async (name : any, detailId : number) => {  
-   
- 
-
-    if(!detailId){
-      if(details.length > 1){
-        setDetails([
-          ...details.filter((item, index)=>item.id != name)
-        ])
-      }
-    }else {
-      try {
-        await deleteDetail(String(detailId)).unwrap();
-        if(details.length > 1){
-          setDetails([
-            ...details.filter((item, index)=>item.id != name)
-          ])
-        }
-        refetch();
-        popupSuccess('Delete detail success');
-      } catch (error) {
-        popupError('Delete detail error');
-      }
-    }
-   
-  }
-
-  const handleSetDetail = () => {
-    const detailId = getRandomNumber();
-    const attributeId = getRandomNumber()
-
-    setIsShowInputAddDetail({
-      detailId: detailId,
-      attributeId : attributeId
-    })
-
-    setDetails([
-        ...details,
-      {
-        id: detailId,
-        name: '',
-        attribute: [
-          {
-            id: attributeId,
-
-            value: ''
-          }
-        ]
-      }
-    ])
-  }
-
   const handleSubmit = async (values) => {
    
-    
     const name = form.getFieldValue('name');
     const active = form.getFieldValue('active') ? 1 : 0;
     const parent_id = form.getFieldValue('parent_id');    
- 
-
     const formData = new FormData();
-    
    
     formData.append('name', name);
     formData.append('is_active', active as any);
@@ -353,16 +229,6 @@ export default function EditCategory() {
                 </Flex>
               </div>
             </Flex>
-          </Flex>
-          <Flex vertical gap={20}>
-            <h2 className='font-bold text-[24px] mt-5'>Thông tin chi tiết</h2>
-
-            {details.map((name, i) => (
-                <ButtonEditNext refetch={refetch} setIsShowInputAddDetail={setIsShowInputAddDetail} isShowInputAddDetail={isShowInputAddDetail} addDetail={addDetail} setAddDetail={setAddDetail} item={name} key={name.id} keyValue={name.id} detail={details} setDetail={setDetails} handleRemoveDetail={handleRemoveDetail} validateNoDuplicate={validateNoDuplicate} validateOption={validateOption}/>
-            ))}
-            <div>
-            <Button className=' border-dashed' onClick={handleSetDetail}>Thêm thông tin chi tiết</Button>
-            </div>
           </Flex>
         </Form>}
     </Drawer>

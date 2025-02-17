@@ -1,9 +1,8 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import HeaderFilterSection from "./components/HeaderFilterSection";
 import ProductCard from "./components/ProductCard";
-import ButtonPrimary from "./shared/Button/ButtonPrimary";
 import { Product, PRODUCTS } from "../../../data/data";
-import { useFilterProductQuery } from "../(manager)/products/ProductsEndpoints";
+import { useFilterCatProductQuery, useFilterFeatProductQuery, useSearchProductMutation } from "../(manager)/products/ProductsEndpoints";
 
 //
 export interface SectionGridFeatureItemsProps {
@@ -13,11 +12,18 @@ export interface SectionGridFeatureItemsProps {
 const SectionGridFeatureItems: FC<SectionGridFeatureItemsProps> = ({
   data = PRODUCTS,
 }) => {
+
   const [filter, setFilter] = React.useState('is_hot_deal');
-  const {data : dataHot, isLoadingHot } = useFilterProductQuery('is_hot_deal');
-  const {data : dataGood, isLoadingGood } = useFilterProductQuery('is_good_deal');
-  const {data : dataNew, isLoadingNew } = useFilterProductQuery('is_new');
-  const {data : dataHome, isLoadingHome } = useFilterProductQuery('is_show_home');
+  const {data : dataHot } = useFilterFeatProductQuery('is_hot_deal')
+  const {data : dataNew } = useFilterFeatProductQuery('is_new');
+  const {data : dataGood } = useFilterCatProductQuery('LIVR');
+  const {data : dataHome } = useFilterCatProductQuery('BEDR');
+  const [searchProduct, {isLoading: loading}] = useSearchProductMutation();
+  
+  useEffect(()=>{
+    searchProduct({feat: "Nội Thất Phòng Khách"}).unwrap();
+  },[filter]);
+
   return (
     <>
       <div className="nc-SectionGridFeatureItems relative">

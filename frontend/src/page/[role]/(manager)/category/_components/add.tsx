@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { CloudUploadOutlined, DeleteOutlined  } from '@ant-design/icons';
 import { Flex, Form, Input, Modal, Button, Switch, Select, Drawer } from 'antd';
 import { useState } from 'react';
-import ButtonEdit from '../../shared/ButtonEdit/ButtonEdit';
 import { popupError, popupSuccess } from '@/page/[role]/shared/Toast';
 import { useCreateCategoryMutation, useGetCategoriesQuery } from '../CategoryEndpoints';
 import { ICategory } from '@/common/types/category.interface';
@@ -35,68 +34,8 @@ export default function AddCategory() {
     ]
   }]);
 
-  const validateNoDuplicate = (fieldName, setNo, setError) => (_, value) => {    
-    const fields = form.getFieldsValue();
-    const inputValues = Object.keys(fields)
-      .filter(key => key.startsWith(fieldName))
-      .map(key => fields[key]);
-    
-    const duplicateValues = inputValues.filter((item) => item === value && item);
-    
-    if (duplicateValues.length > 1) {
-      setNo(true)
-      return Promise.reject(`không được trùng với các cột khác!`);
-    }
-    setNo(false)
-    return Promise.resolve();
-  };
-
-  const validateOption = (fieldName, setError, field) => (_, value) => {    
-    const fields = form.getFieldsValue();
-    const inputValues = Object.keys(fields)
-      .filter(key => key.startsWith(fieldName))
-      .map(key => fields[key]);
-    
-    const duplicateValues = inputValues.filter((item) => item === value && item);
-
-    
-    if (duplicateValues.length > 1) {
-      setError((prevErrors) => ({
-        ...prevErrors,
-        [field]: 'không được trùng',
-    }));
-
-      return Promise.reject(`không được trùng với các cột khác!`);
-    }
-    return Promise.resolve();
-  };
-
   const handleCancel = () => {
     navigate('..')
-  }
-
-  const handleRemoveDetail = (name) => {    
-    if(details.length > 1){
-      setDetails([
-        ...details.filter((item, index)=>item.id != name)
-      ])
-    }
-  }
-
-  const handleSetDetail = () => {
-    setDetails([
-        ...details,
-      {
-        id: Date.now() + '',
-        name: '',
-        attribute: [
-          {
-            id: Date.now() + '',
-            value: ''
-          }
-        ]
-      }
-    ])
   }
 
   const handleSubmit = async (values) => {
@@ -291,16 +230,6 @@ export default function AddCategory() {
                 </Flex>
               </div>
             </Flex>
-          </Flex>
-          <Flex vertical gap={20}>
-            <h2 className='font-bold text-[24px] mt-5'>Thông tin chi tiết</h2>
-
-            {details.map((name, i) => (
-                <ButtonEdit key={name.id} keyValue={name.id} detail={details} setDetail={setDetails} handleRemoveDetail={handleRemoveDetail} validateNoDuplicate={validateNoDuplicate} validateOption={validateOption}/>
-            ))}
-            <div>
-            <Button className=' border-dashed' onClick={handleSetDetail}>Thêm thông tin chi tiết</Button>
-            </div>
           </Flex>
         </Form>
       </Drawer>
