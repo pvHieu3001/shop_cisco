@@ -25,23 +25,23 @@ export interface SectionHero2Props {
 const DATA: Hero2DataType[] = [
   {
     image: imageRightPng2,
-    heading: 'Exclusive collection for everyone',
-    subHeading: 'In this season, find the best 🔥',
-    btnText: 'Khám Phá ngay',
+    heading: 'Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam',
+    subHeading: 'Đồ Gỗ Hiệp Hồng',
+    btnText: 'Khám Phá Ngay',
     btnLink: '/'
   },
   {
     image: imageRightPng3,
-    heading: 'Exclusive collection for everyone',
-    subHeading: 'In this season, find the best 🔥',
-    btnText: 'Explore now',
+    heading: 'Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam',
+    subHeading: 'Đồ Gỗ Hiệp Hồng',
+    btnText: 'Khám Phá Ngay',
     btnLink: '/'
   },
   {
     image: imageRightPng,
-    heading: 'Exclusive collection for everyone',
-    subHeading: 'In this season, find the best 🔥',
-    btnText: 'Explore now',
+    heading: 'Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam',
+    subHeading: 'Đồ Gỗ Hiệp Hồng',
+    btnText: 'Khám Phá Ngay',
     btnLink: '/'
   }
 ]
@@ -112,7 +112,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
 
   const renderItem = (index: number) => {
     const isActive = indexActive === index
-    const item : any = bannersList[index]
+    const item: any = bannersList[index]
     if (!isActive) {
       return null
     }
@@ -164,11 +164,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
         {/* BG */}
         <div className='absolute inset-0 bg-[#E3FFE6]'>
           {/* <div className="absolute inset-0 bg-[#F7F0EA]"> */}
-          <img
-            className={`absolute w-full h-full object-fill`}
-            src={item?.image_url ?? backgroundLineSvg}
-            alt='hero'
-          />
+          <img className={`absolute w-full h-full object-fill`} src={item?.image_url ?? backgroundLineSvg} alt='hero' />
         </div>
 
         <div className='relative container pb-0 pt-14 sm:pt-20 lg:py-44 md:min-h-[30rem]'>
@@ -178,10 +174,10 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
             ) : (
               <div className='space-y-5 sm:space-y-6'>
                 <span className='nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium'>
-                  In this season, find the best 🔥
+                  Đồ Gỗ Hiệp Hồng
                 </span>
-                <h2 className='nc-SectionHero2Item__heading font-semibold text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl !leading-[114%] text-slate-900'>
-                  Exclusive collection for everyone
+                <h2 className='nc-SectionHero2Item__heading font-semibold text-3xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-3xl !leading-[114%] text-slate-900'>
+                  Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam
                 </h2>
               </div>
             )}
@@ -192,9 +188,8 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
               <ButtonPrimary
                 className='nc-SectionHero2Item__button dark:bg-slate-900'
                 sizeClass='py-3 px-6 sm:py-5 sm:px-9'
-                
               >
-                <span>Explore now</span>
+                <span>Khám Phá Ngay</span>
                 <span>
                   <svg className='w-5 h-5 ml-2.5' viewBox='0 0 24 24' fill='none'>
                     <path
