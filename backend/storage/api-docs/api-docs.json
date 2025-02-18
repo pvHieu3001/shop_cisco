@@ -13,9 +13,7 @@
     "paths": {
         "/auth/signup": {
             "post": {
-                "tags": [
-                    "Authentication"
-                ],
+                "tags": ["Authentication"],
                 "summary": "Đăng ký",
                 "operationId": "af6956352ace90b33a7bc69f77eb585e",
                 "requestBody": {
@@ -66,9 +64,7 @@
         },
         "/auth/verifyOTP": {
             "post": {
-                "tags": [
-                    "Authentication"
-                ],
+                "tags": ["Authentication"],
                 "summary": "Verify OTP",
                 "description": "This endpoint verifies an OTP sent to the user's email.",
                 "operationId": "9ca8272abe2e190aea595bedab029ebf",
@@ -77,10 +73,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "OTP",
-                                    "email"
-                                ],
+                                "required": ["OTP", "email"],
                                 "properties": {
                                     "OTP": {
                                         "description": "The OTP to verify.",
@@ -154,9 +147,7 @@
         },
         "/auth/login": {
             "post": {
-                "tags": [
-                    "Authentication"
-                ],
+                "tags": ["Authentication"],
                 "summary": "login",
                 "description": "This endpoint login",
                 "operationId": "9da2cf5088492a12575eabde8425e309",
@@ -165,10 +156,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
+                                "required": ["email", "password"],
                                 "properties": {
                                     "email": {
                                         "description": "The user's email.",
@@ -242,9 +230,7 @@
         },
         "/auth/logout": {
             "post": {
-                "tags": [
-                    "Authentication"
-                ],
+                "tags": ["Authentication"],
                 "summary": "auth Resource",
                 "description": "Logout",
                 "operationId": "641d632667d8cd0019e6d3c7d802657a",
@@ -278,9 +264,7 @@
         },
         "/user/profile": {
             "get": {
-                "tags": [
-                    "User"
-                ],
+                "tags": ["User"],
                 "summary": "Protected Resource",
                 "description": "User",
                 "operationId": "8fa93d3cc0f8379a388c26a467c13cbc",

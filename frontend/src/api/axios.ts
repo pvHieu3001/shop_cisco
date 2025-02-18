@@ -30,6 +30,6 @@ instanceTest.interceptors.request.use(
   }
 )
 
-export {instanceTest}
+export { instanceTest }
 
 export default instance

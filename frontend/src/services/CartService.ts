@@ -40,6 +40,3 @@ export const deleteCartService = (payload: { id: number; token: string }) => {
     }
   })
 }
-
-// curl --location 'http://127.0.0.1:8000/api/cart' \
-// --header 'Authorization: Bearer 1|UgWPn78xRLVT2QGWDajs1dRAioOd0D2qeJJxPaYaadac775f'
