@@ -1,8 +1,7 @@
 import { Flex, Form, InputNumber, Segmented, Select, Slider, SliderSingleProps, Switch } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CloudUploadOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons'
-import axios from 'axios'
-import { useGetCategoriesQuery } from '../../../category/CategoryEndpoints'
+import { useGetCategoriesQuery, useLazyGetCategoryQuery } from '../../../category/CategoryEndpoints'
 import { ICategory } from '@/common/types/category.interface'
 interface option {
   setImageUrl: React.Dispatch<React.SetStateAction<any>>
@@ -15,8 +14,15 @@ interface option {
 
 export default function Option({ setImageUrl, discount, setDetails }: option) {
   const { data: dataCategories, isLoading: isLoadingCategory } = useGetCategoriesQuery({})
+  const [getCategory, { data: dataCategory, isLoading: categoryLoading }] = useLazyGetCategoryQuery()
   const [DisplayPic, setDisplayPic] = useState<string>()
   const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => `${value}%`
+
+  useEffect(() => {
+    if (dataCategory?.data && !categoryLoading) {
+      setDetails(dataCategory.data)
+    }
+  }, [dataCategory, categoryLoading, setDetails])
 
   const categories = dataCategories
     ? dataCategories?.data?.map((item: ICategory) => {
@@ -41,9 +47,8 @@ export default function Option({ setImageUrl, discount, setDetails }: option) {
     }
   }
 
-  const getDetails = async (value) => {
-    const { data } = await axios.get(`http://103.97.132.194:8080/api/category/${value}`)
-    setDetails(data.data)
+  const getDetails = async (value: number) => {
+    await getCategory(value)
   }
 
   return (

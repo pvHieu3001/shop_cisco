@@ -249,8 +249,8 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
 
           <div className='flex justify-between items-end'>
             <Prices price={price} price_sale={price_sale} />
-            <div className='flex items-center mb-0.5 bg-red-500 p-[5px]'>
-              <span className='text-sm ml-1 text-white dark:text-slate-400'>-27$</span>
+            <div className='rounded-lg flex items-center mb-0.5 bg-red-500 p-[5px]'>
+              <span className='text-lg ml-1 text-white dark:text-slate-400'>SDT: 0942819220</span>
             </div>
           </div>
         </div>
