@@ -66,7 +66,7 @@ export default function useVoucher() {
         setRefresh((prev) => !prev);
         onHideConfirmPopup();
        } catch (error) {
-        showAlertError('Xóa không thành công');;
+        showAlertError('Xóa không thành công');
        }
     };
 

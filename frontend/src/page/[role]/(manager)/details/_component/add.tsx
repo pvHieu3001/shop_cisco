@@ -27,7 +27,7 @@ export default function AddDetail(){
     
     useEffect(() => {
         if(categories){
-            var options = categories?.data.map((item : {id : number, name : string}) => {
+            const options = categories?.data.map((item : {id : number, name : string}) => {
                 return {
                     value : item.id,
                     label : item.name

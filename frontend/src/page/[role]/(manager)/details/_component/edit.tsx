@@ -37,7 +37,7 @@ export default function EditDetail() {
     }, []);
     useEffect(() => {
         if(dataItem){
-            var dataCatId = dataItem.category?.map((item:any)=>{
+            const dataCatId = dataItem.category?.map((item:any)=>{
                 return item.id;
             });
             formValuesUpdate.name=dataItem.name;
@@ -50,7 +50,7 @@ export default function EditDetail() {
 
      useEffect(() => {
         if(categories){
-            var options = categories?.data.map((item : {id : number, name : string}) => {
+            const options = categories?.data.map((item : {id : number, name : string}) => {
                 return {
                     value : item.id,
                     label : item.name

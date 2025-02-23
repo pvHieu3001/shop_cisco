@@ -1,44 +1,15 @@
-import { Col, Flex, Row, Button, Form, Input, Drawer, Select, UploadProps, GetProp, InputNumber } from 'antd'
+import { Col, Flex, Row, Button, Form, Input, Drawer, UploadProps, GetProp, InputNumber } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import React, { useRef, useState } from 'react'
 import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons'
-import getRandomNumber from '@/utils/randomNumber'
 import Option from './Option/Option'
 import TextEditor from './TextEditor/TextEditor'
-import { useCreateProductMutation } from '../ProductsEndpoints'
+import { useCreateProductMutation } from '../../../../../services/ProductsEndpoints'
 import { popupError, popupSuccess } from '@/page/[role]/shared/Toast'
 
 interface gallery {
   image: File | string
   displayPic: string
-}
-
-interface attribute {
-  id: string
-  value: string
-  image: File | null
-  url: string | null
-}
-interface variant {
-  id: string
-  name: string
-  attribute: attribute[]
-}
-
-interface detailsAtrr {
-  id: string | number
-  idDetail: string
-  values: Array<string>
-}
-
-interface Attribute {
-  id: string | number
-  values: string[]
-}
-
-interface ResultItem {
-  id: string | number
-  attributes: Attribute[]
 }
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
@@ -52,29 +23,11 @@ function AddProduct() {
   const fileInputRef = useRef<any>(null)
   const numberFile = useRef<number>(0)
   const [typeDiscount, setTypeDiscount] = useState<string>('')
-  const [details, setDetails] = useState({})
-  const [detailsAttr, setDetailsAttr] = useState<detailsAtrr[]>([])
-
-  const [variant, setVariant] = useState<Array<variant>>([
-    {
-      id: `${Date.now()}${getRandomNumber()}`,
-      name: '',
-      attribute: [
-        {
-          id: `${Date.now()}${getRandomNumber()}`,
-          image: null,
-          url: null,
-          value: ''
-        }
-      ]
-    }
-  ])
 
   const onFinish = async () => {
     const name = form.getFieldValue('name')
     const content = form.getFieldValue('content')
     const category_id = form.getFieldValue('category_id')
-    const product_item = form.getFieldValue('variant')
     const percentage = form.getFieldValue('percentage')
     const fixed = form.getFieldValue('fixed')
     const is_active = form.getFieldValue('is_active') ? 1 : 0
@@ -84,24 +37,6 @@ function AddProduct() {
     const price = form.getFieldValue('price')
     const price_sale = form.getFieldValue('price_sale')
     const sku = form.getFieldValue('sku')
-
-    const newProductItem = []
-
-    for (const key in product_item) {
-      const id = key.split('-')
-      const image = variant[0].attribute.find((item) => item.id === id[0])?.image
-      const newVariant = variant.map((item, key) => ({
-        variant: item.name,
-        attribute: item.attribute.find((item) => item.id == id[key] && item.value)?.value
-      }))
-
-      newProductItem.push({
-        id: id[0],
-        image,
-        variants: newVariant,
-        ...product_item[key]
-      })
-    }
 
     const formdata = new FormData()
 
@@ -215,11 +150,7 @@ function AddProduct() {
           <Flex vertical gap={30}>
             <Row gutter={[24, 8]} align={'stretch'}>
               <Col span={5} className='w-full'>
-                <Option
-                  setImageUrl={setImageUrl}
-                  discount={{ typeDiscount, setTypeDiscount }}
-                  setDetails={setDetails}
-                />
+                <Option setImageUrl={setImageUrl} discount={{ typeDiscount, setTypeDiscount }} setDetails={() => {}} />
               </Col>
               <Col span={19}>
                 <Flex vertical className='' gap={30}>
@@ -349,7 +280,7 @@ function AddProduct() {
                     style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem' }}
                   >
                     <h2 className={`font-bold text-[16px]`}>Thông tin chi tiết sản phẩm</h2>
-                    <Form.Item name='quantity' className='m-0 flex-1'>
+                    <Form.Item name='quantity' className='m-0 flex-1' label='Số lượng'>
                       <InputNumber
                         placeholder='Nhập số lượng'
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -358,7 +289,7 @@ function AddProduct() {
                       />
                     </Form.Item>
                     <hr />
-                    <Form.Item name='price' className='m-0 flex-1'>
+                    <Form.Item name='price' className='m-0 flex-1' label='Giá tiền'>
                       <InputNumber
                         placeholder='Nhập giá tiền'
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -367,7 +298,7 @@ function AddProduct() {
                       />
                     </Form.Item>
                     <hr />
-                    <Form.Item name='price_sale' className='m-0 flex-1'>
+                    <Form.Item name='price_sale' className='m-0 flex-1' label='Giá sale'>
                       <InputNumber
                         placeholder='Nhập giá sale'
                         formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -376,7 +307,7 @@ function AddProduct() {
                       />
                     </Form.Item>
                     <hr />
-                    <Form.Item name='sku' className='m-0 flex-1'>
+                    <Form.Item name='sku' className='m-0 flex-1' label='sku'>
                       <Input placeholder='SKU' />
                     </Form.Item>
                   </Flex>
@@ -390,4 +321,5 @@ function AddProduct() {
     </>
   )
 }
+
 export default React.memo(AddProduct)

@@ -222,7 +222,7 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
             </div>
           </div>}
           
-          {!Boolean(user.address) && <>  
+          {!user.address && <>  
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3'>
             <div className='app__select--input'>
 

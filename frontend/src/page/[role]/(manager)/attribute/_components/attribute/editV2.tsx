@@ -36,7 +36,7 @@ const UpdateAttributeForm  = ({
 
     useEffect(() => {
       if(details){
-          var options = details?.map((item : {id : number, name : string}) => {
+          const options = details?.map((item : {id : number, name : string}) => {
               return {
                   value : item.id,
                   label : item.name

@@ -88,7 +88,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
       },
     };
 
-    let slider = new Glide(`.${UNIQUE_CLASS}`, OPTIONS);
+    const slider = new Glide(`.${UNIQUE_CLASS}`, OPTIONS);
     slider.mount();
     return () => {
       slider.destroy();

@@ -15,7 +15,7 @@ import { privilegeUsersApi } from '@/page/[role]/(manager)/user/PrivilegeUsersEn
 import postSlice from './slices/postSlice'
 import authSlice from './slices/authSlide'
 import { categoriesApi } from '@/page/[role]/(manager)/category/CategoryEndpoints'
-import { productsApi } from '@/page/[role]/(manager)/products/ProductsEndpoints'
+import { productsApi } from '@/services/ProductsEndpoints'
 import { brandsApi } from '@/page/[role]/(manager)/brand/BrandEndpoints'
 import { bannersApi } from '@/page/[role]/(manager)/banner/BannerEndpoints'
 import { CartsApi } from '@/services/CartEndPoinst'
@@ -32,30 +32,49 @@ export const store = configureStore({
     postCategory: postCategorySlice,
     post: postSlice,
     auth: authSlice,
-    carts:cartSlide,
+    carts: cartSlide,
     [usersApi.reducerPath]: usersApi.reducer,
     [addressApi.reducerPath]: addressApi.reducer,
     [attributesApi.reducerPath]: attributesApi.reducer,
     [categoryAttributesApi.reducerPath]: categoryAttributesApi.reducer,
-    [valueAttributesApi.reducerPath] : valueAttributesApi.reducer,
-    [privilegeGroupApi.reducerPath] : privilegeGroupApi.reducer,
-    [privilegeApi.reducerPath] : privilegeApi.reducer,
-    [privilegeUsersApi.reducerPath] : privilegeUsersApi.reducer,
-    [productsApi.reducerPath] : productsApi.reducer,
-    [categoriesApi.reducerPath] : categoriesApi.reducer,
-    [brandsApi.reducerPath] : brandsApi.reducer,
-    [bannersApi.reducerPath] : bannersApi.reducer,
-    [CartsApi.reducerPath] : CartsApi.reducer,
-    [ordersApi.reducerPath] : ordersApi.reducer,
-    [voucherApi.reducerPath] : voucherApi.reducer,
-    [CommentsApi.reducerPath] : CommentsApi.reducer,
-    [detailsApi.reducerPath] : detailsApi.reducer,
+    [valueAttributesApi.reducerPath]: valueAttributesApi.reducer,
+    [privilegeGroupApi.reducerPath]: privilegeGroupApi.reducer,
+    [privilegeApi.reducerPath]: privilegeApi.reducer,
+    [privilegeUsersApi.reducerPath]: privilegeUsersApi.reducer,
+    [productsApi.reducerPath]: productsApi.reducer,
+    [categoriesApi.reducerPath]: categoriesApi.reducer,
+    [brandsApi.reducerPath]: brandsApi.reducer,
+    [bannersApi.reducerPath]: bannersApi.reducer,
+    [CartsApi.reducerPath]: CartsApi.reducer,
+    [ordersApi.reducerPath]: ordersApi.reducer,
+    [voucherApi.reducerPath]: voucherApi.reducer,
+    [CommentsApi.reducerPath]: CommentsApi.reducer,
+    [detailsApi.reducerPath]: detailsApi.reducer
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
-  middleware: (getDefaultMiddleware) => //attributesApi.middleware
-  getDefaultMiddleware({ serializableCheck: false }).concat(usersApi.middleware, addressApi.middleware, attributesApi.middleware, categoryAttributesApi.middleware, valueAttributesApi.middleware, privilegeGroupApi.middleware, privilegeApi.middleware, privilegeUsersApi.middleware, productsApi.middleware, categoriesApi.middleware, brandsApi.middleware, bannersApi.middleware, CartsApi.middleware, ordersApi.middleware, voucherApi.middleware, CommentsApi.middleware, detailsApi.middleware),
-});
-
+  middleware: (
+    getDefaultMiddleware //attributesApi.middleware
+  ) =>
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      usersApi.middleware,
+      addressApi.middleware,
+      attributesApi.middleware,
+      categoryAttributesApi.middleware,
+      valueAttributesApi.middleware,
+      privilegeGroupApi.middleware,
+      privilegeApi.middleware,
+      privilegeUsersApi.middleware,
+      productsApi.middleware,
+      categoriesApi.middleware,
+      brandsApi.middleware,
+      bannersApi.middleware,
+      CartsApi.middleware,
+      ordersApi.middleware,
+      voucherApi.middleware,
+      CommentsApi.middleware,
+      detailsApi.middleware
+    )
+})
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>

@@ -8,7 +8,7 @@ import TabFilters from '../components/TabFilters'
 import SidebarFilters from './SidebarFilters'
 import { IProduct } from '@/common/types/product.interface'
 import { useSearchParams } from 'react-router-dom'
-import { useGetProductsQuery, useSearchProductMutation } from '../../(manager)/products/ProductsEndpoints'
+import { useGetProductsQuery, useSearchProductMutation } from '../../../../services/ProductsEndpoints'
 import { useGetBrandsQuery } from '../../(manager)/brand/BrandEndpoints'
 import { useGetCategoriesAttributesQuery } from '../../(manager)/attribute/_components/category_attribute/CategoryAttributeEndpoints'
 import { useGetCategoriesQuery } from '../../(manager)/category/CategoryEndpoints'
@@ -26,19 +26,18 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
   const [filterProduct, { isLoading: isLoadingFiltrProduct }] = useSearchProductMutation()
   const { data: listBrands } = useGetBrandsQuery({})
   const { data: listCategory } = useGetCategoriesQuery({})
-   const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<any>([])
   const [categoryId, setCategoryId] = useState('')
   const [brandId, setBrandId] = useState('')
   const [price, setPrice] = useState<any>(false)
 
   const handleFilterProduct = async (query: any) => {
-   const response = await filterProduct(query).unwrap()
-   setData(response.data)
-    
+    const response = await filterProduct(query).unwrap()
+    setData(response.data)
   }
 
   useEffect(() => {
-    handleFilterProduct({});
+    handleFilterProduct({})
   }, [])
   useEffect(() => {
     if (categoryId) {
@@ -66,12 +65,11 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
     }
   }, [categoryId, brandId, price])
   const onClearFilter = () => {
-    queryObj.current = {};
+    queryObj.current = {}
     setCategoryId('')
-   setBrandId('')
-  setPrice(false)
+    setBrandId('')
+    setPrice(false)
     handleFilterProduct(queryObj.current)
-
   }
   return (
     <div className={`nc-PageCollection2 ${className}`} data-nc-id='PageCollection2'>
@@ -85,8 +83,6 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
 
           <hr className='border-slate-200 dark:border-slate-700' />
           <main>
-
-
             <div className='flex gap-3 items-center'>
               {listBrands?.data.map((item, key) => (
                 <>
@@ -121,28 +117,28 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
               <>
                 <span> Price: </span>
                 <div
-                  onClick={() => setPrice({min: 2000000, max: 4000000})}
+                  onClick={() => setPrice({ min: 2000000, max: 4000000 })}
                   className={`hover:bg-red-500 hover:text-white transition-all duration-300 w-fit px-4 py-2 text-sm rounded-full border focus:outline-none cursor-pointer select-none border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500`}
                 >
                   <span className='line-clamp-1 ml-2'>2 - 4tr</span>
                 </div>
 
                 <div
-                 onClick={() => setPrice({min: 4000000, max: 8000000})}
+                  onClick={() => setPrice({ min: 4000000, max: 8000000 })}
                   className={`hover:bg-red-500 hover:text-white transition-all duration-300 w-fit px-4 py-2 text-sm rounded-full border focus:outline-none cursor-pointer select-none border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500`}
                 >
                   <span className='line-clamp-1 ml-2'>4 - 8tr</span>
                 </div>
 
                 <div
-                onClick={() => setPrice({min: 8000000, max: 15000000})}
+                  onClick={() => setPrice({ min: 8000000, max: 15000000 })}
                   className={`hover:bg-red-500 hover:text-white transition-all duration-300 w-fit px-4 py-2 text-sm rounded-full border focus:outline-none cursor-pointer select-none border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500`}
                 >
                   <span className='line-clamp-1 ml-2'>8 - 15tr</span>
                 </div>
 
                 <div
-                onClick={() => setPrice({min: 12000000, max: 500000000})}
+                  onClick={() => setPrice({ min: 12000000, max: 500000000 })}
                   className={`hover:bg-red-500 hover:text-white transition-all duration-300 w-fit px-4 py-2 text-sm rounded-full border focus:outline-none cursor-pointer select-none border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500`}
                 >
                   <span className='line-clamp-1 ml-2'>Trên 12tr</span>
@@ -150,14 +146,16 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
               </>
             </div>
 
-              <div className='mt-5'>
+            <div className='mt-5'>
               <div
-                  onClick={() =>{ onClearFilter()}}
-                  className={`hover:bg-red-500 hover:text-white transition-all duration-300 w-fit px-4 py-2 text-sm rounded-full border focus:outline-none cursor-pointer select-none border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500 bg-black text-white`}
-                >
-                  <span className='line-clamp-1 ml-2'> Clear filter</span>
-                </div>
+                onClick={() => {
+                  onClearFilter()
+                }}
+                className={`hover:bg-red-500 hover:text-white transition-all duration-300 w-fit px-4 py-2 text-sm rounded-full border focus:outline-none cursor-pointer select-none border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500 bg-black text-white`}
+              >
+                <span className='line-clamp-1 ml-2'> Clear filter</span>
               </div>
+            </div>
             <div className=' grid grid-cols-4 gap-3 mt-5'>
               {data.map((item: IProduct, index: number) => (
                 <div key={index} className='my-5'>

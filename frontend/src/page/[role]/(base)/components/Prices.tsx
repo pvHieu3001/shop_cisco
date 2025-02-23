@@ -21,7 +21,7 @@ const Prices: FC<PricesProps> = ({
       </div>
       {price_sale && (
         <div className={`flex items-center rounded-lg ${contentClass}`}>
-          <p className='text-gray-500 font-bold !leading-none'>{VND(price_sale)}</p>
+          <p className='text-gray-500 font-bold line-through !leading-none'>{VND(price_sale)}</p>
         </div>
       )}
     </div>

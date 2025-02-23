@@ -22,9 +22,9 @@ const ModalPhotos: FC<ModalPhotosProps> = ({
 }) => {
   const id = useId();
   const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
-  let completeButtonRef = useRef(null);
+  const completeButtonRef = useRef(null);
 
-  let MY_GLIDEJS = useMemo(() => {
+  const MY_GLIDEJS = useMemo(() => {
     return new Glide(`.${UNIQUE_CLASS}`, {
       // @ts-ignore
       direction:

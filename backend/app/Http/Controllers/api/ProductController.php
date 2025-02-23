@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use App\Models\Product;
-use App\Models\ProductItem;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +19,7 @@ class ProductController extends Controller
     public function index(){
         try {
 
-            $products = Product::with(['category'])->get();
+            $products = Product::with(['category'])->orderBy('id', 'DESC')->get();
 
             return response()->json([
                 'success' => true,
@@ -90,6 +89,31 @@ class ProductController extends Controller
         }
     }
 
+    public function getGalleries(Request $request){
+        try {
+            $product = Product::where('slug', $request->slug)->firstOrFail();
+
+            if(!$product){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Không thể tìm thấy sản phẩm'
+                ], 404);
+            }
+
+            $galleries = Gallery::where('product_id', $product->id)->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $galleries
+            ], 200);
+        }catch (\Exception $exception){
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage()
+            ]);
+        }
+    }
+
     public function show(Request $request){
 
         try {
@@ -112,6 +136,7 @@ class ProductController extends Controller
             ]);
         }
     }
+
     public function store(Request $request){
 
         $valid = Validator::make($request->all(),[
@@ -147,9 +172,10 @@ class ProductController extends Controller
         $is_active = $request->get("is_active") == 1 ? 1 : 0;
         $is_hot_deal = $request->get("is_hot_deal") == 1 ? 1 : 0;
         $is_new = $request->get("is_new") == 1 ? 1 : 0;
-        $quantity = $request->get("quantity") == 1 ? 1 : 0;
-        $price = $request->get("price") == 1 ? 1 : 0;
-        $price_sale = $request->get("price_sale") == 1 ? 1 : 0;
+        $quantity = $request->get("quantity");
+        $price = $request->get("price");
+        $price_sale = $request->get("price_sale");
+        $sku = $request->get("sku");
         $type_discount = $request->get("type_discount") ? $request->get("type_discount") : null;
         $discount = $request->get("discount") ? $request->get("discount") : null;
         $gallery = json_decode($request->get('gallery'));
@@ -181,6 +207,7 @@ class ProductController extends Controller
                 'quantity' => $quantity,
                 'price' => $price,
                 'price_sale' => $price_sale,
+                'sku' => $sku,
                 'public_id' => $public_id,
             ]);
 

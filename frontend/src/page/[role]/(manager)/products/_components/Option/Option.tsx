@@ -10,12 +10,13 @@ interface option {
     setTypeDiscount: React.Dispatch<React.SetStateAction<string>>
   }
   setDetails: React.Dispatch<React.SetStateAction<any>>
+  displayImg?: string
 }
 
-export default function Option({ setImageUrl, discount, setDetails }: option) {
+export default function Option({ setImageUrl, discount, setDetails, displayImg }: option) {
   const { data: dataCategories, isLoading: isLoadingCategory } = useGetCategoriesQuery({})
   const [getCategory, { data: dataCategory, isLoading: categoryLoading }] = useLazyGetCategoryQuery()
-  const [DisplayPic, setDisplayPic] = useState<string>()
+  const [DisplayPic, setDisplayPic] = useState<string>(displayImg ? displayImg : '')
   const formatter: NonNullable<SliderSingleProps['tooltip']>['formatter'] = (value) => `${value}%`
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function Option({ setImageUrl, discount, setDetails }: option) {
             style={{ height: '12vw', overflow: 'hidden', boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1.25rem 1.6875rem 0rem' }}
             className='border-none rounded-[12px]  '
           >
-            {DisplayPic ? (
+            {DisplayPic && DisplayPic != '' ? (
               <div style={{ height: '100%', maxWidth: '100%' }} className='relative group'>
                 <img
                   src={DisplayPic}

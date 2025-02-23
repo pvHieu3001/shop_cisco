@@ -80,7 +80,7 @@ const CheckoutPage = () => {
       receiver_name: `${values.receiver_name} `,
       receiver_phone: values.receiver_phone,
 
-      ...(!Boolean(user.address) ? {  receiver_pronvinces: values?.receiver_pronvinces.split('-')[0],
+      ...(!user.address ? {  receiver_pronvinces: values?.receiver_pronvinces.split('-')[0],
       receiver_district: values?.receiver_district.split('-')[0],
       receiver_ward: values?.receiver_ward.split('-')[0],
       receiver_address: values?.receiver_address} :{  receiver_pronvinces: user.city,
@@ -277,7 +277,7 @@ const CheckoutPage = () => {
       </Helmet>
 
 
-      {Boolean(carts?.data?.length) ? <main className='container py-16 lg:pb-28 lg:pt-20 '>
+      {carts?.data?.length ? <main className='container py-16 lg:pb-28 lg:pt-20 '>
         <div className='mb-16'>
           <h2 className='block text-2xl sm:text-3xl lg:text-4xl font-semibold '>Checkout</h2>
           <div className='block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400'>

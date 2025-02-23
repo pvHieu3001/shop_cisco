@@ -150,7 +150,7 @@ export default function CartDropdown() {
 
                   <div className="bg-neutral-50 dark:bg-slate-900 p-5">
                     {user ? <><p className="flex justify-between font-semibold text-slate-900 dark:text-slate-100">
-                      {Boolean(carts?.data?.length) ?  
+                      {carts?.data?.length ?  
                       <>
                       
                       <span>

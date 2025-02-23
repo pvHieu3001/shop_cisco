@@ -54,7 +54,7 @@ export default function useColor() {
     const onDelete = async () => {
         const res = await instance.delete(`color/${dataIndex}`)
         if (!res) {
-            showAlertError('Xóa không thành công');;
+            showAlertError('Xóa không thành công');
             return;
         }
 

@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useId, useRef, useState } from "react";
-import Heading from "./Heading/Heading";
-import Glide from "@glidejs/glide";
-import ProductCard from "./ProductCard";
-import { Product } from "../../../../data/data";
-import { useGetProductsQuery } from "../../(manager)/products/ProductsEndpoints";
-import { IProduct } from "@/common/types/product.interface";
-import LoadingProduct from "./LoadingProduct";
+import React, { FC, useEffect, useId, useRef, useState } from 'react'
+import Heading from './Heading/Heading'
+import Glide from '@glidejs/glide'
+import ProductCard from './ProductCard'
+import { Product } from '../../../../data/data'
+import { useGetProductsQuery } from '../../../../services/ProductsEndpoints'
+import { IProduct } from '@/common/types/product.interface'
+import LoadingProduct from './LoadingProduct'
 export interface SectionSliderProductCardProps {
   className?: string
   itemClassName?: string
@@ -22,13 +22,13 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
   headingFontClassName,
   headingClassName,
   heading,
-  subHeading = "",
+  subHeading = ''
 }) => {
-  const sliderRef = useRef(null);
-  const id = useId();
-  const UNIQUE_CLASS = "glidejs" + id.replace(/:/g, "_");
+  const sliderRef = useRef(null)
+  const id = useId()
+  const UNIQUE_CLASS = 'glidejs' + id.replace(/:/g, '_')
 
-  const {data : dataItem, isLoading } = useGetProductsQuery({});
+  const { data: dataItem, isLoading } = useGetProductsQuery({})
 
   useEffect(() => {
     if (!sliderRef.current) {
@@ -63,8 +63,8 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
       }
     }
 
-    const slider = new Glide(`.${UNIQUE_CLASS}`, OPTIONS);
-    slider.mount();
+    const slider = new Glide(`.${UNIQUE_CLASS}`, OPTIONS)
+    slider.mount()
     return () => {
       slider.destroy()
     }
@@ -74,40 +74,32 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
     <>
       <div className={`nc-SectionSliderProductCard ${className}`}>
         <div className={`${UNIQUE_CLASS} flow-root`} ref={sliderRef}>
-          <Heading
-            className={headingClassName}
-            fontClass={headingFontClassName}
-            rightDescText={subHeading}
-            hasNextPrev
-          >
+          <Heading className={headingClassName} fontClass={headingFontClassName} rightDescText={subHeading} hasNextPrev>
             {heading || `Sản Phẩm Bán Chạy`}
           </Heading>
           {
-          
-          <div className="glide__track relative" data-glide-el="track">
-            <ul className="glide__slides">
-              {
-                !dataItem && !dataItem?.data
-                ?
-                <>
-                  {[1,2,3].map((item) => (
-                    <LoadingProduct key={item} className={className}/>
-                  ))}
-                </>
-                :
-                dataItem?.data.map((item: IProduct, index: number) => (
-                  <li key={index} className={`glide__slide ${itemClassName}`}>
-                    {item && <ProductCard data={item} />}
-                  </li>
-                )) 
-              }
-            </ul>
-          </div>
+            <div className='glide__track relative' data-glide-el='track'>
+              <ul className='glide__slides'>
+                {!dataItem && !dataItem?.data ? (
+                  <>
+                    {[1, 2, 3].map((item) => (
+                      <LoadingProduct key={item} className={className} />
+                    ))}
+                  </>
+                ) : (
+                  dataItem?.data.map((item: IProduct, index: number) => (
+                    <li key={index} className={`glide__slide ${itemClassName}`}>
+                      {item && <ProductCard data={item} />}
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
           }
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SectionSliderProductCard;
+export default SectionSliderProductCard

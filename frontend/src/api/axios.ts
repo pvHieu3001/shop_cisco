@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 
 const instance: AxiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ instance.interceptors.request.use(
 )
 
 const instanceTest: AxiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: import.meta.env.VITE_APP_BASE_URL
 })
 
 instanceTest.interceptors.request.use(

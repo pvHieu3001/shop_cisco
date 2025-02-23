@@ -57,7 +57,7 @@ export default function useBrand() {
         });
 
         if (!res) {
-            showAlertError('Xóa không thành công');;
+            showAlertError('Xóa không thành công');
             return;
         }
 

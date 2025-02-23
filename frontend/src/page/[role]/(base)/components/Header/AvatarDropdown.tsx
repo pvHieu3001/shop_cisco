@@ -11,7 +11,7 @@ import { ISignin } from "@/common/types/Auth.interface";
 import { setLoading, setOpenModalLogin } from "@/app/webSlice";
 import { popupSuccess, popupError } from "@/page/[role]/shared/Toast";
 import { useGetCartsQuery } from "@/services/CartEndPoinst";
-import { useLazyGetCartsQuery } from "@/services/ProductEndPoinst";
+import { useLazyGetCartsQuery } from "@/services/ProductsEndpoints";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useGetUserQuery } from "@/page/[role]/(manager)/user/UsersEndpoints";
 

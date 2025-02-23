@@ -1,22 +1,25 @@
-import instance, {instanceTest} from "@/api/axios";
-import { ISignin, ISignup } from "@/common/types/Auth.interface";
-import { Iuser } from "@/common/types/user.interface";
+import instance, { instanceTest } from '@/api/axios'
+import { ISignin, ISignup } from '@/common/types/Auth.interface'
 
 export const SigninService = (payload: ISignin) => {
-    return instanceTest.post('auth/login', payload)
+  return instanceTest.post('auth/login', payload)
 }
 
 export const SignupService = (payload: ISignup) => {
-    return instance.post('auth/signup', payload)
+  return instance.post('auth/signup', payload)
 }
 
-export const VerifyToken = (otp : string, email : string) => {
-    return instance.post('auth/verifyOTP', {OTP : otp, email : email});
+export const VerifyToken = (otp: string, email: string) => {
+  return instance.post('auth/verifyOTP', { OTP: otp, email: email })
 }
 export const LogoutService = (payload: string) => {
-    return instanceTest.post('auth/logout', {}, {
-        headers: {
-            'Authorization': `Bearer ${payload}`
-        }
-    })
+  return instanceTest.post(
+    'auth/logout',
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${payload}`
+      }
+    }
+  )
 }

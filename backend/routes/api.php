@@ -72,6 +72,7 @@ Route::prefix('product')->group(function () {
     Route::post('', [ProductController::class, 'store']);
     Route::get('/feat/{feat}', [ProductController::class, 'featProducts']);
     Route::get('/cat/{cat}', [ProductController::class, 'catProducts']);
+    Route::get('/gallery/{slug}', [ProductController::class, 'getGalleries']);
     Route::get('/{slug}', [ProductController::class, 'show']);
     Route::post('/home/filter', [ProductController::class, 'filterProducts']);
 });

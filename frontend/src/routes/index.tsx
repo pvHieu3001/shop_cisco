@@ -48,6 +48,7 @@ import AddPosts from '@/page/[role]/(manager)/posts/_components/add'
 import EditPosts from '@/page/[role]/(manager)/posts/_components/edit'
 import ProductManagement from '@/page/[role]/(manager)/products'
 import AddProduct from '@/page/[role]/(manager)/products/_components/add'
+import EditProduct from '@/page/[role]/(manager)/products/_components/edit'
 import ColorManagement from '@/page/[role]/(manager)/color'
 import OrderManagement from '@/page/[role]/(manager)/order'
 import AddBrand from '@/page/[role]/(manager)/brand/_components/add'
@@ -151,6 +152,7 @@ export default function Router() {
 
             <Route path='products' element={<ProductManagement />}>
               <Route path='add' element={<AddProduct />} />
+              <Route path=':id' element={<EditProduct />} />
             </Route>
 
             <Route path='attributes-product' element={<AttributeManagement />}></Route>
