@@ -198,7 +198,6 @@ class ProductController extends Controller
                 $public_id = null;
             }
 
-            $productDB = Product::find($id);
 
             $newGallery = [];
             $oldGallery = [];
@@ -210,7 +209,8 @@ class ProductController extends Controller
                 }
             }
 
-            if($productDB){
+            if($id){
+                $productDB = Product::find($id);
                 $newProduct = [
                     'thumbnail' => $url ? $url : $productDB->thumbnail,
                     'name' => $name,
@@ -255,6 +255,8 @@ class ProductController extends Controller
                     'sku' => $sku,
                     'public_id' => $public_id,
                 ]);
+
+                $id = $product->id;
             }
 
             foreach ($newGallery as $key => $item) {
@@ -276,7 +278,7 @@ class ProductController extends Controller
                 unlink($tempImagePath);
 
                 Gallery::create([
-                    'product_id' => $productDB->id,
+                    'product_id' => $id,
                     'image' => $url_gallery,
                     'public_id' => $public_id,
                 ]);
@@ -287,7 +289,7 @@ class ProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Product added successfully!',
-                'data' => $productDB->id,
+                'data' => $id,
             ]);
 
         }catch (\Exception $exception){
