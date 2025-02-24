@@ -169,7 +169,7 @@ function EditProduct() {
               price_sale: data?.data?.price_sale,
               quantity: data?.data?.quantity,
               is_active: data?.data?.is_active,
-              is_hot: data?.data?.is_hot,
+              is_hot_deal: data?.data?.is_hot_deal,
               is_new: data?.data?.is_new,
               name: data?.data.name,
               category_id: data?.data.category_id,

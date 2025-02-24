@@ -1,8 +1,6 @@
 import { SocialType } from "../SocialsShare/SocialsShare";
 import React, { FC } from "react";
 import facebook from "../../../../../assets/images/base/socials/facebook.svg";
-import twitter from "../../../../../assets/images/base/socials/twitter.svg";
-import telegram from "../../../../../assets/images/base/socials/telegram.svg";
 import youtube from "../../../../../assets/images/base/socials/youtube.svg";
 
 export interface SocialsList1Props {
