@@ -322,4 +322,4 @@ function AddProduct() {
   )
 }
 
-export default React.memo(AddProduct)
+export default AddProduct

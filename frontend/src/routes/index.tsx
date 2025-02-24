@@ -152,7 +152,7 @@ export default function Router() {
 
             <Route path='products' element={<ProductManagement />}>
               <Route path='add' element={<AddProduct />} />
-              <Route path=':id' element={<EditProduct />} />
+              <Route path=':flug' element={<EditProduct />} />
             </Route>
 
             <Route path='attributes-product' element={<AttributeManagement />}></Route>

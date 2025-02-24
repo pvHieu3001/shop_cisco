@@ -1,14 +1,9 @@
 import SectionHowItWork from '../components/SectionHowItWork/SectionHowItWork'
 import BackgroundSection from '../components/BackgroundSection/BackgroundSection'
 import SectionHero2 from '../components/SectionHero/SectionHero2'
-import SectionSliderLargeProduct from '../components/SectionSliderLargeProduct'
 import SectionSliderProductCard from '../components/SectionSliderProductCard'
 import SectionGridMoreExplore from '../components/SectionGridMoreExplore/SectionGridMoreExplore'
-import SectionPromo2 from '../components/SectionPromo2'
-import SectionSliderCategories from '../components/SectionSliderCategories/SectionSliderCategories'
 import SectionGridFeatureItems from '../SectionGridFeatureItems'
-import SectionPromo3 from '../components/SectionPromo3'
-import SectionClientSay from '../components/SectionClientSay/SectionClientSay'
 import SectionMagazine5 from '../BlogPage/SectionMagazine5'
 import Heading from '../components/Heading/Heading'
 import ButtonSecondary from '../shared/Button/ButtonSecondary'
@@ -34,32 +29,32 @@ function PageHome() {
         </div>
 
         {/*  */}
-        <SectionPromo2 />
+        {/* <SectionPromo2 /> */}
 
         {/* SECTION 3 */}
-        <SectionSliderLargeProduct cardStyle='style2' />
+        {/* <SectionSliderLargeProduct cardStyle='style2' /> */}
 
         {/*  */}
-        <SectionSliderCategories />
+        {/* <SectionSliderCategories /> */}
 
         {/* SECTION */}
-        <SectionPromo3 />
+        {/* <SectionPromo3 /> */}
 
-        <SectionSliderProductCard heading='Best Sellers' subHeading='Best selling of the month' />
+        <SectionSliderProductCard heading='Sản Phẩm Bán Chạy' subHeading='' />
 
         <div className='relative py-24 lg:py-32'>
           <BackgroundSection />
           <div>
-            <Heading rightDescText='From the Ciseco blog'>The latest news</Heading>
+            <Heading rightDescText='Từ Đồ Gỗ Hiệp Hồng blog'>Bài viết mới nhất</Heading>
             <SectionMagazine5 />
             <div className='flex mt-16 justify-center'>
-              <ButtonSecondary>Show all blog articles</ButtonSecondary>
+              <ButtonSecondary>Xem thêm</ButtonSecondary>
             </div>
           </div>
         </div>
 
         {/*  */}
-        <SectionClientSay />
+        {/* <SectionClientSay /> */}
       </div>
     </div>
   )

@@ -140,16 +140,12 @@ class ProductController extends Controller
     public function store(Request $request){
 
         $valid = Validator::make($request->all(),[
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             "name" => "required|max:155|min:10",
             "content" => "required",
             "category_id" => "required",
             "is_active" => "required",
         ],
             [
-                "thumbnail" => "Sản phẩm phải có ảnh đại diện",
-                "thumbnail.image" => 'thumbnail phải là ảnh',
-                "thumbnail.mimes" => 'định dạng cu thumbnail là jpeg, png, jpg, gif',
                 "name" => "Trường name phải bắt buộc",
                 "name.min" => "Tên sản phẩm phải hơn 10 ký tự",
                 "name.max" => "Tên sản phẩm không được vượt quá 155 ký tự",
@@ -166,6 +162,7 @@ class ProductController extends Controller
             ], 200);
         }
 
+        $id = $request->get("id");
         $name = $request->get("name");
         $content = $request->get("content");
         $category_id = $request->get("category_id");
@@ -185,33 +182,82 @@ class ProductController extends Controller
             DB::beginTransaction();
 
             $thumbnail = $request->file('thumbnail');
-            $fileName = $thumbnail->getClientOriginalName() . '-' . time() . '.' . rand(1, 1000000);
 
-            $url = Cloudinary::upload($thumbnail->getRealPath(), [
-                'folder' => self::FOLDER,
-                'public_id' => $fileName
-            ])->getSecurePath();
+            if($thumbnail){
+                $fileName = $thumbnail->getClientOriginalName() . '-' . time() . '.' . rand(1, 1000000);
 
-            $public_id = Cloudinary::getPublicId();
+                $url = Cloudinary::upload($thumbnail->getRealPath(), [
+                    'folder' => self::FOLDER,
+                    'public_id' => $fileName
+                ])->getSecurePath();
 
-            $product = Product::create([
-                'thumbnail' => $url,
-                'name' => $name,
-                'content' => $content,
-                'category_id' => $category_id,
-                'is_active' => $is_active,
-                'is_hot_deal' => $is_hot_deal,
-                'is_new' => $is_new,
-                'type_discount' => $type_discount,
-                'discount' => $discount,
-                'quantity' => $quantity,
-                'price' => $price,
-                'price_sale' => $price_sale,
-                'sku' => $sku,
-                'public_id' => $public_id,
-            ]);
+                $public_id = Cloudinary::getPublicId();
 
+            }else{
+                $url = null;
+                $public_id = null;
+            }
+
+            $productDB = Product::find($id);
+
+            $newGallery = [];
+            $oldGallery = [];
             foreach ($gallery as $key => $item) {
+                if($item->image){
+                    array_push($newGallery, $item);
+                }else{
+                    array_push($oldGallery, $item->displayPic);
+                }
+            }
+
+            if($productDB){
+                $newProduct = [
+                    'thumbnail' => $url ? $url : $productDB->thumbnail,
+                    'name' => $name,
+                    'content' => $content,
+                    'category_id' => $category_id,
+                    'is_active' => $is_active,
+                    'is_hot_deal' => $is_hot_deal,
+                    'is_new' => $is_new,
+                    'type_discount' => $type_discount,
+                    'discount' => $discount,
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'price_sale' => $price_sale,
+                    'sku' => $sku,
+                    'public_id' => $public_id ? $public_id : $productDB->public_id,
+                ];
+    
+                $productDB->update($newProduct);
+
+                if(count($gallery) > 0){
+                    $deleteGallery = Gallery::where('product_id', $id);
+                    if(count($oldGallery) > 0){
+                        $deleteGallery->whereNotIn('image',$oldGallery)->delete();
+                    }else{
+                        $deleteGallery->delete();
+                    }
+                }
+            }else{
+                $product = Product::create([
+                    'thumbnail' => $url,
+                    'name' => $name,
+                    'content' => $content,
+                    'category_id' => $category_id,
+                    'is_active' => $is_active,
+                    'is_hot_deal' => $is_hot_deal,
+                    'is_new' => $is_new,
+                    'type_discount' => $type_discount,
+                    'discount' => $discount,
+                    'quantity' => $quantity,
+                    'price' => $price,
+                    'price_sale' => $price_sale,
+                    'sku' => $sku,
+                    'public_id' => $public_id,
+                ]);
+            }
+
+            foreach ($newGallery as $key => $item) {
                 $image = $item->image;
 
                 $imageData = preg_replace('/^data:image\/\w+;base64,/', '', $image);
@@ -230,7 +276,7 @@ class ProductController extends Controller
                 unlink($tempImagePath);
 
                 Gallery::create([
-                    'product_id' => $product->id,
+                    'product_id' => $productDB->id,
                     'image' => $url_gallery,
                     'public_id' => $public_id,
                 ]);
@@ -241,7 +287,7 @@ class ProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Product added successfully!',
-                'data' => $product->id,
+                'data' => $productDB->id,
             ]);
 
         }catch (\Exception $exception){

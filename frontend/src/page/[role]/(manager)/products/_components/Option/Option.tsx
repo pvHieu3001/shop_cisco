@@ -58,7 +58,6 @@ export default function Option({ setImageUrl, discount, setDetails, displayImg }
       <Form.Item
         name='upload'
         className='p-[2rem] sm:rounded-lg border-[#F1F1F4] m-0'
-        rules={[{ required: true, message: 'Please upload a file!' }]}
         style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1.25rem 1.6875rem 1rem' }}
       >
         <Flex vertical gap={20}>

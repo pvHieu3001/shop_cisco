@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useId, useRef, useState } from 'react'
+import { FC, useEffect, useId, useRef } from 'react'
 import Heading from './Heading/Heading'
 import Glide from '@glidejs/glide'
 import ProductCard from './ProductCard'
 import { Product } from '../../../../data/data'
-import { useGetProductsQuery } from '../../../../services/ProductsEndpoints'
+import { useFilterFeatProductQuery } from '../../../../services/ProductsEndpoints'
 import { IProduct } from '@/common/types/product.interface'
 import LoadingProduct from './LoadingProduct'
 export interface SectionSliderProductCardProps {
@@ -28,7 +28,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
   const id = useId()
   const UNIQUE_CLASS = 'glidejs' + id.replace(/:/g, '_')
 
-  const { data: dataItem, isLoading } = useGetProductsQuery({})
+  const { data: dataItem } = useFilterFeatProductQuery('is_hot_deal')
 
   useEffect(() => {
     if (!sliderRef.current) {

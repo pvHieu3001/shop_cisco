@@ -20,10 +20,10 @@ interface gallery {
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 
 function EditProduct() {
-  const { id } = useParams()
+  const { flug } = useParams()
   const [addProduct, { isLoading: isLoadingAddProduct }] = useCreateProductMutation()
-  const { data, isLoading } = useGetProductQuery(id)
-  const { data: dataGalleries, isLoading: isLoadingGallery } = useGetGalleriesQuery(id)
+  const { data, isLoading } = useGetProductQuery(flug)
+  const { data: dataGalleries, isLoading: isLoadingGallery } = useGetGalleriesQuery(flug)
   const [imageUrl, setImageUrl] = useState<Blob>()
   const [form] = Form.useForm()
   const [gallery, setGallery] = useState<Array<gallery>>([])
@@ -75,6 +75,7 @@ function EditProduct() {
     formdata.append('price_sale', String(price_sale))
     formdata.append('quantity', String(quantity))
     formdata.append('sku', String(sku))
+    formdata.append('id', data?.data.id)
 
     try {
       await addProduct(formdata).unwrap()
@@ -183,7 +184,7 @@ function EditProduct() {
                 type='primary'
                 className=' '
               >
-                Tạo
+                Cập nhật
               </Button>
               <Button type='dashed'>Đặt lại</Button>
             </Flex>
@@ -368,4 +369,4 @@ function EditProduct() {
   )
 }
 
-export default React.memo(EditProduct)
+export default EditProduct
