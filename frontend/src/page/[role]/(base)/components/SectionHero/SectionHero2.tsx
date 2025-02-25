@@ -158,7 +158,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
           <img className={`absolute w-full h-full object-fill`} src={item?.image_url ?? backgroundLineSvg} alt='hero' />
         </div>
 
-        <div className='relative container pb-0 pt-14 sm:pt-20 lg:py-44 md:min-h-[30rem]'>
+        <div className='relative container pb-0 pt-14 sm:pt-20 md:min-h-[30rem]'>
           <div className={`relative z-[1] w-full max-w-3xl space-y-8 sm:space-y-14 nc-SectionHero2Item__left`}>
             <div className='space-y-5 sm:space-y-6'>
               <span className='nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium'>
