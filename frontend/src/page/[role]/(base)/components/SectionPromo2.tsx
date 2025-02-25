@@ -36,7 +36,7 @@ const SectionPromo2: FC<SectionPromo2Props> = ({ className = "lg:pt-10" }) => {
               href="/page-search"
               className="dark:bg-slate-200 dark:text-slate-900"
             >
-              Discover more
+              Xem thêm
             </ButtonPrimary>
           </div>
         </div>

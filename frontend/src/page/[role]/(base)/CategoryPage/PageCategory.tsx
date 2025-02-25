@@ -3,16 +3,11 @@ import { Helmet } from 'react-helmet-async'
 import SectionSliderCollections from '../components/SectionSliderLargeProduct'
 import SectionPromo1 from '../components/SectionPromo1'
 import ProductCard from '../components/ProductCard'
-import { PRODUCTS } from '../../../../data/data'
-import TabFilters from '../components/TabFilters'
-import SidebarFilters from './SidebarFilters'
 import { IProduct } from '@/common/types/product.interface'
 import { useSearchParams } from 'react-router-dom'
-import { useGetProductsQuery, useSearchProductMutation } from '../../../../services/ProductsEndpoints'
+import { useSearchProductMutation } from '../../../../services/ProductsEndpoints'
 import { useGetBrandsQuery } from '../../(manager)/brand/BrandEndpoints'
-import { useGetCategoriesAttributesQuery } from '../../(manager)/attribute/_components/category_attribute/CategoryAttributeEndpoints'
 import { useGetCategoriesQuery } from '../../(manager)/category/CategoryEndpoints'
-import { VND } from '@/utils/formatVietNamCurrency'
 
 export interface PageCategory {
   className?: string

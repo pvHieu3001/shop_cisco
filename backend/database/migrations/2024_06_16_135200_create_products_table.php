@@ -26,6 +26,7 @@ return new class extends Migration
             $table->decimal('price_sale', 15, 0)->nullable();
             $table->integer('quantity')->default(0);
             $table->string('sku')->nullable();
+            $table->integer('type')->default(0);
             $table->unsignedBigInteger('total_review')->nullable();
             $table->unsignedBigInteger('avg_stars')->nullable();
             $table->text('public_id');

@@ -125,7 +125,7 @@ export default function Router() {
               }
             />
 
-            <Route path='search' element={<PageSearch />} />
+            <Route path='page-search' element={<PageSearch />} />
             <Route path='category' element={<PageCategory />} />
             <Route path='category/:slug' element={<PageCategory />} />
             <Route path='product-detail/:slug' element={<ProductDetailPage2 />} />

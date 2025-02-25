@@ -1,15 +1,15 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import imageRightPng2 from '../../../../../assets/images/base/hero-right-2.png'
 import imageRightPng3 from '../../../../../assets/images/base/hero-right-3.png'
 import imageRightPng from '../../../../../assets/images/base/hero-right.png'
 
-import { useGetBannersQuery } from '@/page/[role]/(manager)/banner/BannerEndpoints'
 import useBoolean from 'react-use/lib/useBoolean'
 import useInterval from 'react-use/lib/useInterval'
 import backgroundLineSvg from '../../../../../assets/images/base/Moon.svg'
 import ButtonPrimary from '../../shared/Button/ButtonPrimary'
 import Next from '../../shared/NextPrev/Next'
 import Prev from '../../shared/NextPrev/Prev'
+import { useNavigate } from 'react-router-dom'
 
 interface Hero2DataType {
   image: string
@@ -25,48 +25,39 @@ export interface SectionHero2Props {
 const DATA: Hero2DataType[] = [
   {
     image: imageRightPng2,
-    heading: 'Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam',
+    heading: 'Thương Hiệu Đồ Gỗ Việt',
     subHeading: 'Đồ Gỗ Hiệp Hồng',
     btnText: 'Khám Phá Ngay',
-    btnLink: '/'
+    btnLink: '/page-search'
   },
   {
     image: imageRightPng3,
-    heading: 'Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam',
+    heading: 'Thương Hiệu Đồ Gỗ Việt',
     subHeading: 'Đồ Gỗ Hiệp Hồng',
     btnText: 'Khám Phá Ngay',
-    btnLink: '/'
+    btnLink: '/page-search'
   },
   {
     image: imageRightPng,
-    heading: 'Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam',
+    heading: 'Thương Hiệu Đồ Gỗ Việt',
     subHeading: 'Đồ Gỗ Hiệp Hồng',
     btnText: 'Khám Phá Ngay',
-    btnLink: '/'
+    btnLink: '/page-search'
   }
 ]
 let TIME_OUT: NodeJS.Timeout | null = null
 
 const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
-  // =================
   const [indexActive, setIndexActive] = useState(0)
   const [isRunning, toggleIsRunning] = useBoolean(true)
-  const { data } = useGetBannersQuery({})
-  const [bannersList, setBannersList] = useState([])
-
-  useEffect(() => {
-    if (data) {
-      let aciveBanner = data?.filter((item: any) => item.is_active == 1)
-      aciveBanner = aciveBanner?.length > 3 ? aciveBanner.splice(0, 3) : aciveBanner
-      setBannersList(aciveBanner?.length > 0 ? aciveBanner : DATA)
-    }
-  }, [data])
+  const bannersList = DATA
+  const navigate = useNavigate()
 
   useInterval(
     () => {
       handleAutoNext()
     },
-    isRunning ? 5500 : null
+    isRunning ? 445500 : null
   )
   //
 
@@ -169,52 +160,47 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = '' }) => {
 
         <div className='relative container pb-0 pt-14 sm:pt-20 lg:py-44 md:min-h-[30rem]'>
           <div className={`relative z-[1] w-full max-w-3xl space-y-8 sm:space-y-14 nc-SectionHero2Item__left`}>
-            {data && data.length > 0 ? (
-              ''
-            ) : (
-              <div className='space-y-5 sm:space-y-6'>
-                <span className='nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium'>
-                  Đồ Gỗ Hiệp Hồng
-                </span>
-                <h2 className='nc-SectionHero2Item__heading font-semibold text-3xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-3xl !leading-[114%] text-slate-900'>
-                  Thương Hiệu Đồ Gỗ Hàng Đầu Việt Nam
-                </h2>
-              </div>
-            )}
+            <div className='space-y-5 sm:space-y-6'>
+              <span className='nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium'>
+                {item?.subHeading}
+              </span>
+              <h2 className='nc-SectionHero2Item__heading font-semibold text-3xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-3xl !leading-[114%] text-slate-900'>
+                {item?.heading}
+              </h2>
+            </div>
 
-            {data && data.length > 0 ? (
-              <></>
-            ) : (
-              <ButtonPrimary
-                className='nc-SectionHero2Item__button dark:bg-slate-900'
-                sizeClass='py-3 px-6 sm:py-5 sm:px-9'
-              >
-                <span>Khám Phá Ngay</span>
-                <span>
-                  <svg className='w-5 h-5 ml-2.5' viewBox='0 0 24 24' fill='none'>
-                    <path
-                      d='M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z'
-                      stroke='currentColor'
-                      strokeWidth='1.5'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                    <path
-                      d='M22 22L20 20'
-                      stroke='currentColor'
-                      strokeWidth='1.5'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                </span>
-              </ButtonPrimary>
-            )}
+            <ButtonPrimary
+              className='nc-SectionHero2Item__button dark:bg-slate-900'
+              sizeClass='py-3 px-6 sm:py-5 sm:px-9'
+              onClick={() => {
+                navigate(item?.btnLink)
+              }}
+            >
+              <span>{item?.btnText}</span>
+              <span>
+                <svg className='w-5 h-5 ml-2.5' viewBox='0 0 24 24' fill='none'>
+                  <path
+                    d='M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z'
+                    stroke='currentColor'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                  <path
+                    d='M22 22L20 20'
+                    stroke='currentColor'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                  />
+                </svg>
+              </span>
+            </ButtonPrimary>
           </div>
           {item?.image && (
-            <div className='mt-10 lg:mt-0 lg:absolute right-0 bottom-0 top-0 w-full max-w-2xl xl:max-w-3xl 2xl:max-w-4xl'>
+            <div className='mt-10 lg:absolute right-0 bottom-0 top-0 w-full max-w-2xl xl:max-w-3xl 2xl:max-w-4xl'>
               <img
-                className='w-full h-full object-contain object-right-bottom nc-SectionHero2Item__image'
+                className='w-full object-contain object-right-bottom nc-SectionHero2Item__image'
                 src={item?.image}
                 alt={item?.heading}
               />
