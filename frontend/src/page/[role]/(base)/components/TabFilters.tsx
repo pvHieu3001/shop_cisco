@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import ButtonPrimary from '../shared/Button/ButtonPrimary'
 import ButtonThird from '../shared/Button/ButtonThird'
@@ -52,7 +52,13 @@ const DATA_sortOrderRadios = [
 
 const PRICE_RANGE = [1, 100]
 //
-const TabFilters = () => {
+
+export interface Props {
+  setFilterPrice: (type: Array<number>) => void
+  setFilterSale: (type: string) => void
+}
+
+const TabFilters = (props: Props) => {
   const [isOpenMoreFilter, setisOpenMoreFilter] = useState(false)
   //
   const [isOnSale, setIsIsOnSale] = useState(false)
@@ -62,6 +68,9 @@ const TabFilters = () => {
   const [materialState, setmaterialState] = useState<string[]>([])
   const [sortOrderStates, setSortOrderStates] = useState<string>('')
 
+  useEffect(() => {
+    props.setFilterPrice(rangePrices)
+  }, [props, rangePrices])
   //
   const closeModalMoreFilter = () => setisOpenMoreFilter(false)
   const openModalMoreFilter = () => setisOpenMoreFilter(true)
@@ -488,7 +497,7 @@ const TabFilters = () => {
                 />
               </svg>
 
-              <span className='ml-2'>Ram</span>
+              <span className='ml-2'>Loại Gỗ</span>
               {!materialState.length ? (
                 <ChevronDownIcon className='w-4 h-4 ml-3' />
               ) : (
@@ -681,7 +690,10 @@ const TabFilters = () => {
             ? 'border-primary-500 bg-primary-50 text-primary-900'
             : 'border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500'
         }`}
-        onClick={() => setIsIsOnSale(!isOnSale)}
+        onClick={() => {
+          setIsIsOnSale(!isOnSale)
+          props.setFilterSale(!isOnSale)
+        }}
       >
         <svg className='w-4 h-4' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <path
@@ -811,7 +823,7 @@ const TabFilters = () => {
             />
           </svg>
 
-          <span className='ml-2'>Products filters (3)</span>
+          <span className='ml-2'>Tiêu chí tìm kiếm (3)</span>
           {renderXClear()}
         </div>
 
@@ -846,7 +858,7 @@ const TabFilters = () => {
                 <div className='inline-flex flex-col w-full text-left align-middle transition-all transform bg-white dark:bg-neutral-900 dark:border dark:border-neutral-700 dark:text-neutral-100 h-full'>
                   <div className='relative flex-shrink-0 px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 text-center'>
                     <Dialog.Title as='h3' className='text-lg font-medium leading-6 text-gray-900'>
-                      Products filters
+                      Tiêu chí tìm kiếm
                     </Dialog.Title>
                     <span className='absolute left-3 top-3'>
                       <ButtonClose onClick={closeModalMoreFilter} />
@@ -857,21 +869,21 @@ const TabFilters = () => {
                     <div className='px-6 sm:px-8 md:px-10 divide-y divide-neutral-200 dark:divide-neutral-800'>
                       {/* --------- */}
                       {/* ---- */}
-                      <div className='py-7'>
+                      {/* <div className='py-7'>
                         <h3 className='text-xl font-medium'>Colors</h3>
                         <div className='mt-6 relative '>{renderMoreFilterItem(DATA_colors)}</div>
-                      </div>
+                      </div> */}
                       {/* --------- */}
                       {/* ---- */}
-                      <div className='py-7'>
+                      {/* <div className='py-7'>
                         <h3 className='text-xl font-medium'>Size</h3>
                         <div className='mt-6 relative '>{renderMoreFilterItem(DATA_material)}</div>
-                      </div>
+                      </div> */}
 
                       {/* --------- */}
                       {/* ---- */}
                       <div className='py-7'>
-                        <h3 className='text-xl font-medium'>Range Prices</h3>
+                        <h3 className='text-xl font-medium'>Khoảng giá</h3>
                         <div className='mt-6 relative '>
                           <div className='relative flex flex-col space-y-8'>
                             <div className='space-y-5'>
@@ -892,7 +904,7 @@ const TabFilters = () => {
                                   htmlFor='minPrice'
                                   className='block text-sm font-medium text-neutral-700 dark:text-neutral-300'
                                 >
-                                  Min price
+                                  Giá nhỏ nhất
                                 </label>
                                 <div className='mt-1 relative rounded-md'>
                                   <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -913,7 +925,7 @@ const TabFilters = () => {
                                   htmlFor='maxPrice'
                                   className='block text-sm font-medium text-neutral-700 dark:text-neutral-300'
                                 >
-                                  Max price
+                                  Giá lớn nhất
                                 </label>
                                 <div className='mt-1 relative rounded-md'>
                                   <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
@@ -957,11 +969,11 @@ const TabFilters = () => {
                       {/* --------- */}
                       {/* ---- */}
                       <div className='py-7'>
-                        <h3 className='text-xl font-medium'>On sale!</h3>
+                        <h3 className='text-xl font-medium'>Giảm giá!</h3>
                         <div className='mt-6 relative '>
                           <MySwitch
-                            label='On sale!'
-                            desc='Products currently on sale'
+                            label='Đang giảm giá'
+                            desc='Sản phẩm đang trong chương trình giảm giá'
                             enabled={isOnSale}
                             onChange={setIsIsOnSale}
                           />
@@ -1002,8 +1014,8 @@ const TabFilters = () => {
       <div className='hidden lg:flex flex-1 space-x-4'>
         {renderTabsPriceRage()}
         {/* {renderTabsCategories()} */}
-        {renderTabsColor()}
-        {renderTabsMaterial()}
+        {/* {renderTabsColor()} */}
+        {/* {renderTabsMaterial()} */}
         {renderTabIsOnsale()}
         <div className='!ml-auto'>{renderTabsSortOrder()}</div>
       </div>

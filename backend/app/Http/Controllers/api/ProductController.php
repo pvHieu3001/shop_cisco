@@ -71,11 +71,18 @@ class ProductController extends Controller
     }
 
     public function filterProducts(Request $request){
-        $search = request('search');
+        $search = request('keyword');
+        $page = request('page');
         try{
-            $products = Product::with(['category'])
-            ->where('category.name', 'LIKE', '%' . $search . '%')
-            ->get();
+            if($search){
+                $products = Product::with(['category'])
+                ->where(function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('content', 'LIKE', '%' . $search . '%');
+                })->paginate(5);
+            }else{
+                $products = Product::with(['category'])->paginate(5);
+            }
 
             return response()->json([
                 'success' => true,

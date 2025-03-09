@@ -74,7 +74,7 @@ Route::prefix('product')->group(function () {
     Route::get('/cat/{cat}', [ProductController::class, 'catProducts']);
     Route::get('/gallery/{slug}', [ProductController::class, 'getGalleries']);
     Route::get('/{slug}', [ProductController::class, 'show']);
-    Route::post('/home/filter', [ProductController::class, 'filterProducts']);
+    Route::post('/filter', [ProductController::class, 'filterProducts']);
 });
 
 
