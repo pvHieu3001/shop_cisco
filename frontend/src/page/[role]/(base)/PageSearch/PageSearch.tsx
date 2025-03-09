@@ -17,17 +17,19 @@ const PageSearch: FC<PageSearchProps> = ({ className = '' }) => {
   const [filterType, setFilterType] = useState<any>()
   const [filterPrice, setFilterPrice] = useState<any>([])
   const [filterSale, setFilterSale] = useState<any>()
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
+  const [page] = useState(searchParams.get('page'))
+  const [keyword, setKeyword] = useState(searchParams.get('keyword'))
   const [searchProduct] = useSearchProductMutation()
 
   useEffect(() => {
     search()
-  }, [searchParams, searchProduct])
+  }, [page, keyword])
 
   async function search() {
     const response = await searchProduct({
-      page: searchParams.get('page'),
-      keyword: searchParams.get('keyword')
+      page: page,
+      keyword: keyword
     }).unwrap()
     setData(response.data)
   }
@@ -48,7 +50,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = '' }) => {
             className='relative w-full'
             onSubmit={(e) => {
               e.preventDefault()
-              setSearchParams(e.target.keyword.value)
+              setKeyword(e.target.keyword.value)
             }}
           >
             <label htmlFor='search-input' className='text-neutral-500 dark:text-neutral-300'>
