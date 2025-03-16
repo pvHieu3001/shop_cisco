@@ -1,8 +1,9 @@
-import { Flex, Form, InputNumber, Segmented, Select, Slider, SliderSingleProps, Switch } from 'antd'
+import { Flex, Form, Input, InputNumber, Segmented, Select, Slider, SliderSingleProps, Switch } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { CloudUploadOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons'
+import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useGetCategoriesQuery, useLazyGetCategoryQuery } from '../../../category/CategoryEndpoints'
 import { ICategory } from '@/common/types/category.interface'
+import { COLOR, MATERIAL, TYPE } from '../../../../../../data/data'
 interface option {
   setImageUrl: React.Dispatch<React.SetStateAction<any>>
   discount: {
@@ -141,16 +142,78 @@ export default function Option({ setImageUrl, discount, setDetails, displayImg }
               onChange={getDetails}
             />
           </Form.Item>
-          <Flex
-            align='center'
-            justify='center'
-            className='w-[30px] h-[30px] text-white cursor-pointer rounded-[9999px] absolute top-[-10px] right-[-9px] bg-blue-500'
-          >
-            <PlusOutlined />
-          </Flex>
         </Flex>
       </div>
       {/* category */}
+
+      {/* Tags */}
+      <div
+        className='sm:rounded-lg flex-1 p-2 relative'
+        style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem' }}
+      >
+        <div className='p-2'>
+          <h2 className='font-bold'>Loại sản phẩm</h2>
+        </div>
+        <Flex justify='center' align='' vertical className='p-2' gap={10}>
+          <Form.Item className='m-0' name='type' rules={[{ required: true, message: 'Vui lòng chọn loại sản phẩm' }]}>
+            <Select className='h-[40px] relative' options={TYPE} />
+          </Form.Item>
+        </Flex>
+      </div>
+      {/* Tags */}
+      {/* Tags */}
+      <div
+        className='sm:rounded-lg flex-1 p-2 relative'
+        style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem' }}
+      >
+        <div className='p-2'>
+          <h2 className='font-bold'>Chất liệu sản phẩm</h2>
+        </div>
+        <Flex justify='center' align='' vertical className='p-2' gap={10}>
+          <Form.Item
+            className='m-0'
+            name='material'
+            rules={[{ required: true, message: 'Vui lòng chọn chất liệu sản phẩm' }]}
+          >
+            <Select className='h-[40px] relative' options={MATERIAL} />
+          </Form.Item>
+        </Flex>
+      </div>
+      {/* Tags */}
+      {/* Tags */}
+      <div
+        className='sm:rounded-lg flex-1 p-2 relative'
+        style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem' }}
+      >
+        <div className='p-2'>
+          <h2 className='font-bold'>Màu sắc</h2>
+        </div>
+        <Flex justify='center' align='' vertical className='p-2' gap={10}>
+          <Form.Item className='m-0' name='color' rules={[{ required: true, message: 'Vui lòng nhập màu sản phẩm' }]}>
+            <Select className='h-[40px] relative' options={COLOR} />
+          </Form.Item>
+        </Flex>
+      </div>
+      {/* Tags */}
+      {/* Tags */}
+      <div
+        className='sm:rounded-lg flex-1 p-2 relative'
+        style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem' }}
+      >
+        <div className='p-2'>
+          <h2 className='font-bold'>Kích Thước</h2>
+        </div>
+        <Flex justify='center' align='' vertical className='p-2' gap={10}>
+          <Form.Item
+            name='size'
+            rules={[{ required: true, message: 'Vui lòng nhập kích thước' }]}
+            className='m-0 flex-1'
+          >
+            <Input />
+          </Form.Item>
+        </Flex>
+      </div>
+      {/* Tags */}
 
       {/* Setting */}
       <div
@@ -182,22 +245,6 @@ export default function Option({ setImageUrl, discount, setDetails, displayImg }
       </div>
       {/* Setting */}
 
-      {/* Tags */}
-      <div
-        className='sm:rounded-lg flex-1 p-2 relative'
-        style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0rem 1rem 1rem 1rem' }}
-      >
-        <div className='p-2'>
-          <h2 className='font-bold'>Thẻ</h2>
-        </div>
-        <Flex justify='center' align='' vertical className='p-2' gap={10}>
-          <Form.Item className='m-0' name='tags'>
-            <Select mode='tags' className='h-[40px]' style={{ width: '100%' }} />
-          </Form.Item>
-        </Flex>
-      </div>
-      {/* Tags */}
-
       {/* Discount */}
       <div
         className='sm:rounded-lg flex-1 p-2 relative'
@@ -224,7 +271,7 @@ export default function Option({ setImageUrl, discount, setDetails, displayImg }
           {discount.typeDiscount == 'percent' ? (
             <>
               <Form.Item
-                name={'percent'}
+                name={'percentage'}
                 rules={[
                   {
                     required: true,

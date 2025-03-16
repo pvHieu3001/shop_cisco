@@ -107,14 +107,7 @@ export default function Router() {
               </Route>
             </Route>
 
-            <Route
-              path='cart'
-              element={
-                <GuardPage>
-                  <CartPage />
-                </GuardPage>
-              }
-            />
+            <Route path='cart' element={<CartPage />} />
 
             <Route
               path='checkout'

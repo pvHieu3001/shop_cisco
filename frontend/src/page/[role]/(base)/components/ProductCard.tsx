@@ -15,6 +15,7 @@ import { IProduct } from '@/common/types/product.interface'
 import { IAddCart } from '@/common/types/cart.interface'
 import { useAddToCartMutation } from '@/services/CartEndPoinst'
 import { popupError } from '../../shared/Toast'
+import { useLocalStorage } from '@uidotdev/usehooks'
 export interface ProductCardProps {
   className?: string
   data: IProduct
@@ -22,19 +23,12 @@ export interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) => {
-  const { name, thumbnail, slug, price, price_sale, products } = data
-  const [addToCart, { isLoading }] = useAddToCartMutation()
+  const [user] = useLocalStorage('user', null)
+  const { name, thumbnail, slug, price, price_sale, id } = data
+  const [addToCart] = useAddToCartMutation()
   const [variantActive, setVariantActive] = React.useState(0)
   const [showModalQuickView, setShowModalQuickView] = React.useState(false)
   const [image, setImage] = React.useState(thumbnail)
-  const blocksRef = useRef([])
-  const [maxWidth, setMaxWidth] = useState(0)
-
-  useEffect(() => {
-    const widths = blocksRef.current.map((block) => block.offsetWidth)
-    const max = Math.max(...widths)
-    setMaxWidth(max)
-  }, [])
 
   const firstVariantGroup: Set<string> = new Set()
   const secondVariantGroup: Set<string> = new Set()
@@ -43,42 +37,43 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
   const secondVariantArray: string[] = [...secondVariantGroup]
 
   const notifyAddTocart = async ({ second }: { second?: string | null }) => {
-    const cart = products.find((item) => {
-      return !second
-        ? item.variants[0].name == firstVariantArray[variantActive]
-        : item.variants[0].name == firstVariantArray[variantActive] && item.variants[1].name == second
-    })
-
-    if (cart?.id) {
-      try {
-        const payload: IAddCart = {
-          quantity: 1,
-          product_item_id: cart.id
-        }
-        await addToCart(payload).unwrap()
-        toast.custom(
-          (t) => (
-            <Transition
-              appear
-              show={t.visible}
-              className='p-4 max-w-md w-full bg-white dark:bg-slate-800 shadow-lg rounded-2xl pointer-events-auto ring-1 ring-black/5 dark:ring-white/10 text-slate-900 dark:text-slate-200'
-              enter='transition-all duration-150'
-              enterFrom='opacity-0 translate-x-20'
-              enterTo='opacity-100 translate-x-0'
-              leave='transition-all duration-150'
-              leaveFrom='opacity-100 translate-x-0'
-              leaveTo='opacity-0 translate-x-20'
-            >
-              <p className='block text-base font-semibold leading-none'>Đã thêm vào giỏ hàng!</p>
-              <div className='border-t border-slate-200 dark:border-slate-700 my-4' />
-              {renderProductCartOnNotify({ second })}
-            </Transition>
-          ),
-          { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
-        )
-      } catch (error) {
-        popupError('Add to cart error!')
+    try {
+      const payload: IAddCart = {
+        quantity: 1,
+        product_id: id
       }
+      if (user) {
+        await addToCart(payload).unwrap()
+      } else {
+        const cart = localStorage.getItem('cart')
+        if (cart) {
+          localStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), payload]))
+        } else {
+          localStorage.setItem('cart', JSON.stringify(payload))
+        }
+      }
+      toast.custom(
+        (t) => (
+          <Transition
+            appear
+            show={t.visible}
+            className='p-4 max-w-md w-full bg-white dark:bg-slate-800 shadow-lg rounded-2xl pointer-events-auto ring-1 ring-black/5 dark:ring-white/10 text-slate-900 dark:text-slate-200'
+            enter='transition-all duration-150'
+            enterFrom='opacity-0 translate-x-20'
+            enterTo='opacity-100 translate-x-0'
+            leave='transition-all duration-150'
+            leaveFrom='opacity-100 translate-x-0'
+            leaveTo='opacity-0 translate-x-20'
+          >
+            <p className='block text-base font-semibold leading-none'>Đã thêm vào giỏ hàng!</p>
+            <div className='border-t border-slate-200 dark:border-slate-700 my-4' />
+            {renderProductCartOnNotify({ second })}
+          </Transition>
+        ),
+        { position: 'top-right', id: 'nc-product-notify', duration: 3000 }
+      )
+    } catch (error) {
+      popupError('Add to cart error!')
     }
   }
 
@@ -107,11 +102,11 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
                   )}
                 </p>
               </div>
-              <Prices price={price} className='mt-0.5' />
+              <Prices price_sale={price_sale} price={price} className='mt-0.5' />
             </div>
           </div>
           <div className='flex flex-1 items-end justify-between text-sm'>
-            <p className='text-gray-500 dark:text-slate-400'>Qty 1</p>
+            <p className='text-gray-500 dark:text-slate-400'>Số lượng 1</p>
 
             <div className='flex'>
               <Link to={'/cart'} className='font-medium text-primary-6000 dark:text-primary-500 '>
@@ -182,7 +177,7 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
           onClick={() => setShowModalQuickView(true)}
         >
           <ArrowsPointingOutIcon className='w-3.5 h-3.5' />
-          <span className='ml-1'>Quick view</span>
+          <span className='ml-1'>Chi tiết</span>
         </ButtonSecondary>
       </div>
     )
@@ -257,7 +252,11 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
       </div>
 
       {/* QUICKVIEW */}
-      <ModalQuickView show={showModalQuickView} onCloseModalQuickView={() => setShowModalQuickView(false)} />
+      <ModalQuickView
+        show={showModalQuickView}
+        data={data}
+        onCloseModalQuickView={() => setShowModalQuickView(false)}
+      />
     </>
   )
 }

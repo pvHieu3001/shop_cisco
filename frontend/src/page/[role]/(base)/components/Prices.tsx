@@ -4,7 +4,7 @@ import React, { FC } from 'react'
 export interface PricesProps {
   className?: string
   price: number
-  price_sale?: number
+  price_sale: number
   contentClass?: string
 }
 
@@ -19,7 +19,7 @@ const Prices: FC<PricesProps> = ({
       <div className={`flex items-center rounded-lg ${contentClass}`}>
         <p className='text-red-500 font-bold !leading-none'>{VND(price)}/Bộ</p>
       </div>
-      {price_sale && price_sale < price && (
+      {+price_sale && +price_sale > +price && (
         <div className={`flex items-center rounded-lg ${contentClass}`}>
           <p className='text-gray-500 font-bold line-through !leading-none'>{VND(price_sale)}</p>
         </div>

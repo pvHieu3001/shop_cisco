@@ -124,7 +124,7 @@ class ProductController extends Controller
     public function show(Request $request){
 
         try {
-            $product = Product::where('slug', $request->slug)->firstOrFail();
+            $product = Product::with(['galleries'])->where('slug', $request->slug)->firstOrFail();
 
             if(!$product){
                 return response()->json([
@@ -179,7 +179,11 @@ class ProductController extends Controller
         $quantity = $request->get("quantity");
         $price = $request->get("price");
         $price_sale = $request->get("price_sale");
-        $sku = $request->get("sku");
+        $type = $request->get("type");
+        $color = $request->get("color");
+        $size = $request->get("size");
+        $material = $request->get("material");
+        $detail = $request->get("detail");
         $type_discount = $request->get("type_discount") ? $request->get("type_discount") : null;
         $discount = $request->get("discount") ? $request->get("discount") : null;
         $gallery = json_decode($request->get('gallery'));
@@ -231,7 +235,11 @@ class ProductController extends Controller
                     'quantity' => $quantity,
                     'price' => $price,
                     'price_sale' => $price_sale,
-                    'sku' => $sku,
+                    'type' => $type,
+                    'size' => $size,
+                    'color' => $color,
+                    'material' => $material,
+                    'detail' => $detail,
                     'public_id' => $public_id ? $public_id : $productDB->public_id,
                 ];
     
@@ -259,7 +267,11 @@ class ProductController extends Controller
                     'quantity' => $quantity,
                     'price' => $price,
                     'price_sale' => $price_sale,
-                    'sku' => $sku,
+                    'type' => $type,
+                    'size' => $size,
+                    'color' => $color,
+                    'material' => $material,
+                    'detail' => $detail,
                     'public_id' => $public_id,
                 ]);
 

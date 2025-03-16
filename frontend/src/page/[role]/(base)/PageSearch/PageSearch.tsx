@@ -18,7 +18,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = '' }) => {
   const [filterPrice, setFilterPrice] = useState<any>([])
   const [filterSale, setFilterSale] = useState<any>()
   const [searchParams] = useSearchParams()
-  const [page] = useState(searchParams.get('page'))
+  const [page, setPage] = useState(searchParams.get('page'))
   const [keyword, setKeyword] = useState(searchParams.get('keyword'))
   const [searchProduct] = useSearchProductMutation()
 
@@ -118,7 +118,13 @@ const PageSearch: FC<PageSearchProps> = ({ className = '' }) => {
 
           {/* PAGINATION */}
           <div className='flex flex-col mt-12 lg:mt-16 space-y-5 sm:space-y-0 sm:space-x-3 sm:flex-row sm:justify-between sm:items-center'>
-            <Pagination dataLinks={data?.links} />
+            <Pagination
+              onChangePage={(keyword, page) => {
+                setKeyword(keyword)
+                setPage(page)
+              }}
+              dataLinks={data?.links}
+            />
           </div>
         </main>
 

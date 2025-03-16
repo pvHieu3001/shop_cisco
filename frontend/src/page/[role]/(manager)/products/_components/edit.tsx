@@ -11,6 +11,8 @@ import {
   useGetProductQuery
 } from '../../../../../services/ProductsEndpoints'
 import { popupError, popupSuccess } from '@/page/[role]/shared/Toast'
+import ReactQuill from 'react-quill'
+import { modules, formats } from '../../../../../data/data'
 
 interface gallery {
   image: File | string
@@ -57,7 +59,11 @@ function EditProduct() {
     const quantity = form.getFieldValue('quantity')
     const price = form.getFieldValue('price')
     const price_sale = form.getFieldValue('price_sale')
-    const sku = form.getFieldValue('sku')
+    const type = form.getFieldValue('type')
+    const color = form.getFieldValue('color')
+    const size = form.getFieldValue('size')
+    const material = form.getFieldValue('material')
+    const detail = form.getFieldValue('detail')
 
     const formdata = new FormData()
 
@@ -74,7 +80,11 @@ function EditProduct() {
     formdata.append('price', String(price))
     formdata.append('price_sale', String(price_sale))
     formdata.append('quantity', String(quantity))
-    formdata.append('sku', String(sku))
+    formdata.append('type', String(type))
+    formdata.append('color', String(color))
+    formdata.append('size', String(size))
+    formdata.append('material', String(material))
+    formdata.append('detail', String(detail))
     formdata.append('id', data?.data.id)
 
     try {
@@ -164,7 +174,11 @@ function EditProduct() {
             onFinish={onFinish}
             className='p-10 relative'
             initialValues={{
-              sku: data?.data?.sku,
+              type: data?.data?.type,
+              color: data?.data?.color,
+              size: data?.data?.size,
+              material: data?.data?.material,
+              detail: data?.data?.detail,
               price: data?.data?.price,
               price_sale: data?.data?.price_sale,
               quantity: data?.data?.quantity,
@@ -335,26 +349,41 @@ function EditProduct() {
                         />
                       </Form.Item>
                       <hr />
-                      <Form.Item name='price' className='m-0 flex-1' label='Giá tiền'>
+                      <Form.Item name='price' className='m-0 flex-1' label='Giá bán'>
                         <InputNumber
-                          placeholder='Nhập giá tiền'
+                          placeholder='Nhập giá bán'
                           formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           className=' border-gray-300 w-full h-[40px]'
                           min={0}
                         />
                       </Form.Item>
                       <hr />
-                      <Form.Item name='price_sale' className='m-0 flex-1' label='Giá sale'>
+                      <Form.Item name='price_sale' className='m-0 flex-1' label='Giá trước khi giảm'>
                         <InputNumber
-                          placeholder='Nhập giá sale'
+                          placeholder='Nhập giá trước khi giảm'
                           formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           className=' border-gray-300 w-full h-[40px]'
                           min={0}
                         />
                       </Form.Item>
                       <hr />
-                      <Form.Item name='sku' className='m-0 flex-1' label='sku'>
-                        <Input placeholder='SKU' />
+                      <Form.Item
+                        name={'detail'}
+                        className='m-0'
+                        label={'Mô tả chi tiết sản phẩm'}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Trường này là bắt buộc'
+                          }
+                        ]}
+                      >
+                        <ReactQuill
+                          modules={modules}
+                          formats={formats}
+                          theme='snow' // hoặc 'bubble'
+                          className='h-[200px]'
+                        />
                       </Form.Item>
                     </Flex>
                     {/* Variant */}
