@@ -233,70 +233,6 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
     return null
   }
 
-  const renderSectionSidebar = useMemo(() => {
-    if (!data && isLoading) {
-      return <></>
-    }
-    return (
-      <div className='listingSectionSidebar__wrap lg:shadow-lg'>
-        <div className='space-y-7 lg:space-y-8'>
-          {/* PRICE */}
-          <div className=''>
-            {/* ---------- 1 HEADING ----------  */}
-            <div className='flex items-center justify-between space-x-5'>
-              <div className='flex text-2xl font-semibold'>{VND(parseFloat(product?.price))}</div>
-
-              <a href='#reviews' className='flex items-center text-sm font-medium'>
-                <span className='ml-1.5 flex'>
-                  <span className='text-slate-700 dark:text-slate-400 underline'>{listComments?.length} đánh giá</span>
-                </span>
-              </a>
-            </div>
-
-            {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
-            <div className='mt-6 space-y-7 lg:space-y-8'>
-              <div className=''>{renderVariants()}</div>
-            </div>
-          </div>
-          {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
-          <div className='flex space-x-3.5'>
-            <div className='flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full'>
-              <NcInputNumber defaultValue={qualitySelected} onChange={setQualitySelected} />
-            </div>
-            <ButtonPrimary className='flex-1 flex-shrink-0' onClick={notifyAddTocart}>
-              <BagIcon className='hidden sm:inline-block w-5 h-5 mb-0.5' />
-              <span className='ml-3'>Thêm vào giỏ</span>
-            </ButtonPrimary>
-          </div>
-
-          {/* SUM */}
-          <div className='hidden sm:flex flex-col space-y-4 '>
-            <div className='space-y-2.5'>
-              <div className='flex justify-between text-slate-600 dark:text-slate-300'>
-                <span className='flex'>
-                  <span>{`${VND(parseFloat(product?.price))}  `}</span>
-                  <span className='mx-2'>x</span>
-                  <span>{`${qualitySelected} `}</span>
-                </span>
-
-                <span>{`${VND(product?.price * qualitySelected)}`}</span>
-              </div>
-              {/* <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                  <span>Thuế giá trị gia tăng</span>
-                  <span>0</span>
-                </div> */}
-            </div>
-            <div className='border-b border-slate-200 dark:border-slate-700'></div>
-            <div className='flex justify-between font-semibold text-[24px]'>
-              <span>Tổng tiền</span>
-              <span>{`${VND(product?.price * qualitySelected)}`}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }, [qualitySelected])
-
   const renderSection2 = () => {
     return <Policy />
   }
@@ -540,7 +476,66 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
           {Gallery()}
 
           <div>
-            <div className='block lg:hidden'>{renderSectionSidebar}</div>
+            <div className='block lg:hidden'>
+              <div className='listingSectionSidebar__wrap lg:shadow-lg'>
+                <div className='space-y-7 lg:space-y-8'>
+                  {/* PRICE */}
+                  <div className=''>
+                    {/* ---------- 1 HEADING ----------  */}
+                    <div className='flex items-center justify-between space-x-5'>
+                      <div className='flex text-2xl font-semibold'>{VND(parseFloat(product?.price))}</div>
+
+                      <a href='#reviews' className='flex items-center text-sm font-medium'>
+                        <span className='ml-1.5 flex'>
+                          <span className='text-slate-700 dark:text-slate-400 underline'>
+                            {listComments?.length} đánh giá
+                          </span>
+                        </span>
+                      </a>
+                    </div>
+
+                    {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
+                    <div className='mt-6 space-y-7 lg:space-y-8'>
+                      <div className=''>{renderVariants()}</div>
+                    </div>
+                  </div>
+                  {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
+                  <div className='flex space-x-3.5'>
+                    <div className='flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full'>
+                      <NcInputNumber defaultValue={qualitySelected} onChange={setQualitySelected} />
+                    </div>
+                    <ButtonPrimary className='flex-1 flex-shrink-0' onClick={notifyAddTocart}>
+                      <BagIcon className='hidden sm:inline-block w-5 h-5 mb-0.5' />
+                      <span className='ml-3'>Thêm vào giỏ</span>
+                    </ButtonPrimary>
+                  </div>
+
+                  {/* SUM */}
+                  <div className='hidden sm:flex flex-col space-y-4 '>
+                    <div className='space-y-2.5'>
+                      <div className='flex justify-between text-slate-600 dark:text-slate-300'>
+                        <span className='flex'>
+                          <span>{`${VND(parseFloat(product?.price))}  `}</span>
+                          <span className='mx-2'>x</span>
+                          <span>{`${qualitySelected} `}</span>
+                        </span>
+
+                        <span>{`${VND(product?.price * qualitySelected)}`}</span>
+                      </div>
+                      {/* <div className="flex justify-between text-slate-600 dark:text-slate-300">
+                  <span>Thuế giá trị gia tăng</span>
+                  <span>0</span>
+                </div> */}
+                    </div>
+                    <div className='border-b border-slate-200 dark:border-slate-700'></div>
+                    <div className='flex justify-between font-semibold text-[24px]'>
+                      <span>Tổng tiền</span>
+                      <span>{`${VND(product?.price * qualitySelected)}`}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {renderSection2()}
@@ -548,7 +543,66 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
 
         {/* SIDEBAR */}
         <div className='flex-grow'>
-          <div className='hidden lg:block sticky top-28'>{renderSectionSidebar}</div>
+          <div className='hidden lg:block sticky top-28'>
+            <div className='listingSectionSidebar__wrap lg:shadow-lg'>
+              <div className='space-y-7 lg:space-y-8'>
+                {/* PRICE */}
+                <div className=''>
+                  {/* ---------- 1 HEADING ----------  */}
+                  <div className='flex items-center justify-between space-x-5'>
+                    <div className='flex text-2xl font-semibold'>{VND(parseFloat(product?.price))}</div>
+
+                    <a href='#reviews' className='flex items-center text-sm font-medium'>
+                      <span className='ml-1.5 flex'>
+                        <span className='text-slate-700 dark:text-slate-400 underline'>
+                          {listComments?.length} đánh giá
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+
+                  {/* ---------- 3 VARIANTS AND SIZE LIST ----------  */}
+                  <div className='mt-6 space-y-7 lg:space-y-8'>
+                    <div className=''>{renderVariants()}</div>
+                  </div>
+                </div>
+                {/*  ---------- 4  QTY AND ADD TO CART BUTTON */}
+                <div className='flex space-x-3.5'>
+                  <div className='flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full'>
+                    <NcInputNumber defaultValue={qualitySelected} onChange={setQualitySelected} />
+                  </div>
+                  <ButtonPrimary className='flex-1 flex-shrink-0' onClick={notifyAddTocart}>
+                    <BagIcon className='hidden sm:inline-block w-5 h-5 mb-0.5' />
+                    <span className='ml-3'>Thêm vào giỏ</span>
+                  </ButtonPrimary>
+                </div>
+
+                {/* SUM */}
+                <div className='hidden sm:flex flex-col space-y-4 '>
+                  <div className='space-y-2.5'>
+                    <div className='flex justify-between text-slate-600 dark:text-slate-300'>
+                      <span className='flex'>
+                        <span>{`${VND(parseFloat(product?.price))}  `}</span>
+                        <span className='mx-2'>x</span>
+                        <span>{`${qualitySelected} `}</span>
+                      </span>
+
+                      <span>{`${VND(product?.price * qualitySelected)}`}</span>
+                    </div>
+                    {/* <div className="flex justify-between text-slate-600 dark:text-slate-300">
+                  <span>Thuế giá trị gia tăng</span>
+                  <span>0</span>
+                </div> */}
+                  </div>
+                  <div className='border-b border-slate-200 dark:border-slate-700'></div>
+                  <div className='flex justify-between font-semibold text-[24px]'>
+                    <span>Tổng tiền</span>
+                    <span>{`${VND(product?.price * qualitySelected)}`}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 
