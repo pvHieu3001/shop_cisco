@@ -51,6 +51,7 @@ import { popupError } from '../../shared/Toast'
 import { formatDate } from '@/utils/convertCreatedLaravel'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useGetVouchersQuery } from '../../(manager)/voucher/VoucherEndpoint'
+import { IProduct } from '@/common/types/product.interface'
 export interface ProductDetailPage2Props {
   className?: string
 }
@@ -80,6 +81,7 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
   const swiperRef = useRef(null)
   const [openDetail, setOpenDetail] = useState(false)
   const [openContent, setOpenContent] = useState(false)
+  const [product, setProduct] = useState<IProduct>()
 
   const [addToCart, { isLoading: LoadingCart }] = useAddToCartMutation()
 
@@ -97,6 +99,7 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
   useEffect(() => {
     if (data) {
       setThumb(data?.data?.thumbnail)
+      setProduct(data?.data)
     }
   }, [isLoading, data])
 
@@ -232,9 +235,8 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
 
   const renderSectionSidebar = useMemo(() => {
     if (!data && isLoading) {
-      return null
+      return <></>
     }
-    const product = data?.data
     return (
       <div className='listingSectionSidebar__wrap lg:shadow-lg'>
         <div className='space-y-7 lg:space-y-8'>
@@ -294,20 +296,6 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
       </div>
     )
   }, [qualitySelected])
-
-  const renderSection1 = () => {
-    return (
-      <div>
-        {/*  */}
-        <div className='block lg:hidden'>{renderSectionSidebar}</div>
-
-        {/*  */}
-        {/* <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div> */}
-        {/*  */}
-        {/* <AccordionInfo panelClassName="p-4 pt-3.5 text-slate-600 text-base dark:text-slate-300 leading-7" /> */}
-      </div>
-    )
-  }
 
   const renderSection2 = () => {
     return <Policy />
@@ -551,7 +539,9 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
         <div className='w-full lg:w-3/5 xl:w-2/3 space-y-10 lg:pr-14 lg:space-y-14'>
           {Gallery()}
 
-          {renderSection1()}
+          <div>
+            <div className='block lg:hidden'>{renderSectionSidebar}</div>
+          </div>
 
           {renderSection2()}
         </div>
