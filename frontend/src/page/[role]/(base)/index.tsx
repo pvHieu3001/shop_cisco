@@ -1,34 +1,31 @@
-import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Outlet } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
-import ScrollToTop from "../../../feature/ScrollToTop";
-import SiteHeader from "./SiteHeader";
-import "./styles/index.scss";
-import "../../../fonts/line-awesome-1.3.0/css/line-awesome.css";
-import "rc-slider/assets/index.css";
-import Footer from "./shared/Footer/Footer";
+import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { Outlet } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import ScrollToTop from '../../../feature/ScrollToTop'
+import SiteHeader from './SiteHeader'
+import './styles/index.scss'
+import '../../../fonts/line-awesome-1.3.0/css/line-awesome.css'
+import 'rc-slider/assets/index.css'
+import Footer from './shared/Footer/Footer'
 
 function Base() {
   return (
     <HelmetProvider>
       <Helmet>
-        <title>Đồ gỗ Hiệp Hồng</title>
-        <meta
-          name="description"
-          content="Đồ gỗ Hiệp Hồng"
-        />
+        <title>Đồ Gỗ Hiệp Hồng</title>
+        <meta name='description' content='Đồ Gỗ Hiệp Hồng' />
       </Helmet>
 
       {/* MAIN APP */}
-      <div className="bg-white text-base dark:bg-slate-900 text-slate-900 dark:text-slate-200">
-      <Toaster />
-      <ScrollToTop />
-      <SiteHeader />
+      <div className='bg-white text-base dark:bg-slate-900 text-slate-900 dark:text-slate-200'>
+        <Toaster />
+        <ScrollToTop />
+        <SiteHeader />
         <Outlet />
-      <Footer />
+        <Footer />
       </div>
     </HelmetProvider>
-  );
+  )
 }
 
-export default Base;
+export default Base
