@@ -230,8 +230,6 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
   return (
     <>
       <div className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`} data-nc-id='ProductCard'>
-        <Link to={`/product-detail/${slug}`} className='absolute inset-0'></Link>
-
         <div className='relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group'>
           <Link to={`/product-detail/${slug}`} className='block'>
             <NcImage
@@ -251,15 +249,15 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
         <div className='space-y-4 px-2.5 pt-5 pb-2.5'>
           {renderVariants()}
 
-          <div>
+          <Link to={`/product-detail/${slug}`} className='block'>
             <h2 className={`nc-ProductCard__title text-base font-semibold transition-colors`}>{name}</h2>
-          </div>
+          </Link>
 
           <div className='flex justify-between items-end'>
             <Prices price={price} price_sale={price_sale} />
-            <div className='rounded-lg flex items-center mb-0.5 bg-red-500 p-[5px]'>
+            <a href='tel:0942819220' className='rounded-lg flex items-center mb-0.5 bg-red-500 p-[5px] inset-1'>
               <span className='text-lg ml-1 text-white dark:text-slate-400'>SDT: 0942819220</span>
-            </div>
+            </a>
           </div>
         </div>
       </div>
