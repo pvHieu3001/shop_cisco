@@ -1,13 +1,10 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import Logo from '../../shared/Logo/Logo'
 import MenuBar from '../../shared/MenuBar/MenuBar'
 import LangDropdown from './LangDropdown'
 import AvatarDropdown from './AvatarDropdown'
 import DropdownCategories from './DropdownCategories'
 import CartDropdown from './CartDropdown'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useNavigate } from 'react-router-dom'
-import { useAppDispatch } from '@/app/hooks'
 
 export interface MainNav2Props {
   className?: string

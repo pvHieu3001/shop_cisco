@@ -3,13 +3,10 @@ export interface ICart {
   name: string
   slug: string
   thumbnail: string
-  quantity: 1
+  quantity: number
   user_id?: number | string
-  product_item_id: number | string
-  price: string
-  price_sale: string
-  image: string | null
-  variants: Ivariant[]
+  price: number
+  price_sale: number
 }
 
 export interface Ivariant {

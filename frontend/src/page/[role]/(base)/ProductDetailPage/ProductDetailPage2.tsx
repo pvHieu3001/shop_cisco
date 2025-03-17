@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { NoSymbolIcon, ClockIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import ButtonPrimary from '../shared/Button/ButtonPrimary'
 import NcImage from '../shared/NcImage/NcImage'
@@ -22,7 +22,7 @@ import { useGetProductQuery } from '../../../../services/ProductsEndpoints'
 import { useParams } from 'react-router-dom'
 import { VND } from '@/utils/formatVietNamCurrency'
 import { useAddToCartMutation } from '@/services/CartEndPoinst'
-import { IAddCart } from '@/common/types/cart.interface'
+import { ICart } from '@/common/types/cart.interface'
 import { Button, Col, List, Modal, Rate, Row, Skeleton } from 'antd'
 import Joi from 'joi'
 interface CommentFormValues {
@@ -50,7 +50,6 @@ import { useGetCommentsQuery, usePostCommentMutation } from '@/services/CommentE
 import { popupError } from '../../shared/Toast'
 import { formatDate } from '@/utils/convertCreatedLaravel'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import { useGetVouchersQuery } from '../../(manager)/voucher/VoucherEndpoint'
 import { IProduct } from '@/common/types/product.interface'
 export interface ProductDetailPage2Props {
   className?: string
@@ -82,9 +81,7 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
   const [openDetail, setOpenDetail] = useState(false)
   const [openContent, setOpenContent] = useState(false)
   const [product, setProduct] = useState<IProduct>()
-
-  const [addToCart, { isLoading: LoadingCart }] = useAddToCartMutation()
-
+  const [addToCart] = useAddToCartMutation()
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenModalViewAllReviews, setIsOpenModalViewAllReviews] = useState(false)
   const [openFocusIndex, setOpenFocusIndex] = useState(0)
@@ -104,11 +101,17 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
   }, [isLoading, data])
 
   const notifyAddTocart = async () => {
-    const { id, thumbnail, name } = data.data
+    const { id, thumbnail, name, price, price_sale, slug } = data.data
 
-    const payload: IAddCart = {
+    const payload: ICart = {
       quantity: qualitySelected,
-      product_id: id
+      id: id,
+      name: name,
+      slug: slug,
+      thumbnail: thumbnail,
+      user_id: user ? user.id : null,
+      price: price,
+      price_sale: price_sale
     }
 
     if (user) {
@@ -117,9 +120,9 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
       const cartJs = localStorage.getItem('cart')
       if (cartJs && cartJs != '[]') {
         const cart = JSON.parse(cartJs)
-        const indexToUpdate = cart.findIndex((item) => item.product_id == id)
+        const indexToUpdate = cart.findIndex((item) => item.id == id)
         if (indexToUpdate >= 0) {
-          cart[indexToUpdate] = { quantity: qualitySelected + cart[indexToUpdate].quantity, product_id: id }
+          cart[indexToUpdate].quantity = qualitySelected + cart[indexToUpdate].quantity
           localStorage.setItem('cart', JSON.stringify(cart))
         } else {
           localStorage.setItem('cart', JSON.stringify([...cart, payload]))

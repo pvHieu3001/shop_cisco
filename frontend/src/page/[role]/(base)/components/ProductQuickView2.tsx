@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom'
 import { IProduct } from '@/common/types/product.interface'
 import { useAddToCartMutation } from '@/services/CartEndPoinst'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import { IAddCart } from '@/common/types/cart.interface'
+import { IAddCart, ICart } from '@/common/types/cart.interface'
 
 export interface ProductQuickView2Props {
   className?: string
@@ -22,6 +22,7 @@ export interface ProductQuickView2Props {
 }
 
 const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = '', data }) => {
+  const { name, thumbnail, slug, price, price_sale, id } = data
   const [qualitySelected, setQualitySelected] = React.useState(1)
   const [user] = useLocalStorage('user', null)
   const [addToCart] = useAddToCartMutation()
@@ -37,9 +38,15 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = '', data })
     : ''
 
   const notifyAddTocart = async () => {
-    const payload: IAddCart = {
+    const payload: ICart = {
       quantity: qualitySelected,
-      product_id: data?.id
+      id: id,
+      name: name,
+      slug: slug,
+      thumbnail: thumbnail,
+      user_id: user ? user.id : null,
+      price: price,
+      price_sale: price_sale
     }
 
     if (user) {
@@ -48,9 +55,9 @@ const ProductQuickView2: FC<ProductQuickView2Props> = ({ className = '', data })
       const cartJs = localStorage.getItem('cart')
       if (cartJs && cartJs != '[]') {
         const cart = JSON.parse(cartJs)
-        const indexToUpdate = cart.findIndex((item) => item.product_id == id)
+        const indexToUpdate = cart.findIndex((item) => item.id == id)
         if (indexToUpdate >= 0) {
-          cart[indexToUpdate] = { quantity: qualitySelected + cart[indexToUpdate].quantity, product_id: id }
+          cart[indexToUpdate].quantity = qualitySelected + cart[indexToUpdate].quantity
           localStorage.setItem('cart', JSON.stringify(cart))
         } else {
           localStorage.setItem('cart', JSON.stringify([...cart, payload]))

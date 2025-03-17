@@ -12,7 +12,7 @@ import { Transition } from '@headlessui/react'
 import ModalQuickView from './ModalQuickView'
 import ProductStatus from './ProductStatus'
 import { IProduct } from '@/common/types/product.interface'
-import { IAddCart } from '@/common/types/cart.interface'
+import { IAddCart, ICart } from '@/common/types/cart.interface'
 import { useAddToCartMutation } from '@/services/CartEndPoinst'
 import { popupError } from '../../shared/Toast'
 import { useLocalStorage } from '@uidotdev/usehooks'
@@ -38,18 +38,31 @@ const ProductCard: FC<ProductCardProps> = ({ className = '', data, isLiked }) =>
 
   const notifyAddTocart = async ({ second }: { second?: string | null }) => {
     try {
-      const payload: IAddCart = {
+      const payload: ICart = {
         quantity: 1,
-        product_id: id
+        id: id,
+        name: name,
+        slug: slug,
+        thumbnail: thumbnail,
+        user_id: user ? user.id : null,
+        price: price,
+        price_sale: price_sale
       }
       if (user) {
         await addToCart(payload).unwrap()
       } else {
-        const cart = localStorage.getItem('cart')
-        if (cart) {
-          localStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), payload]))
+        const cartJs = localStorage.getItem('cart')
+        if (cartJs && cartJs != '[]') {
+          const cart = JSON.parse(cartJs)
+          const indexToUpdate = cart.findIndex((item) => item.id == id)
+          if (indexToUpdate >= 0) {
+            cart[indexToUpdate].quantity = 1 + cart[indexToUpdate].quantity
+            localStorage.setItem('cart', JSON.stringify(cart))
+          } else {
+            localStorage.setItem('cart', JSON.stringify([...cart, payload]))
+          }
         } else {
-          localStorage.setItem('cart', JSON.stringify(payload))
+          localStorage.setItem('cart', JSON.stringify([payload]))
         }
       }
       toast.custom(
