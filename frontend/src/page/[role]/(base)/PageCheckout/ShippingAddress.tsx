@@ -33,15 +33,15 @@ interface Props {
 const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, form, onFinish }) => {
   const [optionsWard, setOptionWard] = useState<SelectProps['options']>([])
   const [optionsDistrict, setOptionDistrict] = useState<SelectProps['options']>([])
-  const { data: provinces, isLoading : isLoadingProvinces, isError } = useGetProvincesQuery({})
+  const { data: provinces, isLoading: isLoadingProvinces, isError } = useGetProvincesQuery({})
   const [getWard, { data: dataWards, isLoading: wardLoading }] = useLazyGetWardsQuery()
   const [getDistrict, { data: dataDistricts, isLoading: districtLoading }] = useLazyGetDistrictsQuery()
-  const dataUser  = useLocalStorage('user', undefined)
-   const user : any = dataUser[0];
+  const dataUser = useLocalStorage('user', undefined)
+  const user: any = dataUser[0]
 
   const options: SelectProps['options'] = []
   const validateMessages = {
-    required: '${label} is required!',
+    required: '${label} is required!'
   }
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
       })
     })
   }, [dataDistricts, dataWards])
-  
+
   provinces?.data.forEach((item: { id: number; name: string }) => {
     options.push({
       value: `${item.name}-${item.id}`,
@@ -71,23 +71,23 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
   })
 
   const onChangeProvince = async (value: string) => {
-    form.resetFields(['district', 'ward']);
+    form.resetFields(['district', 'ward'])
     setOptionWard([])
     if (value) {
       const splitStr = value.split(/-(\d+)/)
       const provinceId = splitStr[1]
-     
+
       await getDistrict(provinceId)
     } else {
       setOptionDistrict([])
     }
   }
-  const onChangeDistrict = async (value : any) => {
+  const onChangeDistrict = async (value: any) => {
     form.resetFields(['ward'])
     if (value) {
       const splitStr = value.split(/-(\d+)/)
       const districtId = splitStr[1]
-     
+
       await getWard(districtId)
     } else {
       setOptionWard([])
@@ -165,126 +165,113 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
           Thay đổi
         </ButtonSecondary>
       </div>
-      
+
       <Form
         form={form}
-        layout="vertical"
+        layout='vertical'
         name='nest-messages'
         validateMessages={validateMessages}
         onFinish={onFinish}
-        initialValues={
-           {
-            pick_up_required: 'false',
-            receiver_name: user.username,
-            receiver_phone: user?.phone,
-           }
-        }
+        initialValues={{
+          pick_up_required: 'false',
+          receiver_name: user?.username,
+          receiver_phone: user?.phone
+        }}
       >
-
-      <div
-          className={`border-t border-slate-200 dark:border-slate-700 px-6 py-7  ${
-            isActive ? 'block' : 'hidden'
-          }`}
-        >
+        <div className={`border-t border-slate-200 dark:border-slate-700 px-6 py-7  ${isActive ? 'block' : 'hidden'}`}>
           {/* ============ */}
           <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
             <div className='w-full'>
-              
               <Form.Item name='receiver_name' label='Tên khách hàng' rules={[{ required: true }]}>
-                <Input  placeholder='Nhập tên'  />
+                <Input placeholder='Nhập tên' />
               </Form.Item>
-              
             </div>
-            
           </div>
 
           {/* ============ */}
-          
+
           <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
             <div className='w-full'>
-              
               <Form.Item name='receiver_phone' label='Số điện thoại' rules={[{ required: true }]}>
-                <Input  placeholder='03456789'/>
+                <Input placeholder='03456789' />
               </Form.Item>
             </div>
           </div>
 
           {/* ============ */}
 
-          {
-            Boolean(user.address) && <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
-            <div className='w-full'>
+          {Boolean(user?.address) && (
+            <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
+              <div className='w-full'>
+                <Form.Item
+                  label={
+                    <div className='flex gap-3'>
+                      <span>Địa chỉ</span>{' '}
+                      <Link to='/account'>
+                        <EditOutlined />{' '}
+                      </Link>
+                    </div>
+                  }
+                >
+                  <Input placeholder={user?.address} readOnly />
+                </Form.Item>
+              </div>
+            </div>
+          )}
 
-              <Form.Item  label={<div className='flex gap-3'><span>Địa chỉ</span> <Link to="/account"><EditOutlined /> </Link></div>} >
-                 <Input  placeholder={user.address} readOnly  />
-              </Form.Item>
-            
-            </div>
-          </div>}
-          
-          {!user.address && <>  
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3'>
-            <div className='app__select--input'>
+          {!user?.address && (
+            <>
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3'>
+                <div className='app__select--input'>
+                  <Form.Item name='receiver_pronvinces' label='Tỉnh' rules={[{ required: true }]}>
+                    <Select
+                      loading={isLoadingProvinces}
+                      placeholder='Lựa chọn'
+                      options={options}
+                      onChange={(value) => onChangeProvince(value)}
+                    />
+                  </Form.Item>
+                </div>
+                <div className='app__select--input'>
+                  <Form.Item name='receiver_district' label='Quận/ huyện' rules={[{ required: true }]}>
+                    <Select
+                      loading={districtLoading}
+                      onChange={(value) => onChangeDistrict(value)}
+                      placeholder='Lựa chọn'
+                      options={optionsDistrict}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
 
-              <Form.Item name='receiver_pronvinces' label='Tỉnh' rules={[{ required: true }]}>
-                <Select
-                  loading={isLoadingProvinces}
-                  
-                  placeholder='Lựa chọn'
-                  options={options}
-                  onChange={(value) => onChangeProvince(value)}
-                  
-                />
-              </Form.Item>
-              
-            </div>
-            <div className="app__select--input">
-              <Form.Item name='receiver_district' label='Quận/ huyện' rules={[{ required: true }]}>
-                <Select
-                  loading={districtLoading}
-                  onChange={(value) => onChangeDistrict(value)}
-                  placeholder='Lựa chọn'
-                  options={optionsDistrict}
-                  
-                />
-              </Form.Item>
-            </div>
-          </div>
+              <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
+                <div className='w-full app__select--input'>
+                  <Form.Item name='receiver_ward' label='Xã/phường/thị trấn' rules={[{ required: true }]}>
+                    <Select
+                      loading={wardLoading}
+                      placeholder='Lựa chọn'
+                      options={optionsWard}
+                      // defaultValue={user ? user?.address : ''}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+
+              <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
+                <div className='w-full'>
+                  <Form.Item name='receiver_address' label='Địa chỉ' rules={[{ required: true }]}>
+                    <Input placeholder='56 Tran Duy Hung' />
+                  </Form.Item>
+                </div>
+              </div>
+            </>
+          )}
 
           <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
-            <div className='w-full app__select--input'>
-              <Form.Item name='receiver_ward' label='Xã/phường/thị trấn' rules={[{ required: true }]}>
-                <Select
-                  loading={wardLoading}
-                  placeholder='Lựa chọn'
-                  options={optionsWard}
-                 // defaultValue={user ? user?.address : ''}
-                />
-              </Form.Item>
-            </div>
-          </div>
-
-          <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
             <div className='w-full'>
-
-              <Form.Item name='receiver_address' label='Địa chỉ' rules={[{ required: true }]}>
-                <Input  placeholder='56 Tran Duy Hung' />
-              </Form.Item>
-            
-            </div>
-          </div>
-
-          </>}
-         
-
-
-          <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
-            <div className='w-full'>
-
               <Form.Item name='note' label='Ghi chú' rules={[{ required: true }]}>
-                <Input  placeholder='...' />
+                <Input placeholder='...' />
               </Form.Item>
-        
             </div>
           </div>
 
@@ -310,10 +297,10 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
 
           {/* ============ */}
           <div className='flex flex-col sm:flex-row pt-6'>
-            <ButtonPrimary  type="button" className='sm:!px-7 shadow-none' onClick={onCloseActive}>
+            <ButtonPrimary type='button' className='sm:!px-7 shadow-none' onClick={onCloseActive}>
               Lưu và chuyển đến thanh toán
             </ButtonPrimary>
-            <ButtonSecondary type="button" className='mt-3 sm:mt-0 sm:ml-3' onClick={onCloseActive}>
+            <ButtonSecondary type='button' className='mt-3 sm:mt-0 sm:ml-3' onClick={onCloseActive}>
               Hủy
             </ButtonSecondary>
           </div>

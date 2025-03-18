@@ -2,7 +2,7 @@ import Label from '../components/Label/Label'
 import Prices from '../components/Prices'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import ButtonPrimary from '../shared/Button/ButtonPrimary'
 import Input from '../shared/Input/Input'
 import ShippingAddress from './ShippingAddress'
@@ -11,8 +11,6 @@ import { VND } from '@/utils/formatVietNamCurrency'
 import { getTotalPriceCart } from '@/utils/handleCart'
 import { Button, Form, Result } from 'antd'
 import { useGetCartsQuery } from '@/services/CartEndPoinst'
-import { useAppDispatch } from '@/app/hooks'
-
 import { popupError, popupSuccess } from '../../shared/Toast'
 import { useNavigate } from 'react-router-dom'
 import { IOrder } from '@/common/types/Order.interface'
@@ -67,10 +65,24 @@ const CheckoutPage = () => {
   const [checkVoucherData] = useCheckVoucherMutation()
   const [addOrder, { isLoading: isLoadingOrder }] = useAddOrderMutation()
   const { data: carts } = useGetCartsQuery({})
+  const [dataCart, setDataCart] = useState<ICart[]>()
+  const [cartJs, setCartJs] = useState(localStorage.getItem('cart'))
 
   const [discount, setDiscount] = useState<string>('')
 
   const [tabActive, setTabActive] = useState<'ContactInfo' | 'ShippingAddress' | 'PaymentMethod'>('ShippingAddress')
+
+  useEffect(() => {
+    if (!user) {
+      if (cartJs) {
+        setDataCart(JSON.parse(cartJs))
+      } else {
+        setDataCart(null)
+      }
+    } else {
+      setDataCart(carts)
+    }
+  }, [user, carts, cartJs])
 
   const handleScrollToEl = (id: string) => {
     const element = document.getElementById(id)
@@ -164,12 +176,12 @@ const CheckoutPage = () => {
   }
 
   const renderProduct = (item: ICart, index: number) => {
-    const { image, price, thumbnail, slug, name, price_sale, quantity, variants, id } = item
+    const { price, thumbnail, slug, name, price_sale, quantity, id } = item
 
     return (
       <div key={index} className='relative flex py-7 first:pt-0 last:pb-0'>
         <div className='relative h-36 w-24 sm:w-28 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100'>
-          <img src={image || thumbnail} alt={name} className='h-full w-full object-contain object-center' />
+          <img src={thumbnail} alt={name} className='h-full w-full object-contain object-center' />
           <Link to={`/product-detail/${slug}`} className='absolute inset-0'></Link>
         </div>
 
@@ -182,9 +194,7 @@ const CheckoutPage = () => {
                 </h3>
                 <div className='mt-1.5 sm:mt-2.5 flex text-sm text-slate-600 dark:text-slate-300'>
                   <div className='flex items-center space-x-1.5'>
-                    <span>
-                      {item.variants[0].name} {item.variants[1] && `| ${item.variants[1].name}`}{' '}
-                    </span>
+                    <span>{name}</span>
                   </div>
                 </div>
 
@@ -203,14 +213,15 @@ const CheckoutPage = () => {
                     <option value='7'>7</option>
                   </select>
                   <Prices
+                    price_sale={price_sale}
                     contentClass='py-1 px-2 md:py-1.5 md:px-2.5 text-sm font-medium h-full'
-                    price={parseFloat(price_sale)}
+                    price={price}
                   />
                 </div>
               </div>
 
               <div className='hidden flex-1 sm:flex justify-end'>
-                <Prices price={parseFloat(price_sale)} className='mt-0.5' />
+                <Prices price_sale={price_sale} price={price} className='mt-0.5' />
               </div>
             </div>
           </div>
@@ -230,8 +241,8 @@ const CheckoutPage = () => {
       if (response.success) {
         const priceVoucher =
           response.type === 'percent'
-            ? Number(getTotalPriceCart(carts.data)) * (response.value / 100)
-            : Number(getTotalPriceCart(carts.data)) - response.value
+            ? Number(getTotalPriceCart(dataCart)) * (response.value / 100)
+            : Number(getTotalPriceCart(dataCart)) - response.value
 
         if (priceVoucher < 10000) {
           setVoucher({
@@ -278,10 +289,10 @@ const CheckoutPage = () => {
         <title>Thanh Toán || Đồ Gỗ Hiệp Hồng</title>
       </Helmet>
 
-      {carts?.data?.length ? (
+      {dataCart?.length ? (
         <main className='container py-16 lg:pb-28 lg:pt-20 '>
           <div className='mb-16'>
-            <h2 className='block text-2xl sm:text-3xl lg:text-4xl font-semibold '>Checkout</h2>
+            <h2 className='block text-2xl sm:text-3xl lg:text-4xl font-semibold '>Thanh toán</h2>
             <div className='block mt-3 sm:mt-5 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-400'>
               <Link to={'/'} className=''>
                 Trang chủ
@@ -291,7 +302,7 @@ const CheckoutPage = () => {
                 Giỏ hàng
               </Link>
               <span className='text-xs mx-1 sm:mx-1.5'>/</span>
-              <span className='underline'>Checkout</span>
+              <span className='underline'>Thanh toán</span>
             </div>
           </div>
 
@@ -351,7 +362,7 @@ const CheckoutPage = () => {
             <div className='w-full lg:w-[36%] '>
               <h3 className='text-lg font-semibold'>Tổng quan đơn hàng</h3>
               <div className='mt-8 divide-y divide-slate-200/70 dark:divide-slate-700 '>
-                {carts?.data.map(renderProduct)}
+                {dataCart?.map(renderProduct)}
               </div>
 
               <div className='mt-10 pt-6 text-sm text-slate-500 dark:text-slate-400 border-t border-slate-200/70 dark:border-slate-700 '>
@@ -405,7 +416,7 @@ const CheckoutPage = () => {
                 <div className='mt-4 flex justify-between py-2.5'>
                   <span>Tạm tính</span>
                   <span className='font-semibold text-slate-900 dark:text-slate-200'>
-                    {carts && VND(getTotalPriceCart(carts.data))}
+                    {dataCart && VND(getTotalPriceCart(dataCart))}
                   </span>
                 </div>
                 <div className='flex justify-between py-2.5'>
@@ -419,8 +430,8 @@ const CheckoutPage = () => {
                 <div className='flex justify-between font-semibold text-slate-900 dark:text-slate-200 text-base pt-4'>
                   <span>Tổng tiền đơn hàng</span>
 
-                  {carts && dataVoucher.apply && <span>{VND(priceAfterApply)}</span>}
-                  {carts && !dataVoucher.apply && <span> {VND(getTotalPriceCart(carts?.data))}</span>}
+                  {dataCart && dataVoucher.apply && <span>{VND(priceAfterApply)}</span>}
+                  {dataCart && !dataVoucher.apply && <span> {VND(getTotalPriceCart(dataCart))}</span>}
                 </div>
               </div>
               <ButtonPrimary
