@@ -87,7 +87,7 @@ const CartPage = () => {
     return (
       <div className='rounded-full flex items-center justify-center px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'>
         <NoSymbolIcon className='w-3.5 h-3.5' />
-        <span className='ml-1 leading-none'>Sold Out</span>
+        <span className='ml-1 leading-none'>Hết hàng</span>
       </div>
     )
   }
@@ -96,7 +96,7 @@ const CartPage = () => {
     return (
       <div className='rounded-full flex items-center justify-center px-2.5 py-1.5 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'>
         <CheckIcon className='w-3.5 h-3.5' />
-        <span className='ml-1 leading-none'>In Stock</span>
+        <span className='ml-1 leading-none'>Còn Hàng</span>
       </div>
     )
   }
@@ -109,9 +109,27 @@ const CartPage = () => {
       price_sale,
       quantity
     }
-    const handleDelete = (id: number) => {
+    const handleDelete = async (id: number) => {
       try {
-        deleteCart(id).unwrap()
+        if (user) {
+          await deleteCart(id).unwrap()
+        } else {
+          const cartJs = localStorage.getItem('cart')
+          if (cartJs && cartJs != '[]') {
+            const cart = JSON.parse(cartJs)
+            const indexToUpdate = cart.findIndex((item) => item.id == id)
+            if (indexToUpdate >= 0) {
+              if (cart[indexToUpdate].quantity == 1) {
+                const newCart = cart.filter((item) => item.id != id)
+                localStorage.setItem('cart', JSON.stringify(newCart))
+              } else {
+                cart[indexToUpdate].quantity = cart[indexToUpdate].quantity - 1
+                localStorage.setItem('cart', JSON.stringify(cart))
+              }
+            }
+          }
+          setCartJs(localStorage.getItem('cart'))
+        }
       } catch (error) {
         popupError('Delete cart success')
       }
@@ -171,7 +189,7 @@ const CartPage = () => {
           </div>
 
           <div className='flex mt-auto pt-4 items-end justify-between text-sm'>
-            {Math.random() > 0.6 ? renderStatusSoldout() : renderStatusInstock()}
+            {renderStatusInstock()}
 
             <span
               onClick={() => handleDelete(Number(item.id))}

@@ -4,6 +4,7 @@ import ButtonPrimary from '../shared/Button/ButtonPrimary'
 import ButtonSecondary from '../shared/Button/ButtonSecondary'
 import Input from '../shared/Input/Input'
 import Radio from '../shared/Radio/Radio'
+import Shipping from './assets/delivery-truck.png'
 
 interface Props {
   isActive: boolean
@@ -31,6 +32,7 @@ const PaymentMethod: FC<Props> = ({
     return (
       <div className='flex items-start space-x-4 sm:space-x-6'>
         <Radio
+          disable={true}
           className='pt-3.5'
           name='payment-method'
           id='Stripe'
@@ -91,6 +93,7 @@ const PaymentMethod: FC<Props> = ({
     return (
       <div className='flex items-start space-x-4 sm:space-x-6'>
         <Radio
+          disable={true}
           className='pt-3.5'
           name='payment-method'
           id='Momo-Banking'
@@ -169,6 +172,7 @@ const PaymentMethod: FC<Props> = ({
     return (
       <div className='flex items-start space-x-4 sm:space-x-6'>
         <Radio
+          disable={true}
           className='pt-3.5'
           name='payment-method'
           id='VNPay'
@@ -199,6 +203,34 @@ const PaymentMethod: FC<Props> = ({
               </p>
             </div>
           </div> */}
+        </div>
+      </div>
+    )
+  }
+
+  const renderArrivePay = () => {
+    const active = true
+    return (
+      <div className='flex items-start space-x-4 sm:space-x-6'>
+        <Radio
+          disable={true}
+          className='pt-3.5'
+          name='Nhận tiền khi giao hàng'
+          id='ArrivePay'
+          defaultChecked={active}
+          onChange={(e) => setMethodActive(e as any)}
+        />
+        <div className='flex-1'>
+          <label htmlFor='VNPay' className='flex items-center space-x-4 sm:space-x-6 '>
+            <div
+              className={`p-2.5 rounded-xl border-2 ${
+                active ? 'border-slate-600 dark:border-slate-300' : 'border-gray-200 dark:border-slate-600'
+              }`}
+            >
+              <img className='w-[40px] h-[40px]' src={Shipping} alt='' />
+            </div>
+            <p className='font-medium'>Nhận tiền khi giao hàng</p>
+          </label>
         </div>
       </div>
     )
@@ -288,6 +320,7 @@ const PaymentMethod: FC<Props> = ({
             isActive ? 'block' : 'hidden'
           }`}
         >
+          <div>{renderArrivePay()}</div>
           {/* ==================== */}
           <div>{renderDebitCredit()}</div>
 

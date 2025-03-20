@@ -1,30 +1,33 @@
-import React, { FC } from "react";
+import React, { FC } from 'react'
 
 export interface RadioProps {
-  className?: string;
-  name?: string;
-  id: string;
-  onChange?: (value: string) => void;
-  defaultChecked?: boolean;
-  sizeClassName?: string;
-  label?: string;
+  className?: string
+  name?: string
+  id: string
+  onChange?: (value: string) => void
+  defaultChecked?: boolean
+  sizeClassName?: string
+  label?: string
+  disable?: boolean
 }
 
 const Radio: FC<RadioProps> = ({
-  className = "",
-  name='default',
+  className = '',
+  name = 'default',
   id,
   onChange,
   label,
-  sizeClassName = "w-6 h-6",
+  sizeClassName = 'w-6 h-6',
   defaultChecked,
+  disable = false
 }) => {
   return (
     <div className={`flex items-center text-sm sm:text-base ${className}`}>
       <input
+        disabled={disable}
         id={id}
         name={name}
-        type="radio"
+        type='radio'
         className={`focus:ring-action-primary text-primary-500 rounded-full border-slate-400 hover:border-slate-700 bg-transparent dark:border-slate-700 dark:hover:border-slate-500 dark:checked:bg-primary-500 focus:ring-primary-500 ${sizeClassName}`}
         onChange={(e) => onChange && onChange(e.target.value)}
         defaultChecked={defaultChecked}
@@ -33,12 +36,12 @@ const Radio: FC<RadioProps> = ({
       {label && (
         <label
           htmlFor={id}
-          className="pl-2.5 sm:pl-3 block text-slate-900 dark:text-slate-100 select-none"
+          className='pl-2.5 sm:pl-3 block text-slate-900 dark:text-slate-100 select-none'
           dangerouslySetInnerHTML={{ __html: label }}
         ></label>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Radio;
+export default Radio

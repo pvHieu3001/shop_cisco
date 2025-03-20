@@ -193,7 +193,7 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
           <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
             <div className='w-full'>
               <Form.Item name='receiver_phone' label='Số điện thoại' rules={[{ required: true }]}>
-                <Input placeholder='03456789' />
+                <Input placeholder='Nhập số điện thoại' />
               </Form.Item>
             </div>
           </div>
@@ -260,7 +260,7 @@ const ShippingAddress: FC<Props> = ({ isActive, onCloseActive, onOpenActive, for
               <div className='sm:flex space-y-4 sm:space-y-0 sm:space-x-3'>
                 <div className='w-full'>
                   <Form.Item name='receiver_address' label='Địa chỉ' rules={[{ required: true }]}>
-                    <Input placeholder='56 Tran Duy Hung' />
+                    <Input placeholder='Nhập địa chỉ' />
                   </Form.Item>
                 </div>
               </div>

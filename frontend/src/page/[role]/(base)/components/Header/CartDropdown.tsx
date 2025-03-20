@@ -9,6 +9,7 @@ import { getTotalIconCart, getTotalPriceCart } from '@/utils/handleCart'
 import { VND } from '@/utils/formatVietNamCurrency'
 import { useDeleteCartMutation, useGetCartsQuery } from '@/services/CartEndPoinst'
 import { useLocalStorage } from '@uidotdev/usehooks'
+import { popupError } from '@/page/[role]/shared/Toast'
 export default function CartDropdown() {
   const [user] = useLocalStorage('user', undefined)
   const { data: carts } = useGetCartsQuery(undefined, { skip: !user })
@@ -28,6 +29,32 @@ export default function CartDropdown() {
   }, [user, carts, cartJs])
 
   const [deleteCart] = useDeleteCartMutation()
+
+  const handleDelete = async (id: any) => {
+    try {
+      if (user) {
+        await deleteCart(id).unwrap()
+      } else {
+        const cartJs = localStorage.getItem('cart')
+        if (cartJs && cartJs != '[]') {
+          const cart = JSON.parse(cartJs)
+          const indexToUpdate = cart.findIndex((item) => item.id == id)
+          if (indexToUpdate >= 0) {
+            if (cart[indexToUpdate].quantity == 1) {
+              const newCart = cart.filter((item) => item.id != id)
+              localStorage.setItem('cart', JSON.stringify(newCart))
+            } else {
+              cart[indexToUpdate].quantity = cart[indexToUpdate].quantity - 1
+              localStorage.setItem('cart', JSON.stringify(cart))
+            }
+          }
+        }
+        setCartJs(localStorage.getItem('cart'))
+      }
+    } catch (error) {
+      popupError('Delete cart success')
+    }
+  }
 
   const renderProduct = (item: ICart, index: number, close: () => void) => {
     const { price, price_sale, name, thumbnail, quantity, slug } = item
@@ -59,7 +86,7 @@ export default function CartDropdown() {
 
             <div className='flex'>
               <button
-                onClick={() => deleteCart(item.id)}
+                onClick={() => handleDelete(item.id)}
                 type='button'
                 className='font-medium text-primary-6000 dark:text-primary-500 '
               >

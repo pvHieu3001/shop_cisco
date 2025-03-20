@@ -96,7 +96,7 @@ const CheckoutPage = () => {
       receiver_name: `${values.receiver_name} `,
       receiver_phone: values.receiver_phone,
 
-      ...(!user.address
+      ...(!user?.address
         ? {
             receiver_pronvinces: values?.receiver_pronvinces.split('-')[0],
             receiver_district: values?.receiver_district.split('-')[0],
