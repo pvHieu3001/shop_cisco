@@ -40,7 +40,6 @@ export default function TextEditor(content: any) {
     'image',
     'video'
   ]
-  console.log(content)
   return !editContent ? (
     <div className='m-0 flex-1'>
       <Button
