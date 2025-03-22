@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Col, Flex, Row, Button, Form, Input, Drawer, UploadProps, GetProp, InputNumber } from 'antd'
+import { Col, Flex, Row, Button, Form, Input, Drawer, UploadProps, GetProp, InputNumber, Image } from 'antd'
 import { useNavigate, useParams } from 'react-router-dom'
 import React, { useEffect, useRef, useState } from 'react'
 import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons'
@@ -13,6 +13,7 @@ import {
 import { popupError, popupSuccess } from '@/page/[role]/shared/Toast'
 import ReactQuill from 'react-quill'
 import { modules, formats } from '../../../../../data/data'
+import pencil from '../../../../../assets/images/manager/pencil.svg'
 
 interface gallery {
   image: File | string
@@ -33,6 +34,7 @@ function EditProduct() {
   const fileInputRef = useRef<unknown>(null)
   const numberFile = useRef<number>(0)
   const [typeDiscount, setTypeDiscount] = useState<string>('')
+  const [editDetail, setEditDetail] = useState(false)
 
   useEffect(() => {
     if (dataGalleries && !isLoadingGallery) {
@@ -70,7 +72,7 @@ function EditProduct() {
     formdata.append('thumbnail', imageUrl ? imageUrl : '')
     formdata.append('gallery', gallery ? JSON.stringify(gallery) : '')
     formdata.append('name', name)
-    formdata.append('content', content)
+    formdata.append('content', content ?? data?.data.content)
     formdata.append('category_id', category_id)
     formdata.append('is_active', String(is_active))
     formdata.append('is_hot_deal', String(is_hot_deal))
@@ -84,7 +86,7 @@ function EditProduct() {
     formdata.append('color', String(color))
     formdata.append('size', String(size))
     formdata.append('material', String(material))
-    formdata.append('detail', String(detail))
+    formdata.append('detail', detail ?? data?.data.detail)
     formdata.append('id', data?.data.id)
 
     try {
@@ -326,7 +328,7 @@ function EditProduct() {
                           <Input size='large' placeholder='Nhập tên sản phẩm' />
                         </Form.Item>
                         <Flex vertical>
-                          <TextEditor />
+                          <TextEditor data={data?.data?.content} />
                         </Flex>
                       </Flex>
                     </div>
@@ -367,24 +369,40 @@ function EditProduct() {
                         />
                       </Form.Item>
                       <hr />
-                      <Form.Item
-                        name={'detail'}
-                        className='m-0'
-                        label={'Mô tả chi tiết sản phẩm'}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Trường này là bắt buộc'
-                          }
-                        ]}
-                      >
-                        <ReactQuill
-                          modules={modules}
-                          formats={formats}
-                          theme='snow' // hoặc 'bubble'
-                          className='h-[200px]'
-                        />
-                      </Form.Item>
+                      {!editDetail ? (
+                        <div className='m-0 flex-1'>
+                          <Button
+                            className='mb-1'
+                            onClick={(e) => {
+                              e.preventDefault()
+                              setEditDetail(true)
+                            }}
+                          >
+                            <Image className='pr-2' src={pencil} />
+                            Chỉnh sửa
+                          </Button>
+                          <div dangerouslySetInnerHTML={{ __html: data?.data?.detail }} />
+                        </div>
+                      ) : (
+                        <Form.Item
+                          name={'detail'}
+                          className='m-0'
+                          label={'Mô tả chi tiết sản phẩm'}
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Trường này là bắt buộc'
+                            }
+                          ]}
+                        >
+                          <ReactQuill
+                            modules={modules}
+                            formats={formats}
+                            theme='snow' // hoặc 'bubble'
+                            className='h-[200px]'
+                          />
+                        </Form.Item>
+                      )}
                     </Flex>
                     {/* Variant */}
                   </Flex>

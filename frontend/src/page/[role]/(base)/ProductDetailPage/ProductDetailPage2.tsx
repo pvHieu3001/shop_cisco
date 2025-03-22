@@ -167,9 +167,9 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
             <span className='ml-1 font-semibold'>Màu Sắc</span>
           </label>
         </div>
-        <div className='grid grid-cols-4 gap-2 mt-1'>
+        <div className='grid grid-cols-1 gap-2 mt-1'>
           <div
-            className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-xs bg-[${data?.data?.color}] uppercase font-semibold select-none overflow-hidden border-2 z-0 text-opacity-20 dark:text-opacity-20 cursor-not-allowed border-red-500 hover:bg-gray`}
+            className={`relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-xs bg-[${data?.data?.color}] uppercase font-semibold select-none overflow-hidden border-2 z-0 text-opacity-20 dark:text-opacity-20 cursor-not-allowed border-zinc-500 hover:bg-gray`}
           >
             {COLOR.find((x) => x.value === data?.data?.color)?.label}
           </div>
@@ -179,8 +179,8 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
             <span className='ml-1 font-semibold'>Chất liệu</span>
           </label>
         </div>
-        <div className='grid grid-cols-4 gap-2 mt-1'>
-          <div className='relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-xs uppercase font-semibold select-none overflow-hidden border-2 z-0 text-opacity-20 dark:text-opacity-20 cursor-not-allowed border-red-500 hover:bg-gray'>
+        <div className='grid grid-cols-1 gap-2 mt-1'>
+          <div className='relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-xs uppercase font-semibold select-none overflow-hidden border-2 z-0 text-opacity-20 dark:text-opacity-20 cursor-not-allowed border-zinc-500 hover:bg-gray'>
             {MATERIAL.find((x) => x.value === data?.data?.material)?.label}
           </div>
         </div>
@@ -189,8 +189,8 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
             <span className='ml-1 font-semibold'>Kích thước</span>
           </label>
         </div>
-        <div className='grid grid-cols-3 gap-2 mt-1'>
-          <div className='relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-xs uppercase font-semibold select-none overflow-hidden border-2 z-0 text-opacity-20 dark:text-opacity-20 cursor-not-allowed border-red-500 hover:bg-gray'>
+        <div className='grid grid-cols-1 gap-2 mt-1'>
+          <div className='relative h-10 sm:h-11 rounded-2xl border flex items-center justify-center text-xs uppercase font-semibold select-none overflow-hidden border-2 z-0 text-opacity-20 dark:text-opacity-20 cursor-not-allowed border-zinc-500 hover:bg-gray'>
             {data?.data?.size}
           </div>
         </div>
@@ -614,8 +614,37 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
         <hr className='border-slate-200 dark:border-slate-700' />
 
         <Row gutter={[32, 24]}>
-          <Col className='gutter-row ' span={16}>
-            <div className='py-5 border-2 rounded-md relative max-h-[450px] lg:shadow-lg p-4 overflow-hidden'>
+          <Col className='gutter-row ' span={24}>
+            <div className='py-5 border-2 rounded-md relative max-h-[200px] lg:shadow-lg p-4 overflow-hidden'>
+              <div dangerouslySetInnerHTML={{ __html: data?.data?.content }} />
+              <div
+                style={{
+                  background: 'linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, .91) 50%, #fff 55%)'
+                }}
+                className=' absolute bottom-0 left-0 p-2 flex justify-center items-center w-full'
+              >
+                <Button onClick={() => setOpenContent(true)}>Xem thêm</Button>
+              </div>
+            </div>
+            <Modal
+              title={
+                <div>
+                  <div className='text-[24px] font-bold mb-2'>Thông tin sản phẩm</div>
+                  <hr className='border-slate-200 dark:border-slate-700' />
+                </div>
+              }
+              footer={''}
+              open={openContent}
+              onCancel={() => setOpenContent(false)}
+              width={1240}
+            >
+              <div className='rounded-md relative min-h-[32rem] p-4 overflow-hidden'>
+                <div dangerouslySetInnerHTML={{ __html: data?.data?.content }} />
+              </div>
+            </Modal>
+          </Col>
+          <Col className='gutter-row ' span={24}>
+            <div className='py-5 border-2 rounded-md relative max-h-[500px] lg:shadow-lg p-4 overflow-hidden'>
               <div dangerouslySetInnerHTML={{ __html: data?.data?.detail }} />
               <div
                 style={{
@@ -626,42 +655,22 @@ const ProductDetailPage2: FC<ProductDetailPage2Props> = ({ className = '' }) => 
                 <Button onClick={() => setOpenContent(true)}>Xem thêm</Button>
               </div>
             </div>
-            <Modal footer={''} open={openContent} onCancel={() => setOpenContent(false)} width={1240}>
+            <Modal
+              title={
+                <div>
+                  <div className='text-[24px] font-bold mb-2'>Thông tin sản phẩm</div>
+                  <hr className='border-slate-200 dark:border-slate-700' />
+                </div>
+              }
+              footer={''}
+              open={openContent}
+              onCancel={() => setOpenContent(false)}
+              width={1240}
+            >
               <div className='rounded-md relative min-h-[32rem] p-4 overflow-hidden'>
                 <div dangerouslySetInnerHTML={{ __html: data?.data?.detail }} />
               </div>
             </Modal>
-          </Col>
-          <Col className='gutter-row ' span={8}>
-            <div className=''>
-              <List
-                header={<div className='text-[20px] font-bold'></div>}
-                footer={
-                  <div>
-                    <Button onClick={() => setOpenDetail(true)} className='w-full'>
-                      Xem chi tiết
-                    </Button>
-                  </div>
-                }
-                bordered
-                dataSource={[0]}
-                renderItem={() => <div className='p-5' dangerouslySetInnerHTML={{ __html: data?.data?.content }} />}
-                className='lg:shadow-lg'
-              />
-              <Modal
-                title={
-                  <div>
-                    <div className='text-[24px] font-bold mb-2'>Thông tin sản phẩm</div>
-                    <hr className='border-slate-200 dark:border-slate-700' />
-                  </div>
-                }
-                footer={''}
-                open={openDetail}
-                onCancel={() => setOpenDetail(false)}
-              >
-                <div dangerouslySetInnerHTML={{ __html: data?.data?.content }} />
-              </Modal>
-            </div>
           </Col>
         </Row>
       </div>

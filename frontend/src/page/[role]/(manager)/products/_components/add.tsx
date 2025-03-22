@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import React, { useRef, useState } from 'react'
 import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons'
 import Option from './Option/Option'
-import TextEditor from './TextEditor/TextEditor'
 import { useCreateProductMutation } from '../../../../../services/ProductsEndpoints'
 import { popupError, popupSuccess } from '@/page/[role]/shared/Toast'
 import ReactQuill from 'react-quill'
@@ -276,7 +275,24 @@ function AddProduct() {
                         <Input size='large' placeholder='Nhập tên sản phẩm' />
                       </Form.Item>
                       <Flex vertical>
-                        <TextEditor />
+                        <Form.Item
+                          name={'content'}
+                          className='m-0'
+                          label={'Nội dung'}
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Trường này là bắt buộc'
+                            }
+                          ]}
+                        >
+                          <ReactQuill
+                            modules={modules}
+                            formats={formats}
+                            theme='snow' // hoặc 'bubble'
+                            className='h-[200px]'
+                          />
+                        </Form.Item>
                       </Flex>
                     </Flex>
                   </div>
