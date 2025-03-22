@@ -38,6 +38,7 @@ const PageSearch: FC<PageSearchProps> = ({ className = '' }) => {
     <div className={`nc-PageSearch  ${className}`} data-nc-id='PageSearch'>
       <Helmet>
         <title>Tìm Kiếm || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       <div

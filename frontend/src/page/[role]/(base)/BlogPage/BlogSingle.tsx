@@ -241,6 +241,7 @@ const BlogSingle = () => {
     <div className='nc-PageSingle pt-8 lg:pt-16 '>
       <Helmet>
         <title>Single Blog || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
       {renderHeader()}
       <NcImage

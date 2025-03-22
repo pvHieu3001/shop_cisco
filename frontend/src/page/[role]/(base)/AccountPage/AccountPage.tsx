@@ -143,6 +143,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = '' }) => {
     <div className={`nc-AccountPage ${className}`} data-nc-id='AccountPage'>
       <Helmet>
         <title>Tài Khoản || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
       <div className='space-y-10 sm:space-y-12'>
         {/* HEADING */}

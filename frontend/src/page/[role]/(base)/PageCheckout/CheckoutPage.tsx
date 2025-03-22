@@ -287,6 +287,7 @@ const CheckoutPage = () => {
     <div className='nc-CheckoutPage'>
       <Helmet>
         <title>Thanh Toán || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       {dataCart?.length ? (

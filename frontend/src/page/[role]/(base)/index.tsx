@@ -14,6 +14,7 @@ function Base() {
       <Helmet>
         <title>Đồ Gỗ Hiệp Hồng</title>
         <meta name='description' content='Đồ Gỗ Hiệp Hồng' />
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       {/* MAIN APP */}

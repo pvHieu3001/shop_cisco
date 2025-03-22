@@ -207,6 +207,7 @@ const CartPage = () => {
     <div className='nc-CartPage'>
       <Helmet>
         <title>Giỏ hàng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       <main className='container py-16 lg:pb-28 lg:pt-20 '>

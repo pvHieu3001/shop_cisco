@@ -70,6 +70,7 @@ const PageCategory: FC<PageCategory> = ({ className = '' }) => {
     <div className={`nc-PageCollection2 ${className}`} data-nc-id='PageCollection2'>
       <Helmet>
         <title>Loại Sản Phẩm || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       <div className='container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28'>

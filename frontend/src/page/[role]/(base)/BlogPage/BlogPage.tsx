@@ -13,6 +13,7 @@ const BlogPage: React.FC = () => {
     <div className='nc-BlogPage overflow-hidden relative'>
       <Helmet>
         <title>Blog || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       {/* ======== BG GLASS ======== */}

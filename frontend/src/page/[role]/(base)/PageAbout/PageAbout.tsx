@@ -18,6 +18,7 @@ const PageAbout: FC<PageAboutProps> = ({ className = '' }) => {
     <div className={`nc-PageAbout overflow-hidden relative ${className}`} data-nc-id='PageAbout'>
       <Helmet>
         <title>About || Đồ Gỗ Hiệp Hồng</title>
+        <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
       </Helmet>
 
       {/* ======== BG GLASS ======== */}
