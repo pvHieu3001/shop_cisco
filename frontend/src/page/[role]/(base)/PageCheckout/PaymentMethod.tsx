@@ -215,7 +215,7 @@ const PaymentMethod: FC<Props> = ({
         <Radio
           disable={true}
           className='pt-3.5'
-          name='Nhận tiền khi giao hàng'
+          name='Nhận tiền khi nhận hàng'
           id='ArrivePay'
           defaultChecked={active}
           onChange={(e) => setMethodActive(e as any)}
@@ -229,7 +229,7 @@ const PaymentMethod: FC<Props> = ({
             >
               <img className='w-[40px] h-[40px]' src={Shipping} alt='' />
             </div>
-            <p className='font-medium'>Nhận tiền khi giao hàng</p>
+            <p className='font-medium'>Nhận tiền khi nhận hàng</p>
           </label>
         </div>
       </div>
