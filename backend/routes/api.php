@@ -7,6 +7,7 @@ use App\Http\Controllers\api\RoleController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\ValueController;
 use App\Http\Controllers\api\SlideController;
+use App\Http\Controllers\api\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\ProductController;
@@ -84,4 +85,12 @@ Route::prefix('slider')->group(function () {
     Route::delete('/{id}', [SlideController::class, 'destroy']);
     Route::get('/{id}', [SlideController::class, 'edit']);
     Route::post('/{id}', [SlideController::class, 'update']);
+});
+
+Route::prefix('order')->group(function () {
+    Route::post('/', [OrderController::class, 'saveOrder']);
+    Route::get('/', [OrderController::class, 'getAllOrder']);
+    Route::delete('/{id}', [OrderController::class, 'destroy']);
+    Route::get('/{id}', [OrderController::class, 'getOrderDetail']);
+    Route::post('/{id}', [OrderController::class, 'update']);
 });

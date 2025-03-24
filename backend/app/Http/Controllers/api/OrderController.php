@@ -361,7 +361,7 @@ class OrderController extends Controller
         }
     }
 
-    public function placeOrder(Request $request)
+    public function saveOrder(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -375,7 +375,6 @@ class OrderController extends Controller
                     'receiver_ward' => 'required|string',
                     'receiver_address' => 'required|string',
                     'pick_up_required' => 'required',
-//                'payment_method_id' => 'required',
                 ],
                 [
                     'receiver_name' => 'Trường name là bắt buộc',
@@ -387,7 +386,6 @@ class OrderController extends Controller
                     'receiver_ward' => 'Chọn một quận | huyện',
                     'receiver_address' => 'Trường address là bắt buộc',
                     'pick_up_required' => 'Chọn hình thức nhận hàng',
-//                'payment_method_id' => 'Chọn một hình thức thanh toán COD|shipment'
                 ]
             );
 
@@ -400,39 +398,45 @@ class OrderController extends Controller
             $pickUpRequired = filter_var($request->get('pick_up_required'), FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
             $note = $request->get('note');
             $discountCode = $request->get('discount_code');
-            $paymentMethod = PaymentMethods::getOrder(PaymentMethods::MOMO);
+            $paymentMethod = PaymentMethods::getOrder(PaymentMethods::COD);
 
             $paymentStatusId = PaymentStatuses::getOrder(PaymentStatuses::PENDING);
             $orderStatusId = EnumOrderStatus::getOrder(EnumOrderStatus::PENDING);
 
             $user = $request->user();
 
-            $carts = Cart::where('user_id', $user->id)
-                ->join('product_items', 'carts.product_item_id', '=', 'product_items.id')
-                ->join('products', 'product_items.product_id', '=', 'products.id')
-                ->select(
-                    'carts.*',
-                    DB::raw("
-                    CASE
-                        WHEN products.type_discount = '" . TypeDiscounts::Percent->value . "' THEN product_items.price * (1 - products.discount / 100)
-                        WHEN products.type_discount = '" . TypeDiscounts::Fixed->value . "' THEN product_items.price - products.discount
-                        ELSE product_items.price
-                    END AS price
-                ")
+            if($user){
+                $carts = Cart::where('user_id', $user->id)
+                    ->join('product_items', 'carts.product_item_id', '=', 'product_items.id')
+                    ->join('products', 'product_items.product_id', '=', 'products.id')
+                    ->select(
+                        'carts.*',
+                        DB::raw("
+                        CASE
+                            WHEN products.type_discount = '" . TypeDiscounts::Percent->value . "' THEN product_items.price * (1 - products.discount / 100)
+                            WHEN products.type_discount = '" . TypeDiscounts::Fixed->value . "' THEN product_items.price - products.discount
+                            ELSE product_items.price
+                        END AS price
+                    ")
                 )
                 ->get();
 
-            if(!$carts || count($carts) <= 0){
-                return response()->json([
-                    'sucess' => false,
-                    'message' => 'Giỏ hàng ít nhất phải có 1 sản phẩm'
-                ], 404);
+                if(!$carts || count($carts) <= 0){
+                    return response()->json([
+                        'sucess' => false,
+                        'message' => 'Giỏ hàng ít nhất phải có 1 sản phẩm'
+                    ], 404);
+                }
+            }else{
+                $carts = $receiverWard = $request->get('carts');
             }
+
+            
 
             $totalPrice = 0;
 
             foreach ($carts as $cart){
-                $totalPrice += $cart->price * $cart->quantity;
+                $totalPrice += $cart["price"] * $cart["quantity"];
             }
 
             //xử lý discount code
@@ -441,41 +445,43 @@ class OrderController extends Controller
             $discountPrice = $totalPrice;
 
             $order = Order::create([
-                'user_id' => $user->id,
+                'user_id' => $user->id ?? 0,
                 'total_price' => $totalPrice,
                 'note' => $note,
-                'order_status_id' => $orderStatusId,
+                'status_id' => $orderStatusId,
                 'receiver_name' => $receiverName,
+                'receiver_email' => 'abcd@gmail.com',
                 'receiver_phone' => $receiverPhone,
-                'receiver_pronvinces' => $receiverPronvices,
+                'receiver_city' => $receiverPronvices,
+                'receiver_county' => 'Việt Nam',
                 'receiver_district' => $receiverDistrict,
                 'receiver_ward' => $receiverWard,
                 'receiver_address' => $receiverAddress,
                 'payment_method_id' => $paymentMethod,
                 'payment_status_id' => $paymentStatusId,
                 'pick_up_required' => $pickUpRequired,
-                'discount_code' => $discountCode,
-                'discount_price' => $discountPrice,
-            ]);
-
-            OrderHistory::create([
-                'order_id' => $order->id,
-                'order_status_id' => EnumOrderStatus::getOrder(EnumOrderStatus::PENDING)
+                'discount_code' => $discountCode ?? 0,
             ]);
 
             foreach ($carts as $cart) {
                 OrderDetail::create([
-                    'product_item_id' => $cart->product_item_id,
+                    'product_id' => $cart["id"],
                     'order_id' => $order->id,
-                    'quantity' => $cart->quantity,
-                    'price' => $cart->price,
+                    'quantity' => $cart["quantity"],
+                    'price' => $cart["price"],
                 ]);
             }
-
-            Cart::where('user_id', $user->id)->delete();
+            if($user){
+                Cart::where('user_id', $user->id)->delete();
+            }
 
             DB::commit();
-            return redirect()->action([PaymentController::class, 'momo_payment'], ['orderId' => $order->id]);
+            // return redirect()->action([PaymentController::class, 'momo_payment'], ['orderId' => $order->id]);
+            return response()->json([
+                'success' => true,
+                'massage' => "Đặt hàng thành công",
+                'orderId' => $order->id
+            ]);
         }
         catch (ValidationException $validationException){
             return response()->json([

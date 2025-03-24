@@ -36,7 +36,9 @@ const schema = Joi.object({
 })
 const CheckoutPage = () => {
   const navigate = useNavigate()
-  const [mothodActive, setMethodActive] = useState<'Stripe' | 'Momo-Banking' | 'VNPay' | null>(null)
+  const [mothodActive, setMethodActive] = useState<'ArrivePay' | 'Stripe' | 'Momo-Banking' | 'VNPay' | null>(
+    'ArrivePay'
+  )
   const {
     register,
     handleSubmit,
@@ -112,7 +114,8 @@ const CheckoutPage = () => {
       pick_up_required: false,
       note: values?.note,
       discount_code: dataVoucher.apply ? dataVoucher.code : '',
-      payment_method_id: 2
+      payment_method_id: 1,
+      carts: dataCart
     }
 
     try {
@@ -130,6 +133,8 @@ const CheckoutPage = () => {
         }
       }
       const response = await addOrder(payload).unwrap()
+      navigate(`/account/my-order/detail/${response.order_id}`)
+      popupSuccess('Đặt hàng thành công')
       const orderId = response.order_id
 
       if (mothodActive === 'Momo-Banking') {

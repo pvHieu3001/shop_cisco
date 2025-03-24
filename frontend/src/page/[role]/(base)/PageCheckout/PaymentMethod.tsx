@@ -24,7 +24,7 @@ const PaymentMethod: FC<Props> = ({
   errors,
   register,
   handleSubmit,
-  mothodActive,
+  mothodActive = 'ArrivePay',
   setMethodActive
 }) => {
   const renderDebitCredit = () => {
@@ -209,7 +209,7 @@ const PaymentMethod: FC<Props> = ({
   }
 
   const renderArrivePay = () => {
-    const active = true
+    const active = mothodActive == 'ArrivePay'
     return (
       <div className='flex items-start space-x-4 sm:space-x-6'>
         <Radio
