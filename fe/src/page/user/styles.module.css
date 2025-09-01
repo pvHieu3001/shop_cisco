@@ -1,0 +1,16 @@
+.modules {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+.container {
+  width: 100%;
+}
+
+.mainContent {
+  display: flex;
+  gap: 24px;
+}
