@@ -38,28 +38,28 @@ const categorySlice = createSlice({
     },
     createSuccessfully: (state, { payload }) => {
       state.data = payload.data
-      state.message = 'Tạo Loai Khóa Học Thành Công'
+      state.message = 'Tạo Loai sản phẩm Thành Công'
       state.isLoading = false
     },
     createFailure: (state) => {
-      state.error_message = 'Tạo Loai Khóa Học Thất Bại'
+      state.error_message = 'Tạo Loai sản phẩm Thất Bại'
       state.isLoading = false
     },
     updateSuccessfully: (state, { payload }) => {
       state.data = payload.data
-      state.message = 'Cập Nhật Loai Khóa Học Thành Công'
+      state.message = 'Cập Nhật Loai sản phẩm Thành Công'
       state.isLoading = false
     },
     updateFailure: (state) => {
-      state.error_message = 'Cập Nhật Loai Khóa Học Thất Bại'
+      state.error_message = 'Cập Nhật Loai sản phẩm Thất Bại'
       state.isLoading = false
     },
     deleteSuccessfully: (state) => {
-      state.message = 'Xóa Loai Khóa Học Thành Công'
+      state.message = 'Xóa Loai sản phẩm Thành Công'
       state.isLoading = false
     },
     deleteFailure: (state) => {
-      state.error_message = 'Xóa Loai Khóa Học Thất Bại'
+      state.error_message = 'Xóa Loai sản phẩm Thất Bại'
       state.isLoading = false
     }
   }

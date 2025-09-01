@@ -56,13 +56,13 @@
 
 /* styles.module.css */
 
-.courseList {
+.productList {
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
-.courseItem {
+.productItem {
   display: flex;
   gap: 20px;
   align-items: flex-start;
@@ -72,7 +72,7 @@
   border: 1px solid transparent;
 }
 
-.courseItem:hover {
+.productItem:hover {
   background-color: #f8f9fa;
   border-color: #e9ecef;
   transform: translateY(-2px);
@@ -86,11 +86,11 @@
   border-radius: 6px;
 }
 
-.courseContent {
+.productContent {
   flex: 1;
 }
 
-.courseCategory {
+.productCategory {
   text-transform: uppercase;
   font-size: 0.75rem;
   color: #1e88e5;
@@ -98,14 +98,14 @@
   margin-bottom: 4px;
 }
 
-.courseTitle {
+.productTitle {
   font-size: clamp(14px, 6vw, 18px);
   font-weight: bold;
   margin-bottom: 8px;
   color: #222;
 }
 
-.courseDescription {
+.productDescription {
   font-size: clamp(12px, 5vw, 16px);
   color: #444;
   line-height: 1.5;
@@ -131,7 +131,7 @@
     padding: 20px;
   }
 
-  .courseItem {
+  .productItem {
     flex-direction: column;
     gap: 10px;
   }
@@ -145,7 +145,7 @@
   font-style: italic;
 }
 
-.noCourses {
+.noproducts {
   text-align: center;
   padding: 40px;
   font-size: 16px;

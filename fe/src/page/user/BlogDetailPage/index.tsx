@@ -9,7 +9,7 @@ import { getImageUrl } from '@/utils/getImageUrl'
 import { formatDateTimeString, getFullName } from '@/utils/formatDate'
 
 function BlogDetailPage() {
-  const { setIsShowRecommendCourses } = useOutletContext<ContextType>()
+  const { setIsShowRecommendProducts } = useOutletContext<ContextType>()
   const { slug } = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -21,8 +21,8 @@ function BlogDetailPage() {
     if (slug) {
       dispatch(blogActions.getBlogBySlug(slug) as unknown as AnyAction)
     }
-    setIsShowRecommendCourses(false)
-  }, [dispatch, setIsShowRecommendCourses, slug])
+    setIsShowRecommendProducts(false)
+  }, [dispatch, setIsShowRecommendProducts, slug])
 
   useEffect(() => {
     if (relatedDatas && relatedDatas.length > 0) {

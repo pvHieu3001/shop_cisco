@@ -19,7 +19,7 @@ import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons'
 import { popupError, popupSuccess } from '@/page/shared/Toast'
 import ReactQuill from 'react-quill'
 import { useDispatch, useSelector } from 'react-redux'
-import { courseActions } from '@/app/actions/course.actions'
+import { productActions } from '@/app/actions/product.actions'
 import { AnyAction } from '@reduxjs/toolkit'
 import { RootState } from '@/app/store'
 
@@ -32,7 +32,7 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 
 function AddProduct() {
   const dispatch = useDispatch()
-  const courseStore = useSelector((state: RootState) => state.course)
+  const productStore = useSelector((state: RootState) => state.product)
   const [form] = Form.useForm()
   const [gallery, setGallery] = useState<Array<gallery>>([])
   const navigate = useNavigate()
@@ -70,11 +70,11 @@ function AddProduct() {
     formdata.append('total_students', String(total_students))
 
     try {
-      await dispatch(courseActions.createCourse(formdata) as unknown as AnyAction)
-      popupSuccess('Thêm khóa học thành công')
+      await dispatch(productActions.createProduct(formdata) as unknown as AnyAction)
+      popupSuccess('Thêm sản phẩm thành công')
       navigate('..')
     } catch (error) {
-      popupError('Thêm khóa học thất bại')
+      popupError('Thêm sản phẩm thất bại')
     }
   }
 
@@ -143,7 +143,7 @@ function AddProduct() {
     <>
       <Drawer
         open={true}
-        title={<h2 className=' font-bold text-[24px]'>Tạo khóa học mới</h2>}
+        title={<h2 className=' font-bold text-[24px]'>Tạo sản phẩm mới</h2>}
         width={'85%'}
         styles={{
           header: { height: 60 },
@@ -314,8 +314,8 @@ function AddProduct() {
           </Card>
           <Flex className='fixed z-[10000000] top-[15px] right-10' gap={20}>
             <Button
-              loading={courseStore.isLoading}
-              disabled={courseStore.isLoading}
+              loading={productStore.isLoading}
+              disabled={productStore.isLoading}
               htmlType='submit'
               type='primary'
               className=' '

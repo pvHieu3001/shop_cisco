@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import TabCategory from '../components/TabCategory'
-import { courseActions, categoryActions } from '@/app/actions'
+import { productActions, categoryActions } from '@/app/actions'
 import { AnyAction } from '@reduxjs/toolkit'
 import { RootState } from '@/app/store'
 import { IProduct } from '@/common/types.interface'
@@ -16,36 +16,36 @@ function CategoryDetailPage() {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1)
-  const [coursesPerPage] = useState(6)
+  const [ProductsPerPage] = useState(6)
 
   // Get data from Redux store
-  const { dataList: courses, isLoading: coursesLoading } = useSelector((state: RootState) => state.course)
+  const { dataList: products, isLoading: ProductsLoading } = useSelector((state: RootState) => state.product)
   const { data: category, isLoading: categoryLoading } = useSelector((state: RootState) => state.category)
 
-  // Fetch category and courses when component mounts
+  // Fetch category and Products when component mounts
   useEffect(() => {
     if (slug) {
       dispatch(categoryActions.getCategoryBySlug(slug) as unknown as AnyAction)
     }
   }, [slug])
 
-  // Fetch courses when category is loaded
+  // Fetch Products when category is loaded
   useEffect(() => {
     if (category && category.id) {
-      dispatch(courseActions.getCoursesByCategory(category.id) as unknown as AnyAction)
+      dispatch(productActions.getProductsByCategory(category.id) as unknown as AnyAction)
     }
   }, [category])
 
-  // Handle course item click
-  const handleCourseClick = (course: IProduct) => {
-    navigate(`/chi-tiet-khoa-hoc/${course.slug}`)
+  // Handle Product item click
+  const handleProductClick = (Product: IProduct) => {
+    navigate(`/chi-tiet-san-pham/${Product.slug}`)
   }
 
   // Pagination logic
-  const indexOfLastCourse = currentPage * coursesPerPage
-  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage
-  const currentCourses = courses ? courses.slice(indexOfFirstCourse, indexOfLastCourse) : []
-  const totalPages = courses ? Math.ceil(courses.length / coursesPerPage) : 0
+  const indexOfLastProduct = currentPage * ProductsPerPage
+  const indexOfFirstProduct = indexOfLastProduct - ProductsPerPage
+  const currentProducts = products ? products.slice(indexOfFirstProduct, indexOfLastProduct) : []
+  const totalPages = products ? Math.ceil(products.length / ProductsPerPage) : 0
 
   // Handle page change
   const handlePageChange = (pageNumber: number) => {
@@ -104,7 +104,7 @@ function CategoryDetailPage() {
     return (
       <div className={styles.bg}>
         <div className={styles.categoryDetailPage}>
-          <div className={styles.noCourses}>Danh mục không tồn tại</div>
+          <div className={styles.noProducts}>Danh mục không tồn tại</div>
         </div>
       </div>
     )
@@ -117,38 +117,38 @@ function CategoryDetailPage() {
           {/* Nội dung chính bên trái */}
           <div className='flex-1 bg-white rounded-lg shadow-md p-6'>
             <div>
-              <div className='text-xl font-semibold text-indigo-600 mb-2'>Khóa học - {category.name}</div>
+              <div className='text-xl font-semibold text-indigo-600 mb-2'>sản phẩm - {category.name}</div>
               <p className='text-gray-700 mb-6 text-base'>{category.description}</p>
             </div>
 
             <div>
-              {coursesLoading ? (
-                <div className='text-center text-gray-500'>Đang tải khóa học...</div>
-              ) : currentCourses && currentCourses.length > 0 ? (
+              {ProductsLoading ? (
+                <div className='text-center text-gray-500'>Đang tải sản phẩm...</div>
+              ) : currentProducts && currentProducts.length > 0 ? (
                 <>
                   <div className='flex flex-col gap-6 mb-6'>
-                    {currentCourses.map((course) => {
+                    {currentProducts.map((Product) => {
                       const stripHtml = (html) => {
                         const tmp = document.createElement('div')
                         tmp.innerHTML = html
                         return tmp.textContent || tmp.innerText || ''
                       }
 
-                      const shortDescription = stripHtml(course.description).slice(0, 200) + '...'
+                      const shortDescription = stripHtml(Product.description).slice(0, 200) + '...'
                       return (
                         <div
-                          key={course.id}
-                          onClick={() => handleCourseClick(course)}
+                          key={Product.id}
+                          onClick={() => handleProductClick(Product)}
                           className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex items-center space-x-4'
                         >
                           <img
-                            src={getImageUrl(course.imageUrl)}
-                            alt={course.name}
+                            src={getImageUrl(Product.imageUrl)}
+                            alt={Product.name}
                             className='w-100 h-40 object-cover rounded-md flex-shrink-0'
                           />
                           <div>
                             <div className='text-sm text-indigo-500 font-medium'>{category.name}</div>
-                            <div className='text-lg font-semibold text-gray-800'>{course.name}</div>
+                            <div className='text-lg font-semibold text-gray-800'>{Product.name}</div>
                             <div
                               dangerouslySetInnerHTML={{ __html: shortDescription }}
                               className='text-gray-600 text-base mt-1 [&_p]:mb-4 
@@ -200,7 +200,7 @@ function CategoryDetailPage() {
                   )}
                 </>
               ) : (
-                <div className='text-center text-gray-500'>Không tìm thấy khóa học nào trong danh mục này</div>
+                <div className='text-center text-gray-500'>Không tìm thấy sản phẩm nào trong danh mục này</div>
               )}
             </div>
           </div>

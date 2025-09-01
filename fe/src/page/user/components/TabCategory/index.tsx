@@ -26,7 +26,7 @@ function TabCategory() {
   const handleCategoryDetail = (slug: string) => {
     const category = categories.dataList.find((c: ICategory) => c.slug === slug)
     if (!category) return
-    navigate(`/khoa-hoc-theo-chu-de/${slug}`)
+    navigate(`/san-pham-theo-chu-de/${slug}`)
   }
 
   const handleSearch = (e: React.FormEvent) => {
@@ -38,7 +38,7 @@ function TabCategory() {
     <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
       {/* Tìm kiếm */}
       <div>
-        <h2 className='text-lg font-semibold text-gray-800 mb-3'>Tìm kiếm khóa học</h2>
+        <h2 className='text-lg font-semibold text-gray-800 mb-3'>Tìm kiếm sản phẩm</h2>
         <form
           onSubmit={handleSearch}
           className='flex rounded-md overflow-hidden border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500'
@@ -47,7 +47,7 @@ function TabCategory() {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             placeholder='Nhập từ khóa...'
-            aria-label='Search for courses'
+            aria-label='Search for products'
             suffix={
               <SearchOutlined
                 onClick={handleSearch}
@@ -60,9 +60,9 @@ function TabCategory() {
         </form>
       </div>
 
-      {/* Loại khóa học */}
+      {/* Loại sản phẩm */}
       <div>
-        <h2 className='text-lg font-semibold text-gray-800 mb-3'>Loại khóa học</h2>
+        <h2 className='text-lg font-semibold text-gray-800 mb-3'>Loại sản phẩm</h2>
         <ul className='space-y-2' role='list'>
           {categories?.dataList?.map((category: ICategory, index: number) => (
             <li
@@ -80,7 +80,7 @@ function TabCategory() {
             >
               <span className='text-gray-700 font-medium text-base'>{category.name}</span>
               <span className='text-sm text-gray-500 bg-white px-2 py-0.5 rounded-full border'>
-                {category.numberCourse}
+                {category.numberProduct}
               </span>
             </li>
           ))}

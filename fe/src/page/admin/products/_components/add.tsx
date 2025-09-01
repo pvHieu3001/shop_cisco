@@ -2,7 +2,7 @@ import { Col, Flex, Row, Button, Form, Input, Drawer, InputNumber, Card, Select,
 import { useEffect, useState } from 'react'
 import { popupError, popupSuccess } from '@/page/shared/Toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { courseActions } from '@/app/actions/course.actions'
+import { productActions } from '@/app/actions/product.actions'
 import { categoryActions } from '@/app/actions/category.actions'
 import { AnyAction } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router-dom'
@@ -15,13 +15,13 @@ function AddProduct() {
   const query = useQuery()
   const dispatch = useDispatch()
   const categoryStore = useSelector((state: RootState) => state.category)
-  const courseStore = useSelector((state: RootState) => state.course)
+  const productStore = useSelector((state: RootState) => state.product)
   const [form] = Form.useForm()
   const [imageUrl, setImageUrl] = useState<Blob>()
   const [displayPic, setDisplayPic] = useState<string>()
   const [detail, setDetail] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [courseBenefits, setCourseBenefits] = useState<string>('')
+  const [productBenefits, setproductBenefits] = useState<string>('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function AddProduct() {
     formdata.append('categoryId', categoryId)
     formdata.append('content', content)
     formdata.append('description', detail)
-    formdata.append('courseBenefits', courseBenefits)
+    formdata.append('productBenefits', productBenefits)
     formdata.append('imageFile', imageUrl as Blob)
     formdata.append('language', language)
     formdata.append('level', level)
@@ -53,18 +53,18 @@ function AddProduct() {
     formdata.append('isDisplayHot', isDisplayHot)
 
     try {
-      await dispatch(courseActions.createCourse(formdata) as unknown as AnyAction)
+      await dispatch(productActions.createProduct(formdata) as unknown as AnyAction)
       await dispatch(
-        courseActions.getAdminCourses(
+        productActions.getAdminProducts(
           query.get('status') ?? '',
           query.get('search') ?? '',
           query.get('isHot') ?? ''
         ) as unknown as AnyAction
       )
-      popupSuccess('Thêm khóa học thành công')
+      popupSuccess('Thêm sản phẩm thành công')
       navigate('..')
     } catch (error) {
-      popupError('Thêm khóa học thất bại')
+      popupError('Thêm sản phẩm thất bại')
     }
   }
 
@@ -94,7 +94,7 @@ function AddProduct() {
     <>
       <Drawer
         open={true}
-        title={<h2 className=' font-bold text-[24px]'>Tạo khóa học mới</h2>}
+        title={<h2 className=' font-bold text-[24px]'>Tạo sản phẩm mới</h2>}
         width={'85%'}
         styles={{
           header: { height: 60 },
@@ -149,7 +149,7 @@ function AddProduct() {
                   </Col>
 
                   <Col xs={24} sm={12} md={8}>
-                    <Form.Item name='isDisplayHot' label='Khóa học nổi bật' valuePropName='checked'>
+                    <Form.Item name='isDisplayHot' label='sản phẩm nổi bật' valuePropName='checked'>
                       <Switch className='w-20' checkedChildren='Hiện' unCheckedChildren='Ẩn' />
                     </Form.Item>
                   </Col>
@@ -196,11 +196,11 @@ function AddProduct() {
             </Form.Item>
           </Card>
           <Card size='small' style={{ marginBottom: 24 }}>
-            <Form.Item name='courseBenefits' className='m-0' label={'Lợi ích khoá học'}>
+            <Form.Item name='productBenefits' className='m-0' label={'Lợi ích khoá học'}>
               <TextEditor
-                content={courseBenefits ?? ''}
+                content={productBenefits ?? ''}
                 onHandleChange={(value) => {
-                  setCourseBenefits(value)
+                  setproductBenefits(value)
                 }}
               />
             </Form.Item>
@@ -270,7 +270,7 @@ function AddProduct() {
           </Card>
           {/* Nếu muốn giữ gallery, có thể thêm lại logic gallery ở dưới */}
           <Flex className='fixed z-[10000000] top-[15px] right-10' gap={20}>
-            <Button loading={courseStore.isLoading} disabled={courseStore.isLoading} htmlType='submit' type='primary'>
+            <Button loading={productStore.isLoading} disabled={productStore.isLoading} htmlType='submit' type='primary'>
               Tạo
             </Button>
           </Flex>

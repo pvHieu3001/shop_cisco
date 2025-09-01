@@ -19,7 +19,7 @@ function Sidenav() {
         label: (
           <Flex align='center' gap={10} justify='center' className='children-menu'>
             <ReadOutlined className='text-[18px] text-[#344767]' />
-            <span className='label font-bold text-[#344767]'>Khóa học</span>
+            <span className='label font-bold text-[#344767]'>sản phẩm</span>
           </Flex>
         ),
         link: '/admin/products'
@@ -129,7 +129,7 @@ function Sidenav() {
           <path d='M11 12.83L3.26 9.26 2 9.91l9 4.09 9-4.09-1.26-.65L13 12.83V20h-2v-7.17z' />
         </svg>
 
-        <span className='text-black font-semibold text-lg'>Chia Sẻ Khóa Học</span>
+        <span className='text-black font-semibold text-lg'>Đồ Gỗ Hiệp Hồng</span>
       </Flex>
 
       <Menu

@@ -79,7 +79,7 @@ const Login = () => {
       }}
     >
       <Helmet>
-        <title>Đăng nhập || Chia Sẻ Khóa Học</title>
+        <title>Đăng nhập || Đồ Gỗ Hiệp Hồng</title>
       </Helmet>
 
       <div className='w-full max-w-md space-y-8'>

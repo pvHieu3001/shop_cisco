@@ -92,7 +92,7 @@ const SignUp = () => {
       style={{ backgroundImage: `url(${bgSignup})` }}
     >
       <Helmet>
-        <title>Đăng Ký || Chia Sẻ Khóa Học</title>
+        <title>Đăng Ký || Đồ Gỗ Hiệp Hồng</title>
       </Helmet>
 
       <div className='w-full max-w-md space-y-8 bg-white dark:bg-neutral-900 p-6 rounded-lg shadow-lg'>

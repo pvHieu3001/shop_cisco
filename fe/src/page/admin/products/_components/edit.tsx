@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { popupError, popupSuccess } from '@/page/shared/Toast'
 import { useDispatch, useSelector } from 'react-redux'
-import { courseActions } from '@/app/actions/course.actions'
+import { productActions } from '@/app/actions/product.actions'
 import { categoryActions } from '@/app/actions/category.actions'
 import { AnyAction } from '@reduxjs/toolkit'
 import { formatDate } from '@/utils/formatDate'
@@ -19,33 +19,33 @@ function EditProduct() {
   const query = useQuery()
   const { flug } = useParams()
   const dispatch = useDispatch()
-  const courseStore = useSelector((state: RootState) => state.course)
+  const productStore = useSelector((state: RootState) => state.product)
   const categoryStore = useSelector((state: RootState) => state.category)
   const [form] = Form.useForm()
   const [imageUrl, setImageUrl] = useState<Blob>()
   const [description, setDescription] = useState<string>('')
   const [content, setContent] = useState<string>('')
-  const [courseBenefits, setCourseBenefits] = useState<string>('')
+  const [productBenefits, setProductBenefits] = useState<string>('')
   const [displayPic, setDisplayPic] = useState<string>()
 
   useEffect(() => {
     if (flug) {
-      dispatch(courseActions.getCourseById(flug) as unknown as AnyAction)
+      dispatch(productActions.getProductById(flug) as unknown as AnyAction)
     }
     dispatch(categoryActions.getAdminCategories('') as unknown as AnyAction) // Lấy danh sách danh mục
   }, [dispatch, flug])
 
   useEffect(() => {
-    setDescription(courseStore.data?.description ?? '')
-    setContent(courseStore.data?.content ?? '')
-    setCourseBenefits(courseStore.data?.courseBenefits ?? '')
-    if (courseStore.data?.imageUrl) {
-      setDisplayPic(getImageUrl(courseStore.data.imageUrl))
+    setDescription(productStore.data?.description ?? '')
+    setContent(productStore.data?.content ?? '')
+    setProductBenefits(productStore.data?.productBenefits ?? '')
+    if (productStore.data?.imageUrl) {
+      setDisplayPic(getImageUrl(productStore.data.imageUrl))
     }
-  }, [courseStore])
+  }, [productStore])
 
   const onFinish = async () => {
-    const id = courseStore.data?.id
+    const id = productStore.data?.id
     const name = form.getFieldValue('name')
     const categoryId = form.getFieldValue('categoryId')
     const language = form.getFieldValue('language')
@@ -61,7 +61,7 @@ function EditProduct() {
     formdata.append('categoryId', categoryId)
     formdata.append('content', content)
     formdata.append('description', description)
-    formdata.append('courseBenefits', courseBenefits)
+    formdata.append('productBenefits', productBenefits)
     if (imageUrl) {
       formdata.append('imageFile', imageUrl as Blob)
     }
@@ -73,18 +73,18 @@ function EditProduct() {
     formdata.append('isDisplayHot', isDisplayHot)
 
     try {
-      await dispatch(courseActions.updateCourse(id as string, formdata) as unknown as AnyAction)
+      await dispatch(productActions.updateProduct(id as string, formdata) as unknown as AnyAction)
       await dispatch(
-        courseActions.getAdminCourses(
+        productActions.getAdminProducts(
           query.get('status') ?? '',
           query.get('search') ?? '',
           query.get('isHot') ?? ''
         ) as unknown as AnyAction
       )
-      popupSuccess('Cập nhật khóa học thành công')
+      popupSuccess('Cập nhật sản phẩm thành công')
       navigator('..')
     } catch (error) {
-      popupError('Cập nhật khóa học thất bại')
+      popupError('Cập nhật sản phẩm thất bại')
     }
   }
 
@@ -94,7 +94,7 @@ function EditProduct() {
 
   return (
     <>
-      {courseStore.data && !courseStore.isLoading && (
+      {productStore.data && !productStore.isLoading && (
         <Drawer
           open={true}
           title={
@@ -120,26 +120,26 @@ function EditProduct() {
             onFinish={onFinish}
             className='p-10 relative'
             initialValues={{
-              id: courseStore.data?.id,
-              createdAt: formatDate(courseStore.data?.createdAt ? new Date(courseStore.data?.createdAt) : new Date()),
-              createdBy: courseStore.data?.createdBy,
-              updatedAt: formatDate(courseStore.data?.updatedAt ? new Date(courseStore.data?.updatedAt) : new Date()),
-              updatedBy: courseStore.data?.updatedBy,
-              categoryId: courseStore.data?.category?.id,
-              content: courseStore.data?.content,
-              description: courseStore.data?.description,
-              courseBenefits: courseStore.data?.courseBenefits,
-              language: courseStore.data?.language,
-              level: courseStore.data?.level,
-              name: courseStore.data?.name,
-              price: courseStore.data?.price,
-              rating: courseStore.data?.rating,
-              slug: courseStore.data?.slug,
-              sourceUrl: courseStore.data?.sourceUrl,
-              status: courseStore.data?.status == 'active' ? true : false,
-              isDisplayHot: courseStore.data?.isDisplayHot,
-              totalRating: courseStore.data?.totalRating,
-              totalStudents: courseStore.data?.totalStudents
+              id: productStore.data?.id,
+              createdAt: formatDate(productStore.data?.createdAt ? new Date(productStore.data?.createdAt) : new Date()),
+              createdBy: productStore.data?.createdBy,
+              updatedAt: formatDate(productStore.data?.updatedAt ? new Date(productStore.data?.updatedAt) : new Date()),
+              updatedBy: productStore.data?.updatedBy,
+              categoryId: productStore.data?.category?.id,
+              content: productStore.data?.content,
+              description: productStore.data?.description,
+              productBenefits: productStore.data?.productBenefits,
+              language: productStore.data?.language,
+              level: productStore.data?.level,
+              name: productStore.data?.name,
+              price: productStore.data?.price,
+              rating: productStore.data?.rating,
+              slug: productStore.data?.slug,
+              sourceUrl: productStore.data?.sourceUrl,
+              status: productStore.data?.status == 'active' ? true : false,
+              isDisplayHot: productStore.data?.isDisplayHot,
+              totalRating: productStore.data?.totalRating,
+              totalStudents: productStore.data?.totalStudents
             }}
           >
             <Card title='Thông tin hệ thống' size='small' style={{ marginBottom: 24, background: '#fafafa' }}>
@@ -251,7 +251,7 @@ function EditProduct() {
                     </Col>
 
                     <Col xs={24} sm={12} md={8}>
-                      <Form.Item name='isDisplayHot' label='Khóa học nổi bật' valuePropName='checked'>
+                      <Form.Item name='isDisplayHot' label='sản phẩm nổi bật' valuePropName='checked'>
                         <Switch className='w-20' checkedChildren='Hiện' unCheckedChildren='Ẩn' />
                       </Form.Item>
                     </Col>
@@ -280,11 +280,11 @@ function EditProduct() {
               </Form.Item>
             </Card>
             <Card size='small' style={{ marginBottom: 24 }}>
-              <Form.Item name='courseBenefits' className='m-0' label={'Lợi ích khoá học'}>
+              <Form.Item name='productBenefits' className='m-0' label={'Lợi ích khoá học'}>
                 <TextEditor
-                  content={courseBenefits ?? ''}
+                  content={productBenefits ?? ''}
                   onHandleChange={(value) => {
-                    setCourseBenefits(value)
+                    setProductBenefits(value)
                   }}
                 />
               </Form.Item>
@@ -372,8 +372,8 @@ function EditProduct() {
             </Card>
             <Flex className='fixed z-[10000000] top-[15px] right-10' gap={20}>
               <Button
-                loading={courseStore.isLoading}
-                disabled={courseStore.isLoading}
+                loading={productStore.isLoading}
+                disabled={productStore.isLoading}
                 htmlType='submit'
                 type='primary'
                 className=' '

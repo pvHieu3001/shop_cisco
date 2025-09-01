@@ -9,7 +9,7 @@ export interface IProduct {
   category: ICategory
   description: string
   content: string
-  courseBenefits: string
+  productBenefits: string
   imageUrl: string
   language: string
   level: string
@@ -33,11 +33,11 @@ export interface ICategory {
   image: string
   status: boolean
   isQuickView: boolean
-  numberCourse: number
+  numberProduct: number
 }
 
-export interface IQuickViewCourse {
-  listCourse: IProduct[]
+export interface IQuickViewProduct {
+  listProduct: IProduct[]
   category: ICategory
 }
 
@@ -76,7 +76,7 @@ export interface IOrder {
 export interface ILog {
   id: number
   userId: number
-  courseId: number
+  productId: number
   name: string
   action: string
   ipAddress: string
@@ -104,5 +104,5 @@ export interface IBlog {
 }
 
 export type ContextType = {
-  setIsShowRecommendCourses: (value: boolean) => void
+  setIsShowRecommendProducts: (value: boolean) => void
 }

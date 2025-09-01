@@ -33,7 +33,7 @@ import jakarta.annotation.PostConstruct;
 import static online.wooden.market.utils.Constant.*;
 
 @RestController
-@RequestMapping("api/v1/admin/wooden")
+@RequestMapping("api/v1/admin/product")
 @Tag(name = "Product", description = "Product controller")
 public class AdminProductController {
 

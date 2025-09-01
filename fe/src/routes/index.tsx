@@ -26,7 +26,7 @@ import EditBlog from '@/page/admin/blogs/_components/edit'
 import PageSearch from '@/page/user/PageSearch'
 import NetworkErrorPage from '@/page/error/NetworkErrorPage'
 import NotFoundPage from '@/page/error/NotFoundPage'
-import PageCourse from '@/page/user/PageCourse'
+import PageProduct from '@/page/user/PageProduct'
 import BlogDetailPage from '@/page/user/BlogDetailPage'
 
 export default function Router() {
@@ -39,14 +39,13 @@ export default function Router() {
           <Route path='' element={<Base />}>
             <Route index element={<PageHome />} />
             <Route path='tim-kiem' element={<PageSearch />} />
-            <Route path='tat-ca-khoa-hoc' element={<PageCourse />} />
-            <Route path='chi-tiet-khoa-hoc/:slug' element={<ProductDetailPage />} />
-            <Route path='khoa-hoc-theo-chu-de/:slug' element={<CategoryDetailPage />} />
-            <Route path='game' element={<PageBlog />} />
-            <Route path='san-pham-cong-nghe' element={<PageBlog />} />
-            <Route path='thu-thuat-huu-ich' element={<PageBlog />} />
-            <Route path='suu-tam' element={<PageBlog />} />
+            <Route path='tat-ca-san-pham' element={<PageProduct />} />
+            <Route path='chi-tiet-san-pham/:slug' element={<ProductDetailPage />} />
+            <Route path='san-pham-theo-chu-de/:slug' element={<CategoryDetailPage />} />
+            <Route path='bai-viet' element={<PageBlog />} />
+            <Route path='tin-tuc' element={<PageBlog />} />
             <Route path='bai-viet/:slug' element={<BlogDetailPage />} />
+            <Route path='tuyen-dung' element={<PageBlog />} />
           </Route>
           <Route element={<GuardPage />}>
             <Route path='admin' element={<Manager />}>

@@ -69,7 +69,7 @@ export default function ListOrders() {
     <>
       <div className='flex items-center justify-between my-2'>
         <Typography.Title level={2} style={{ margin: 0 }}>
-          Danh sách khóa học
+          Danh sách sản phẩm
         </Typography.Title>
       </div>
       <Flex wrap='wrap' gap='small' className='my-5' align='center' justify='space-between'>

@@ -44,28 +44,28 @@ const orderSlice = createSlice({
     },
     createSuccessfully: (state, { payload }) => {
       state.data = payload.data
-      state.message = 'Tạo Khóa Học Thành Công'
+      state.message = 'Tạo sản phẩm Thành Công'
       state.isLoading = false
     },
     createFailure: (state) => {
-      state.error_message = 'Tạo Khóa Học Thất Bại'
+      state.error_message = 'Tạo sản phẩm Thất Bại'
       state.isLoading = false
     },
     updateSuccessfully: (state, { payload }) => {
       state.data = payload.data
-      state.message = 'Cập Nhật Khóa Học Thành Công'
+      state.message = 'Cập Nhật sản phẩm Thành Công'
       state.isLoading = false
     },
     updateFailure: (state) => {
-      state.error_message = 'Cập Nhật Khóa Học Thất Bại'
+      state.error_message = 'Cập Nhật sản phẩm Thất Bại'
       state.isLoading = false
     },
     deleteSuccessfully: (state) => {
-      state.message = 'Xóa Khóa Học Thành Công'
+      state.message = 'Xóa sản phẩm Thành Công'
       state.isLoading = false
     },
     deleteFailure: (state) => {
-      state.error_message = 'Xóa Khóa Học Thất Bại'
+      state.error_message = 'Xóa sản phẩm Thất Bại'
       state.isLoading = false
     }
   }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, Flex, Input, Popconfirm, Select, Space, Table, TableProps, Tag, Typography, message } from 'antd'
 import { Link } from 'react-router-dom'
 import { AnyAction } from '@reduxjs/toolkit'
-import { courseActions } from '@/app/actions/course.actions'
+import { productActions } from '@/app/actions/product.actions'
 import { useDispatch, useSelector } from 'react-redux'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import { RootState } from '@/app/store'
@@ -16,15 +16,15 @@ export default function ListProduct() {
   const [isHot, setIsHot] = useState('') // blank: all, 0: false, 1: true
   const [dataTable, setDataTable] = useState<(IProduct & { key: number })[]>([])
 
-  const courses = useSelector((state: RootState) => state.course)
+  const products = useSelector((state: RootState) => state.product)
 
   useEffect(() => {
-    dispatch(courseActions.getAdminCourses(active, searchValue, isHot) as unknown as AnyAction)
+    dispatch(productActions.getAdminProducts(active, searchValue, isHot) as unknown as AnyAction)
   }, [searchValue, active, isHot, dispatch])
 
   useEffect(() => {
-    setDataTable(courses.dataList?.map((item: IProduct, index: number) => ({ ...item, key: index + 1 })))
-  }, [courses])
+    setDataTable(products.dataList?.map((item: IProduct, index: number) => ({ ...item, key: index + 1 })))
+  }, [products])
 
   const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value
@@ -35,10 +35,10 @@ export default function ListProduct() {
 
   const handlerDeleteProduct = async (id: string) => {
     try {
-      dispatch(courseActions.deleteCourse(id) as unknown as AnyAction)
-      message.success('Xoá khóa học thành công!')
+      dispatch(productActions.deleteProduct(id) as unknown as AnyAction)
+      message.success('Xoá sản phẩm thành công!')
     } catch (error) {
-      message.error('Xoá khóa học thất bại!')
+      message.error('Xoá sản phẩm thất bại!')
     }
   }
 
@@ -51,7 +51,7 @@ export default function ListProduct() {
       align: 'center'
     },
     {
-      title: 'Tên khóa học',
+      title: 'Tên sản phẩm',
       dataIndex: 'name',
       key: 'name',
       align: 'center',
@@ -63,7 +63,7 @@ export default function ListProduct() {
       )
     },
     {
-      title: 'Loại khóa học',
+      title: 'Loại sản phẩm',
       dataIndex: 'category',
       key: 'category',
       align: 'center',
@@ -129,7 +129,7 @@ export default function ListProduct() {
       fixed: 'right',
       render: (record: IProduct) => (
         <Space size={'middle'}>
-          <Link to={`/chi-tiet-khoa-hoc/${record.slug}`}>
+          <Link to={`/chi-tiet-san-pham/${record.slug}`}>
             <Button icon={<EyeOutlined />} />
           </Link>
           <Link to={'' + record.id + `?status=${active}&isHot=${isHot}&search=${searchValue}`}>
@@ -137,7 +137,7 @@ export default function ListProduct() {
           </Link>
           <Popconfirm
             placement='topRight'
-            title={'Bạn có chắc muốn xoá khóa học này?'}
+            title={'Bạn có chắc muốn xoá sản phẩm này?'}
             onConfirm={() => handlerDeleteProduct(record.id)}
             onCancel={() => {}}
             okText='Đồng ý'
@@ -156,7 +156,7 @@ export default function ListProduct() {
     <>
       <div className='flex items-center justify-between my-2'>
         <Typography.Title level={2} style={{ margin: 0 }}>
-          Danh sách khóa học
+          Danh sách sản phẩm
         </Typography.Title>
       </div>
       <Flex wrap='wrap' gap='small' className='my-5' align='center' justify='space-between'>
@@ -210,7 +210,7 @@ export default function ListProduct() {
         </div>
 
         <Link to={`add?status=${active}&isHot=${isHot}&search=${searchValue}`}>
-          <Button type='primary'>Thêm khóa học</Button>
+          <Button type='primary'>Thêm sản phẩm</Button>
         </Link>
       </Flex>
       <Table
@@ -224,7 +224,7 @@ export default function ListProduct() {
         sticky={{ offsetHeader: 0 }}
         scroll={{ x: 1200 }}
         dataSource={dataTable}
-        loading={courses.isLoading}
+        loading={products.isLoading}
       />
     </>
   )

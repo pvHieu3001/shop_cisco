@@ -9,21 +9,21 @@ import Footer from './components/Footer'
 import { useState } from 'react'
 
 function Base() {
-  const [isShowRecommendCourses, setIsShowRecommendCourses] = useState(true)
+  const [isShowRecommendProducts, setIsShowRecommendProducts] = useState(true)
   return (
     <>
       <div className={styles.modules}>
         <Helmet>
-          <title>Chia Sẻ Khóa Học</title>
-          <meta name='description' content='Chia Sẻ Khóa Học' />
+          <title>Đồ Gỗ Hiệp Hồng</title>
+          <meta name='description' content='Đồ Gỗ Hiệp Hồng' />
           <meta name='google-site-verification' content='T9IaRbRYVAYLaOMteD3gLMso6FUu62Kkyu7ORBpDrqw' />
         </Helmet>
 
         <Toaster />
         <ScrollToTop />
         <main className={styles.container}>
-          <Header isShowRecommendCourses= {isShowRecommendCourses}/>
-          <Outlet context={{setIsShowRecommendCourses}}/>
+          <Header isShowRecommendProducts={isShowRecommendProducts} />
+          <Outlet context={{ setIsShowRecommendProducts }} />
         </main>
       </div>
       <Footer />

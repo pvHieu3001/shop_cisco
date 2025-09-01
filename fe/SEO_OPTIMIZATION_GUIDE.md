@@ -1,4 +1,4 @@
-# Hướng Dẫn Tối Ưu SEO - Chia Sẻ Khóa Học
+# Hướng Dẫn Tối Ưu SEO - Đồ Gỗ Hiệp Hồng
 
 ## Đã Thực Hiện
 
@@ -75,7 +75,7 @@
 
 ```tsx
 <SEOComponent
-  title='Tiêu đề trang - Chia Sẻ Khóa Học'
+  title='Tiêu đề trang - Đồ Gỗ Hiệp Hồng'
   description='Mô tả trang (150-160 ký tự)'
   keywords='từ khóa, chính, phụ'
   image='URL hình ảnh'

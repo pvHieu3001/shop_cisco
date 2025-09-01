@@ -5,7 +5,7 @@ services:
     build: .
     container_name: online-wooden-backend
     ports:
-      - "8080:8080"
+      - "8888:8888"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     volumes:

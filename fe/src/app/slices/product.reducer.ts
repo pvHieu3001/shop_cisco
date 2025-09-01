@@ -1,4 +1,4 @@
-import { IProduct, IQuickViewCourse } from '@/common/types.interface'
+import { IProduct, IQuickViewProduct } from '@/common/types.interface'
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
@@ -9,11 +9,11 @@ const initialState = {
   data: <IProduct>(<unknown>null),
   dataList: <IProduct[]>(<unknown>null),
   recommends: <IProduct[]>(<unknown>null),
-  quickViews: <IQuickViewCourse[]>(<unknown>null)
+  quickViews: <IQuickViewProduct[]>(<unknown>null)
 }
 
-const courseSlice = createSlice({
-  name: 'course',
+const productSlice = createSlice({
+  name: 'product',
   initialState,
   reducers: {
     isFetching: (state) => {
@@ -30,25 +30,25 @@ const courseSlice = createSlice({
       state.data = null as unknown as IProduct
       state.dataList = []
     },
-    getCoursesSuccessFully: (state, { payload }) => {
+    getProductsSuccessFully: (state, { payload }) => {
       state.dataList = payload.data
       state.code = payload.code
       state.message = payload.message
       state.isLoading = false
     },
-    getRecommendCoursesSuccessFully: (state, { payload }) => {
+    getRecommendProductsSuccessFully: (state, { payload }) => {
       state.recommends = payload.data
       state.code = payload.code
       state.message = payload.message
       state.isLoading = false
     },
-    getQuickViewCoursesSuccessFully: (state, { payload }) => {
+    getQuickViewProductsSuccessFully: (state, { payload }) => {
       state.quickViews = payload.data
       state.code = payload.code
       state.message = payload.message
       state.isLoading = false
     },
-    getCoursesFailure: (state, { payload }) => {
+    getProductsFailure: (state, { payload }) => {
       state.code = payload.code || 'ERROR'
       state.message = payload.error_message || 'Something went wrong'
       state.isLoading = false
@@ -66,37 +66,37 @@ const courseSlice = createSlice({
     },
     createSuccessfully: (state, { payload }) => {
       state.data = payload.data
-      state.message = 'Tạo Khóa Học Thành Công'
+      state.message = 'Tạo sản phẩm Thành Công'
       state.isLoading = false
     },
     createFailure: (state) => {
-      state.error_message = 'Tạo Khóa Học Thất Bại'
+      state.error_message = 'Tạo sản phẩm Thất Bại'
       state.isLoading = false
     },
     updateSuccessfully: (state, { payload }) => {
       state.data = payload.data
-      state.message = 'Cập Nhật Khóa Học Thành Công'
+      state.message = 'Cập Nhật sản phẩm Thành Công'
       state.isLoading = false
     },
     updateFailure: (state) => {
-      state.error_message = 'Cập Nhật Khóa Học Thất Bại'
+      state.error_message = 'Cập Nhật sản phẩm Thất Bại'
       state.isLoading = false
     },
     deleteSuccessfully: (state) => {
-      state.message = 'Xóa Khóa Học Thành Công'
+      state.message = 'Xóa sản phẩm Thành Công'
       state.isLoading = false
     },
     deleteFailure: (state) => {
-      state.error_message = 'Xóa Khóa Học Thất Bại'
+      state.error_message = 'Xóa sản phẩm Thất Bại'
       state.isLoading = false
     },
-    getCoursesByCategorySuccessFully: (state, { payload }) => {
+    getProductsByCategorySuccessFully: (state, { payload }) => {
       state.dataList = payload.data
       state.code = payload.code
       state.message = payload.message
       state.isLoading = false
     },
-    getCoursesByCategoryFailure: (state, { payload }) => {
+    getProductsByCategoryFailure: (state, { payload }) => {
       state.code = payload.code || 'ERROR'
       state.message = payload.error_message || 'Something went wrong'
       state.isLoading = false
@@ -107,8 +107,8 @@ const courseSlice = createSlice({
 export const {
   isFetching,
   fetchedDone,
-  getCoursesSuccessFully,
-  getCoursesFailure,
+  getProductsSuccessFully,
+  getProductsFailure,
   getByIdFailure,
   getByIdSuccessFully,
   createFailure,
@@ -117,11 +117,11 @@ export const {
   updateSuccessfully,
   deleteFailure,
   deleteSuccessfully,
-  getCoursesByCategorySuccessFully,
-  getCoursesByCategoryFailure,
-  getRecommendCoursesSuccessFully,
-  getQuickViewCoursesSuccessFully,
+  getProductsByCategorySuccessFully,
+  getProductsByCategoryFailure,
+  getRecommendProductsSuccessFully,
+  getQuickViewProductsSuccessFully,
   reset
-} = courseSlice.actions
+} = productSlice.actions
 
-export default courseSlice.reducer
+export default productSlice.reducer

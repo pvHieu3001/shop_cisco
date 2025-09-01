@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import webReducer from './slices/web.reducer'
 import categoryReducer from './slices/category.reducer'
 import userReducer from './slices/user.reducer'
-import courseReducer from './slices/course.reducer'
+import productReducer from './slices/product.reducer'
 import alertReducer from './slices/alert.reducer'
 import orderSlice from './slices/order.reducer'
 import blogSlice from './slices/blog.reducer'
@@ -12,7 +12,7 @@ export const store = configureStore({
     user: userReducer,
     web: webReducer,
     alert: alertReducer,
-    course: courseReducer,
+    product: productReducer,
     order: orderSlice,
     blog: blogSlice
   }

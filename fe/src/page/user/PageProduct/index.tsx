@@ -2,37 +2,37 @@ import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import TabCategory from '../components/TabCategory'
-import { courseActions } from '@/app/actions'
+import { productActions } from '@/app/actions'
 import { AnyAction } from '@reduxjs/toolkit'
 import { RootState } from '@/app/store'
 import { ContextType, IProduct } from '@/common/types.interface'
 import { getImageUrl } from '@/utils/getImageUrl'
 
-function PageCourse() {
+function PageProduct() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [currentPage, setCurrentPage] = useState(1)
-  const [coursesPerPage] = useState(6)
-  const { dataList: courses, isLoading: coursesLoading } = useSelector((state: RootState) => state.course)
-  const { setIsShowRecommendCourses } = useOutletContext<ContextType>()
+  const [ProductsPerPage] = useState(6)
+  const { dataList: Products, isLoading: ProductsLoading } = useSelector((state: RootState) => state.product)
+  const { setIsShowRecommendProducts } = useOutletContext<ContextType>()
 
   useEffect(() => {
-    setIsShowRecommendCourses(true)
-  }, [setIsShowRecommendCourses])
-  
+    setIsShowRecommendProducts(true)
+  }, [setIsShowRecommendProducts])
+
   useEffect(() => {
-    dispatch(courseActions.getCourses('active', '', '') as unknown as AnyAction)
+    dispatch(productActions.getProducts('active', '', '') as unknown as AnyAction)
   }, [dispatch])
 
-  // Handle course item click
-  const handleCourseClick = (course: IProduct) => {
-    navigate(`/chi-tiet-khoa-hoc/${course.slug}`)
+  // Handle Product item click
+  const handleProductClick = (Product: IProduct) => {
+    navigate(`/chi-tiet-san-pham/${Product.slug}`)
   }
 
-  const indexOfLastCourse = currentPage * coursesPerPage
-  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage
-  const currentCourses = courses ? courses.slice(indexOfFirstCourse, indexOfLastCourse) : []
-  const totalPages = courses ? Math.ceil(courses.length / coursesPerPage) : 0
+  const indexOfLastProduct = currentPage * ProductsPerPage
+  const indexOfFirstProduct = indexOfLastProduct - ProductsPerPage
+  const currentProducts = Products ? Products.slice(indexOfFirstProduct, indexOfLastProduct) : []
+  const totalPages = Products ? Math.ceil(Products.length / ProductsPerPage) : 0
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -81,37 +81,37 @@ function PageCourse() {
           {/* Nội dung chính bên trái */}
           <div className='flex-1 bg-white rounded-lg shadow-md p-6'>
             <div>
-              <div className='text-xl font-semibold text-indigo-600 mb-2'>Tất cả khóa học</div>
+              <div className='text-xl font-semibold text-indigo-600 mb-2'>Tất cả sản phẩm</div>
             </div>
 
             <div>
-              {coursesLoading ? (
-                <div className='text-center text-gray-500'>Đang tải khóa học...</div>
-              ) : currentCourses && currentCourses.length > 0 ? (
+              {ProductsLoading ? (
+                <div className='text-center text-gray-500'>Đang tải sản phẩm...</div>
+              ) : currentProducts && currentProducts.length > 0 ? (
                 <>
                   <div className='flex flex-col gap-6 mb-6'>
-                    {currentCourses.map((course) => {
+                    {currentProducts.map((Product) => {
                       const stripHtml = (html) => {
                         const tmp = document.createElement('div')
                         tmp.innerHTML = html
                         return tmp.textContent || tmp.innerText || ''
                       }
 
-                      const shortDescription = stripHtml(course.description).slice(0, 200) + '...'
+                      const shortDescription = stripHtml(Product.description).slice(0, 200) + '...'
                       return (
                         <div
-                          key={course.id}
-                          onClick={() => handleCourseClick(course)}
+                          key={Product.id}
+                          onClick={() => handleProductClick(Product)}
                           className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex items-center space-x-4'
                         >
                           <img
-                            src={getImageUrl(course.imageUrl)}
-                            alt={course.name}
+                            src={getImageUrl(Product.imageUrl)}
+                            alt={Product.name}
                             className='w-100 h-40 object-cover rounded-md flex-shrink-0'
                           />
                           <div>
-                            <div className='text-sm text-indigo-500 font-medium'>{course.category?.name}</div>
-                            <div className='text-lg font-semibold text-gray-800'>{course.name}</div>
+                            <div className='text-sm text-indigo-500 font-medium'>{Product.category?.name}</div>
+                            <div className='text-lg font-semibold text-gray-800'>{Product.name}</div>
                             <div
                               dangerouslySetInnerHTML={{ __html: shortDescription }}
                               className='text-gray-600 text-base mt-1 [&_p]:mb-4 
@@ -163,7 +163,7 @@ function PageCourse() {
                   )}
                 </>
               ) : (
-                <div className='text-center text-gray-500'>Không tìm thấy khóa học nào trong danh mục này</div>
+                <div className='text-center text-gray-500'>Không tìm thấy sản phẩm nào trong danh mục này</div>
               )}
             </div>
           </div>
@@ -175,4 +175,4 @@ function PageCourse() {
   )
 }
 
-export default PageCourse
+export default PageProduct

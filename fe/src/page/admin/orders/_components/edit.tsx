@@ -20,7 +20,7 @@ import { CloudUploadOutlined, DeleteOutlined } from '@ant-design/icons'
 import { popupError, popupSuccess } from '@/page/shared/Toast'
 import ReactQuill from 'react-quill'
 import { useDispatch, useSelector } from 'react-redux'
-import { courseActions } from '@/app/actions/course.actions'
+import { productActions } from '@/app/actions/product.actions'
 import { AnyAction } from '@reduxjs/toolkit'
 import TextEditor from '../../components/TextEditor/QuillEditor'
 import { RootState } from '@/app/store'
@@ -35,7 +35,7 @@ type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 function EditProduct() {
   const { flug } = useParams()
   const dispatch = useDispatch()
-  const courseStore = useSelector((state: RootState) => state.course)
+  const productStore = useSelector((state: RootState) => state.product)
   const [form] = Form.useForm()
   const [gallery, setGallery] = useState<Array<gallery>>([])
   const navigate = useNavigate()
@@ -44,22 +44,22 @@ function EditProduct() {
 
   useEffect(() => {
     if (flug) {
-      dispatch(courseActions.getCourseById(flug) as unknown as AnyAction)
+      dispatch(productActions.getProductById(flug) as unknown as AnyAction)
     }
   }, [flug])
 
   useEffect(() => {
-    if (courseStore.data && courseStore.data.gallery) {
-      const initDataGalleries = courseStore.data.gallery.map((item: any) => ({
+    if (productStore.data && productStore.data.gallery) {
+      const initDataGalleries = productStore.data.gallery.map((item: any) => ({
         image: '',
         displayPic: item.image
       }))
       setGallery(initDataGalleries)
     }
-  }, [courseStore.data])
+  }, [productStore.data])
 
   const onFinish = async () => {
-    const id = courseStore.data?.id
+    const id = productStore.data?.id
     const name = form.getFieldValue('name')
     const category_id = form.getFieldValue('category_id')
     const description = form.getFieldValue('description')
@@ -91,11 +91,11 @@ function EditProduct() {
     formdata.append('total_students', String(total_students))
 
     try {
-      await dispatch(courseActions.updateCourse(id, formdata) as unknown as AnyAction)
-      popupSuccess('Cập nhật khóa học thành công')
+      await dispatch(productActions.updateProduct(id, formdata) as unknown as AnyAction)
+      popupSuccess('Cập nhật sản phẩm thành công')
       navigate('..')
     } catch (error) {
-      popupError('Cập nhật khóa học thất bại')
+      popupError('Cập nhật sản phẩm thất bại')
     }
   }
 
@@ -151,12 +151,12 @@ function EditProduct() {
 
   return (
     <>
-      {courseStore.data && !courseStore.isLoading && (
+      {productStore.data && !productStore.isLoading && (
         <Drawer
           open={true}
           title={
             <>
-              <h2 className=' font-bold text-[24px]'>Cập nhật khóa học</h2>
+              <h2 className=' font-bold text-[24px]'>Cập nhật sản phẩm</h2>
             </>
           }
           width={'85%'}
@@ -177,24 +177,24 @@ function EditProduct() {
             onFinish={onFinish}
             className='p-10 relative'
             initialValues={{
-              id: courseStore.data?.id,
-              created_at: courseStore.data?.created_at,
-              created_by: courseStore.data?.created_by,
-              updated_at: courseStore.data?.updated_at,
-              updated_by: courseStore.data?.updated_by,
-              category_id: courseStore.data?.category_id,
-              description: courseStore.data?.description,
-              image_url: courseStore.data?.image_url,
-              language: courseStore.data?.language,
-              level: courseStore.data?.level,
-              name: courseStore.data?.name,
-              price: courseStore.data?.price,
-              rating: courseStore.data?.rating,
-              slug: courseStore.data?.slug,
-              source_url: courseStore.data?.source_url,
-              status: courseStore.data?.status,
-              total_rating: courseStore.data?.total_rating,
-              total_students: courseStore.data?.total_students
+              id: productStore.data?.id,
+              created_at: productStore.data?.created_at,
+              created_by: productStore.data?.created_by,
+              updated_at: productStore.data?.updated_at,
+              updated_by: productStore.data?.updated_by,
+              category_id: productStore.data?.category_id,
+              description: productStore.data?.description,
+              image_url: productStore.data?.image_url,
+              language: productStore.data?.language,
+              level: productStore.data?.level,
+              name: productStore.data?.name,
+              price: productStore.data?.price,
+              rating: productStore.data?.rating,
+              slug: productStore.data?.slug,
+              source_url: productStore.data?.source_url,
+              status: productStore.data?.status,
+              total_rating: productStore.data?.total_rating,
+              total_students: productStore.data?.total_students
             }}
           >
             <Card title='Thông tin hệ thống' size='small' style={{ marginBottom: 24, background: '#fafafa' }}>
@@ -287,7 +287,7 @@ function EditProduct() {
             <Divider orientation='left'>Nội dung chi tiết</Divider>
             <Card size='small' style={{ marginBottom: 24 }}>
               <Form.Item name='content' label='Nội dung'>
-                <TextEditor content={courseStore.data?.content ?? ''} onHandleChange={() => {}} />
+                <TextEditor content={productStore.data?.content ?? ''} onHandleChange={() => {}} />
               </Form.Item>
               <Form.Item name='detail' label='Mô tả chi tiết'>
                 <ReactQuill modules={modules} formats={formats} theme='snow' className='h-[200px]' />
@@ -384,8 +384,8 @@ function EditProduct() {
             </Card>
             <Flex className='fixed z-[10000000] top-[15px] right-10' gap={20}>
               <Button
-                loading={courseStore.isLoading}
-                disabled={courseStore.isLoading}
+                loading={productStore.isLoading}
+                disabled={productStore.isLoading}
                 htmlType='submit'
                 type='primary'
                 className=' '

@@ -17,10 +17,10 @@ function PageBlog() {
   const dispatch = useDispatch()
   const { dataList: dataList, recommendList: recommendList } = useSelector((state: RootState) => state.blog)
 
-  const { setIsShowRecommendCourses } = useOutletContext<ContextType>()
+  const { setIsShowRecommendProducts } = useOutletContext<ContextType>()
   useEffect(() => {
-    setIsShowRecommendCourses(false)
-  }, [setIsShowRecommendCourses])
+    setIsShowRecommendProducts(false)
+  }, [setIsShowRecommendProducts])
 
   useEffect(() => {
     const path = location.pathname.replace(/^\/|\/$/g, '')

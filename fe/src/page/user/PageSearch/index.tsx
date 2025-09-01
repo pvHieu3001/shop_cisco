@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import styles from './styles.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { courseActions } from '@/app/actions/course.actions'
+import { productActions } from '@/app/actions/product.actions'
 import { useNavigate } from 'react-router-dom'
 import TabCategory from '../components/TabCategory'
 import { RootState } from '@/app/store'
@@ -17,44 +17,44 @@ function PageSearch() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { dataList, isLoading, error_message } = useSelector((state: RootState) => state.course)
+  const { dataList, isLoading, error_message } = useSelector((state: RootState) => state.product)
 
   useEffect(() => {
-    dispatch(courseActions.getCourses('active', search, '') as unknown as AnyAction)
+    dispatch(productActions.getProducts('active', search, '') as unknown as AnyAction)
   }, [search])
 
   const handleDetail = (slug: string) => {
-    const course = dataList.find((c: IProduct) => c.slug === slug)
-    if (course) {
-      navigate(`/chi-tiet-khoa-hoc/${slug}`, { state: course })
+    const product = dataList.find((c: IProduct) => c.slug === slug)
+    if (product) {
+      navigate(`/chi-tiet-san-pham/${slug}`, { state: product })
     }
   }
 
   return (
     <div className={styles.bg}>
       <main className={styles.mainContent} role='main'>
-        <section className={styles.coursesWrapper} aria-label='Course listings'>
-          <h2 className={styles.courseListTitle}>Kết quả tìm kiếm</h2>
-          <div className={styles.courses}>
-            {isLoading && <p>Đang tải khóa học...</p>}
+        <section className={styles.productsWrapper} aria-label='Product listings'>
+          <h2 className={styles.productListTitle}>Kết quả tìm kiếm</h2>
+          <div className={styles.products}>
+            {isLoading && <p>Đang tải sản phẩm...</p>}
             {!isLoading && error_message && (
-              <p className={styles.error}>Đã xảy ra lỗi khi tải khóa học. Vui lòng thử lại sau.</p>
+              <p className={styles.error}>Đã xảy ra lỗi khi tải sản phẩm. Vui lòng thử lại sau.</p>
             )}
-            {!isLoading && !error_message && dataList?.length === 0 && <p>Không tìm thấy khóa học phù hợp.</p>}
+            {!isLoading && !error_message && dataList?.length === 0 && <p>Không tìm thấy sản phẩm phù hợp.</p>}
             {!isLoading &&
               !error_message &&
-              dataList?.map((course: IProduct) => (
+              dataList?.map((Product: IProduct) => (
                 <article
-                  className={styles.courseCard}
-                  key={course.id}
+                  className={styles.productCard}
+                  key={Product.id}
                   role='button'
                   tabIndex={0}
-                  onClick={() => handleDetail(course.slug)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleDetail(course.slug)}
+                  onClick={() => handleDetail(Product.slug)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleDetail(Product.slug)}
                 >
-                  <img src={getImageUrl(course.imageUrl)} alt={`${course.name} course image`} loading='lazy' />
-                  <Link className={styles.courseCat}>{course.category?.name}</Link>
-                  <h3 className={styles.courseTitle}>{course.name}</h3>
+                  <img src={getImageUrl(Product.imageUrl)} alt={`${Product.name} Product image`} loading='lazy' />
+                  <Link className={styles.productCat}>{Product.category?.name}</Link>
+                  <h3 className={styles.productTitle}>{Product.name}</h3>
                 </article>
               ))}
           </div>

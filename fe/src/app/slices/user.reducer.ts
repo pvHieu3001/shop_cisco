@@ -24,7 +24,7 @@ const userSlice = createSlice({
       state.data = payload
       state.isLoading = false
     },
-    postCourseSuccess: (state, { payload }) => {
+    postProductSuccess: (state, { payload }) => {
       state.dataList.push(payload) 
       state.isLoading = false
     },

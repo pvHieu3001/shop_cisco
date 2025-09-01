@@ -26,7 +26,7 @@ import jakarta.annotation.PostConstruct;
 import static online.wooden.market.utils.Constant.*;
 
 @RestController
-@RequestMapping("api/v1/user/wooden")
+@RequestMapping("api/v1/user/product")
 @Tag(name = "Product", description = "Product controller")
 public class ProductController {
 

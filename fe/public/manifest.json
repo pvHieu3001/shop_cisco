@@ -1,6 +1,6 @@
 {
-  "name": "Chia Sẻ Khóa Học - Thương Hiệu Đồ Gỗ Việt Nam",
-  "short_name": "Chia Sẻ Khóa Học",
+  "name": "Đồ Gỗ Hiệp Hồng - Thương Hiệu Đồ Gỗ Việt Nam",
+  "short_name": "Đồ Gỗ Hiệp Hồng",
   "description": "Thương hiệu đồ gỗ Việt Nam uy tín, chất lượng cao",
   "start_url": "/",
   "display": "standalone",
@@ -24,4 +24,4 @@
   "categories": ["shopping", "lifestyle", "home"],
   "lang": "vi",
   "dir": "ltr"
-} 
+}
