@@ -15,7 +15,7 @@ executors:
     working_directory: ~/project/online-wooden
 
 jobs:
-  build-fe:
+  build-wooden-fe:
     executor: node-executor
     steps:
       - checkout
@@ -44,7 +44,7 @@ jobs:
           root: fe
           paths:
             - dist
-  test-fe:
+  test-wooden-fe:
     executor: node-executor
     steps:
       - checkout
@@ -64,7 +64,7 @@ jobs:
       - run:
           name: Test FE
           command: cd fe && npm test || true
-  build-be:
+  build-wooden-be:
     executor: java-executor
     steps:
       - checkout
@@ -82,7 +82,7 @@ jobs:
             - docker-compose.yml
             - pom.xml
             - src
-  test-be:
+  test-wooden-be:
     executor: java-executor
     steps:
       - checkout
@@ -92,7 +92,7 @@ jobs:
       - run:
           name: Test BE
           command: cd be && ./mvnw test
-  deploy-fe:
+  deploy-wooden-fe:
     executor: node-executor
     steps:
       - checkout
@@ -151,7 +151,7 @@ jobs:
 
             chmod +x deploy-online-wooden-fe.sh
             ./deploy-online-wooden-fe.sh
-  deploy-be:
+  deploy-wooden-be:
     executor: java-executor
     steps:
       - checkout
@@ -248,23 +248,23 @@ workflows:
   version: 2
   build-and-test:
     jobs:
-      - build-fe
-      - test-fe:
+      - build-wooden-fe
+      - test-wooden-fe:
           requires:
-            - build-fe
-      - build-be
-      - test-be:
+            - build-wooden-fe
+      - build-wooden-be
+      - test-wooden-be:
           requires:
-            - build-be
-      - deploy-fe:
+            - build-wooden-be
+      - deploy-wooden-fe:
           requires:
-            - build-fe
+            - build-wooden-fe
           filters:
             branches:
               only: develop
-      - deploy-be:
+      - deploy-wooden-be:
           requires:
-            - build-be
+            - build-wooden-be
           filters:
             branches:
               only: develop
