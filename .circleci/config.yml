@@ -226,10 +226,10 @@ jobs:
 
             # Upload entire backend directory with existing Docker files
             echo "📤 Uploading backend files..."
-            scp -o StrictHostKeyChecking=no be/target/online-wooden-0.0.1-SNAPSHOT.jar ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/target/
-            scp -o StrictHostKeyChecking=no be/docker-compose.yml ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/
-            scp -o StrictHostKeyChecking=no be/dockerfile ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/
-            scp -o StrictHostKeyChecking=no be/src/main/resources/application-docker.properties ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/
+            scp -o StrictHostKeyChecking=no be/target/online-wooden-0.0.1-SNAPSHOT.jar ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/target/online-wooden-0.0.1-SNAPSHOT.jar
+            scp -o StrictHostKeyChecking=no be/docker-compose.yml ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/docker-compose.yml
+            scp -o StrictHostKeyChecking=no be/dockerfile ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/dockerfile
+            scp -o StrictHostKeyChecking=no be/src/main/resources/application-docker.properties ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/application-docker.properties
 
             # Create uploads directory on server
             ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p /var/www/uploads"
