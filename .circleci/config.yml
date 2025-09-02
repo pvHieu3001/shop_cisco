@@ -223,7 +223,6 @@ jobs:
 
             # Remove old Docker image
             ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker rmi ${DOCKER_IMAGE_NAME}:latest || true"
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker rmi ${DOCKER_IMAGE_NAME}:latest || true"
 
             # Upload entire backend directory with existing Docker files
             echo "📤 Uploading backend files..."
