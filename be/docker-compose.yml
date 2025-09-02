@@ -11,7 +11,7 @@ services:
     volumes:
       - /var/www/uploads:/app/uploads
     networks:
-      - app-network
+      - wooden-network
 networks:
-  app-network:
+  wooden-network:
     driver: bridge

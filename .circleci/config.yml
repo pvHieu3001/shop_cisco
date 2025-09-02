@@ -4,15 +4,15 @@ executors:
   node-executor:
     docker:
       - image: cimg/node:20.19.0
-    working_directory: ~/project
+    working_directory: ~/project/online-wooden
   java-executor:
     docker:
       - image: cimg/openjdk:17.0
-    working_directory: ~/project
+    working_directory: ~/project/online-wooden
   docker-executor:
     docker:
       - image: docker:24.0.2
-    working_directory: ~/project
+    working_directory: ~/project/online-wooden
 
 jobs:
   build-fe:
