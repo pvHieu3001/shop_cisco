@@ -105,7 +105,7 @@ jobs:
           name: Deploy Frontend to Server
           command: |
             # Create deployment script
-            cat > deploy-fe.sh \<< 'EOF'
+            cat > deploy-online-wooden-fe.sh \<< 'EOF'
             #!/bin/bash
             set -e
             set -x
@@ -149,8 +149,8 @@ jobs:
             echo "✅ Frontend deployment completed successfully!"
             EOF
 
-            chmod +x deploy-fe.sh
-            ./deploy-fe.sh
+            chmod +x deploy-online-wooden-fe.sh
+            ./deploy-online-wooden-fe.sh
   deploy-be:
     executor: java-executor
     steps:
@@ -172,7 +172,7 @@ jobs:
           name: Deploy Backend to VPS
           command: |
             # Create deployment script
-            cat > deploy-be.sh \<< 'EOF'
+            cat > deploy-online-wooden-be.sh \<< 'EOF'
             #!/bin/bash
             set -e
             set -x
@@ -241,8 +241,8 @@ jobs:
             echo "✅ Backend deployment completed successfully!"
             EOF
 
-            chmod +x deploy-be.sh
-            ./deploy-be.sh
+            chmod +x deploy-online-wooden-be.sh
+            ./deploy-online-wooden-be.sh
 
 workflows:
   version: 2
