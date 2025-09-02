@@ -113,7 +113,7 @@ jobs:
             # Server configuration from environment variables
             SERVER_HOST="${SERVER_HOST:-your-server.com}"
             SERVER_USER="${SERVER_USER:-deploy}"
-            FRONTEND_PATH="${FRONTEND_PATH:-/var/www/html/online-wooden/fe}"
+            WOODEN_FRONTEND_PATH="${FRONTEND_PATH:-/var/www/html/online-wooden/fe}"
             BACKUP_PATH="${BACKUP_PATH:-/var/www/backups}"
 
             echo "🚀 Starting frontend deployment to ${SERVER_HOST}..."
@@ -125,20 +125,20 @@ jobs:
             TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
             # Backup current frontend if it exists
-            if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "[ -d ${FRONTEND_PATH} ]"; then
+            if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "[ -d ${WOODEN_FRONTEND_PATH} ]"; then
               echo "📦 Creating backup of current frontend..."
-              ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "tar -czf ${BACKUP_PATH}/frontend_backup_${TIMESTAMP}.tar.gz -C ${FRONTEND_PATH} ."
+              ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "tar -czf ${BACKUP_PATH}/frontend_backup_${TIMESTAMP}.tar.gz -C ${WOODEN_FRONTEND_PATH} ."
             fi
 
             # Create frontend directory if it doesn't exist
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${FRONTEND_PATH}"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${WOODEN_FRONTEND_PATH}"
 
             # Upload new frontend build
             echo "📤 Uploading new frontend build..."
-            scp -o StrictHostKeyChecking=no -r fe/dist/* ${SERVER_USER}@${SERVER_HOST}:${FRONTEND_PATH}/
+            scp -o StrictHostKeyChecking=no -r fe/dist/* ${SERVER_USER}@${SERVER_HOST}:${WOODEN_FRONTEND_PATH}/
 
             # Set proper permissions
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "chmod -R 755 ${FRONTEND_PATH}"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "chmod -R 755 ${WOODEN_FRONTEND_PATH}"
 
             # Restart nginx if it exists
             if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "systemctl is-active --quiet nginx"; then
@@ -180,10 +180,10 @@ jobs:
             # Server configuration from environment variables
             SERVER_HOST="${SERVER_HOST:-your-server.com}"
             SERVER_USER="${SERVER_USER:-deploy}"
-            BACKEND_PATH="${BACKEND_PATH:-/var/www/html/online-wooden/be}"
+            WOODEN_BACKEND_PATH="${BACKEND_PATH:-/var/www/html/online-wooden/be}"
             BACKUP_PATH="${BACKUP_PATH:-/var/www/backups}"
-            DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME:-online-wooden-backend}"
-            DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_NAME:-online-wooden-backend}"
+            WOODEN_DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME:-online-wooden-backend}"
+            WOODEN_DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_NAME:-online-wooden-backend}"
 
             echo "🚀 Starting backend deployment to ${SERVER_HOST}..."
 
@@ -206,37 +206,37 @@ jobs:
             echo "📦 Found JAR file: $JAR_FILE"
 
             # Create backend directory if it doesn't exist
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${BACKEND_PATH}"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${WOODEN_BACKEND_PATH}"
 
             # Backup current Docker image if it exists
-            #if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker images | grep -q ${DOCKER_IMAGE_NAME}"; then
+            #if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker images | grep -q ${WOODEN_DOCKER_IMAGE_NAME}"; then
             #  echo "📦 Creating backup of current Docker image..."
-            #  ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker save ${DOCKER_IMAGE_NAME}:latest | gzip > ${BACKUP_PATH}/backend_docker_backup_${TIMESTAMP}.tar.gz"
+            #  ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker save ${WOODEN_DOCKER_IMAGE_NAME}:latest | gzip > ${BACKUP_PATH}/backend_docker_backup_${TIMESTAMP}.tar.gz"
             #fi
 
             # Stop and remove current container if it exists
-            if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker ps -a | grep -q ${DOCKER_CONTAINER_NAME}"; then
+            if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker ps -a | grep -q ${WOODEN_DOCKER_CONTAINER_NAME}"; then
               echo "🛑 Stopping and removing current container..."
-              ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker stop ${DOCKER_CONTAINER_NAME} || true"
+              ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker stop ${WOODEN_DOCKER_CONTAINER_NAME} || true"
               # ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker images | grep '<none>' | awk '{print $3}' | xargs -r docker rmi"
             fi
 
             # Remove old Docker image
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker rmi ${DOCKER_IMAGE_NAME}:latest || true"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker rmi ${WOODEN_DOCKER_IMAGE_NAME}:latest || true"
 
             # Upload entire backend directory with existing Docker files
             echo "📤 Uploading backend files..."
-            scp -o StrictHostKeyChecking=no be/target/online-wooden-0.0.1-SNAPSHOT.jar ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/target/online-wooden-0.0.1-SNAPSHOT.jar
-            scp -o StrictHostKeyChecking=no be/docker-compose.yml ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/docker-compose.yml
-            scp -o StrictHostKeyChecking=no be/dockerfile ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/dockerfile
-            scp -o StrictHostKeyChecking=no be/src/main/resources/application-docker.properties ${SERVER_USER}@${SERVER_HOST}:${BACKEND_PATH}/application-docker.properties
+            scp -o StrictHostKeyChecking=no be/target/online-wooden-0.0.1-SNAPSHOT.jar ${SERVER_USER}@${SERVER_HOST}:${WOODEN_BACKEND_PATH}/target/online-wooden-0.0.1-SNAPSHOT.jar
+            scp -o StrictHostKeyChecking=no be/docker-compose.yml ${SERVER_USER}@${SERVER_HOST}:${WOODEN_BACKEND_PATH}/docker-compose.yml
+            scp -o StrictHostKeyChecking=no be/dockerfile ${SERVER_USER}@${SERVER_HOST}:${WOODEN_BACKEND_PATH}/dockerfile
+            scp -o StrictHostKeyChecking=no be/src/main/resources/application-docker.properties ${SERVER_USER}@${SERVER_HOST}:${WOODEN_BACKEND_PATH}/application-docker.properties
 
             # Create uploads directory on server
             ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p /var/www/uploads"
 
             # Run new container with docker-compose
             echo "🚀 Starting new container with docker-compose..."
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "cd ${BACKEND_PATH} && SPRING_PROFILES_ACTIVE=docker docker compose up -d --build"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "cd ${WOODEN_BACKEND_PATH} && SPRING_PROFILES_ACTIVE=docker docker compose up -d --build"
 
             echo "✅ Backend deployment completed successfully!"
             EOF
