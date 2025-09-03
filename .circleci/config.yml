@@ -1,22 +1,22 @@
 version: 2.1
 
 executors:
-  node-executor:
+  wooden-node-executor:
     docker:
       - image: cimg/node:20.19.0
     working_directory: ~/project/online-wooden
-  java-executor:
+  wooden-java-executor:
     docker:
       - image: cimg/openjdk:17.0
     working_directory: ~/project/online-wooden
-  docker-executor:
+  wooden-docker-executor:
     docker:
       - image: docker:24.0.2
     working_directory: ~/project/online-wooden
 
 jobs:
   build-wooden-fe:
-    executor: node-executor
+    executor: wooden-node-executor
     steps:
       - checkout
       - restore_cache:
@@ -45,7 +45,7 @@ jobs:
           paths:
             - dist
   test-wooden-fe:
-    executor: node-executor
+    executor: wooden-node-executor
     steps:
       - checkout
       - restore_cache:
@@ -65,7 +65,7 @@ jobs:
           name: Test FE
           command: cd fe && npm test || true
   build-wooden-be:
-    executor: java-executor
+    executor: wooden-java-executor
     steps:
       - checkout
       - run:
@@ -83,7 +83,7 @@ jobs:
             - pom.xml
             - src
   test-wooden-be:
-    executor: java-executor
+    executor: wooden-java-executor
     steps:
       - checkout
       - run:
@@ -93,7 +93,7 @@ jobs:
           name: Test BE
           command: cd be && ./mvnw test
   deploy-wooden-fe:
-    executor: node-executor
+    executor: wooden-node-executor
     steps:
       - checkout
       - attach_workspace:
@@ -152,7 +152,7 @@ jobs:
             chmod +x deploy-online-wooden-fe.sh
             ./deploy-online-wooden-fe.sh
   deploy-wooden-be:
-    executor: java-executor
+    executor: wooden-java-executor
     steps:
       - checkout
       - attach_workspace:
@@ -183,7 +183,7 @@ jobs:
             WOODEN_BACKEND_PATH="${BACKEND_PATH:-/var/www/html/online-wooden/be}"
             BACKUP_PATH="${BACKUP_PATH:-/var/www/backups}"
             WOODEN_DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME:-online-wooden-backend}"
-            DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v1.0.1}"
+            DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v1.0.0}"
             WOODEN_DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_NAME:-online-wooden-backend}"
 
             echo "🚀 Starting backend deployment to ${SERVER_HOST}..."
