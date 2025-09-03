@@ -183,7 +183,7 @@ jobs:
             WOODEN_BACKEND_PATH="${BACKEND_PATH:-/var/www/html/online-wooden/be}"
             BACKUP_PATH="${BACKUP_PATH:-/var/www/backups}"
             WOODEN_DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME:-online-wooden-backend}"
-            WOODEN_DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v1.0.0}"
+            WOODEN_DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v2.0.0}"
             WOODEN_DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_NAME:-online-wooden-backend}"
 
             echo "🚀 Starting backend deployment to ${SERVER_HOST}..."
