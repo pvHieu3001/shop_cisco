@@ -1,11 +1,11 @@
 FROM openjdk:17-jdk-slim
 
-WORKDIR /app
+WORKDIR /app/online-wooden
 
 COPY target/online-wooden-0.0.1-SNAPSHOT.jar app.jar
 
 # Tạo thư mục uploads
-RUN mkdir -p /app/uploads
+RUN mkdir -p /app/online-wooden/uploads
 
 EXPOSE 8888
 
