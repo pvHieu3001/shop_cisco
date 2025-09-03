@@ -183,7 +183,7 @@ jobs:
             WOODEN_BACKEND_PATH="${BACKEND_PATH:-/var/www/html/online-wooden/be}"
             BACKUP_PATH="${BACKUP_PATH:-/var/www/backups}"
             WOODEN_DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME:-online-wooden-backend}"
-            DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v1.0.0}"
+            WOODEN_DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v1.0.0}"
             WOODEN_DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_NAME:-online-wooden-backend}"
 
             echo "🚀 Starting backend deployment to ${SERVER_HOST}..."
@@ -223,7 +223,7 @@ jobs:
             fi
 
             # Remove old Docker image
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker rmi ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} || true"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker rmi ${WOODEN_DOCKER_IMAGE_NAME}:${WOODEN_DOCKER_IMAGE_TAG} || true"
 
             # Upload entire backend directory with existing Docker files
             echo "📤 Uploading backend files..."
