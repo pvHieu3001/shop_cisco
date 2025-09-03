@@ -237,7 +237,7 @@ jobs:
 
             # Run new container with docker-compose
             echo "🚀 Starting new container with docker-compose..."
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "cd ${WOODEN_BACKEND_PATH} && SPRING_PROFILES_ACTIVE=docker docker compose up -d --build"
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "cd ${WOODEN_BACKEND_PATH} && SPRING_PROFILES_ACTIVE=docker docker compose -p online-wooden up -d --build"
 
             echo "✅ Backend deployment completed successfully!"
             EOF
