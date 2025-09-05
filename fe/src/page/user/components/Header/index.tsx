@@ -131,7 +131,7 @@ const Header = (props: Props) => {
         </nav>
       </div>
 
-      {/* Sidebar menu for mobile */}
+      {/* Sidebar menu for sp */}
       {menuOpen && (
         <div
           ref={menuRef}
