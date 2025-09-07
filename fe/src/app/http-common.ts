@@ -28,7 +28,7 @@ const onErrorInterceptorResponse = (error) => {
   } else if (error.request) {
     console.log('Lỗi mạng hoặc server không phản hồi:', error.message)
     console.log('Chi tiết request:', error.request)
-    window.location.href = `${DOMAIN_URL}network-error`
+    // window.location.href = `${DOMAIN_URL}network-error`
   } else {
     console.log('Lỗi không xác định:', error.message)
   }
