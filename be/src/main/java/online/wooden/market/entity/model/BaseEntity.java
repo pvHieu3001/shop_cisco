@@ -22,11 +22,11 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
     @CreatedBy
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "created_by", nullable = true)
     protected UserModel createdBy;
     @LastModifiedBy
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "updated_by", nullable = true)
     protected UserModel updatedBy;
     @CreatedDate

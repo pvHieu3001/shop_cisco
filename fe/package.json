@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "serve": "npx json-server --watch db.json",
-    "dev": "vite",
+    "dev": "vite --port 9200",
     "build": "vite build",
     "start:json-server": "json-server --watch db.json",
     "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

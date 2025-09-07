@@ -48,9 +48,9 @@ export default function EditCategory() {
         parent_id: data.parentId ? data.parentId.toString() : '',
         status: data.status,
         name: data.name,
-        description: data.description,
-        content: data.content,
-        isQuickView: data.isQuickView
+        description: data.description ?? '',
+        content: data.content ?? '',
+        isQuickView: data.isQuickView ?? false
       })
     }
   }, [categoryStore, dataCategories, form])

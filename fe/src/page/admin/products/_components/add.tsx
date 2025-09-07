@@ -50,7 +50,7 @@ function AddProduct() {
     formdata.append('price', price ?? 0)
     formdata.append('sourceUrl', sourceUrl)
     formdata.append('status', status ? 'active' : 'inactive')
-    formdata.append('isDisplayHot', isDisplayHot)
+    formdata.append('isDisplayHot', isDisplayHot ?? false)
 
     try {
       await dispatch(productActions.createProduct(formdata) as unknown as AnyAction)
