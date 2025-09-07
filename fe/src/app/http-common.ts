@@ -18,10 +18,10 @@ const onErrorInterceptorResponse = (error) => {
     const status = error.response.status
     if (status === 401) {
       console.log('Lỗi 401: Không xác thực')
-      goToWorkspace()
+      // goToWorkspace()
     } else if (status === 403) {
       console.log('Lỗi 403: Không có quyền truy cập')
-      goToWorkspace()
+      // goToWorkspace()
     } else {
       console.log(`Lỗi HTTP ${status}:`, error.response.data)
     }
