@@ -62,15 +62,15 @@ function EditProduct() {
     formdata.append('content', content)
     formdata.append('description', description)
     formdata.append('productBenefits', productBenefits)
-    if (imageUrl) {
-      formdata.append('imageFile', imageUrl as Blob)
-    }
     formdata.append('sourceUrl', sourceUrl)
     formdata.append('language', language)
     formdata.append('level', level)
     formdata.append('price', price ?? 0)
     formdata.append('status', status ? 'active' : 'inactive')
     formdata.append('isDisplayHot', isDisplayHot)
+    if (imageUrl) {
+      formdata.append('imageFile', imageUrl as Blob)
+    }
 
     try {
       await dispatch(productActions.updateProduct(id as string, formdata) as unknown as AnyAction)

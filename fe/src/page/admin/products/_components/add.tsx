@@ -44,13 +44,15 @@ function AddProduct() {
     formdata.append('content', content)
     formdata.append('description', detail)
     formdata.append('productBenefits', productBenefits)
-    formdata.append('imageFile', imageUrl as Blob)
     formdata.append('language', language)
     formdata.append('level', level)
     formdata.append('price', price ?? 0)
     formdata.append('sourceUrl', sourceUrl)
     formdata.append('status', status ? 'active' : 'inactive')
     formdata.append('isDisplayHot', isDisplayHot ?? false)
+    if (imageUrl) {
+      formdata.append('imageFile', imageUrl as Blob)
+    }
 
     try {
       await dispatch(productActions.createProduct(formdata) as unknown as AnyAction)

@@ -19,7 +19,7 @@ function Sidenav() {
         label: (
           <Flex align='center' gap={10} justify='center' className='children-menu'>
             <ReadOutlined className='text-[18px] text-[#344767]' />
-            <span className='label font-bold text-[#344767]'>sản phẩm</span>
+            <span className='label font-bold text-[#344767]'>Sản phẩm</span>
           </Flex>
         ),
         link: '/admin/products'
