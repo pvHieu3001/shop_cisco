@@ -78,8 +78,8 @@ function TabCategory() {
               }}
               className='flex items-center justify-between px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500'
             >
-              <span className='text-gray-700 font-medium text-base'>{category.name}</span>
-              <span className='text-sm text-gray-500 bg-white px-2 py-0.5 rounded-full border'>
+              <span className='text-gray-700 font-medium uppercase text-base'>{category.name}</span>
+              <span className='text-xs text-gray-500 bg-white px-2 py-0.5 rounded-full border'>
                 {category.numberProduct}
               </span>
             </li>

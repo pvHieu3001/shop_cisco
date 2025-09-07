@@ -107,7 +107,7 @@ function PageProduct() {
                           <img
                             src={getImageUrl(Product.imageUrl)}
                             alt={Product.name}
-                            className='w-40 h-40 object-cover rounded-md flex-shrink-0'
+                            className='w-100 h-40 object-cover rounded-md flex-shrink-0'
                           />
 
                           <div className='flex flex-col flex-1'>
