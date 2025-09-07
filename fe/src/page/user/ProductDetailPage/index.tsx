@@ -40,7 +40,7 @@ function ProductDetailPage() {
               <p className='text-sm uppercase tracking-wide text-blue-500'>
                 {product.category?.name || 'Danh mục chưa xác định'}
               </p>
-              <h1 className='text-3xl font-bold mt-2'>{product.name || 'Tên sản phẩm chưa có'}</h1>
+              <h1 className='text-3xl uppercase font-bold mt-2'>{product.name || 'Tên sản phẩm chưa có'}</h1>
             </header>
 
             <section className='mt-8'>
@@ -52,27 +52,7 @@ function ProductDetailPage() {
             </section>
 
             <section className='mt-10'>
-              <h2 className='text-2xl font-semibold mb-4'>Nội Dung Bạn Sẽ Được Đào Tạo</h2>
-              {product.content ? (
-                <div
-                  className='text-xl leading-8 text-gray-800 
-                [&_p]:mb-4 
-                [&_p]:text-xl
-                [&_h1]:text-4xl 
-                [&_h2]:text-3xl 
-                [&_h3]:text-2xl 
-                [&_ul]:list-disc 
-                [&_ul]:pl-6 
-                [&_a]:text-blue-600 [&_a:hover]:underline'
-                  dangerouslySetInnerHTML={{ __html: product.content }}
-                />
-              ) : (
-                <p className='text-gray-500 italic'>Nội dung đang được cập nhật.</p>
-              )}
-            </section>
-
-            <section className='mt-10'>
-              <h2 className='text-2xl font-semibold mb-4'>Giới Thiệu sản phẩm</h2>
+              <h2 className='text-2xl font-semibold mb-4'>Giới Thiệu Sản Phẩm</h2>
               {product.description ? (
                 <div
                   className='text-xl leading-8 text-gray-800 
@@ -92,7 +72,7 @@ function ProductDetailPage() {
             </section>
 
             <section className='mt-10'>
-              <h2 className='text-xl font-semibold mb-4'>Lý Do Bạn Nên Chọn sản phẩm Này</h2>
+              <h2 className='text-xl font-semibold mb-4'>Lý Do Bạn Nên Chọn Sản Phẩm Này</h2>
               {product.productBenefits ? (
                 <div
                   className='text-xl leading-8 text-gray-800 
@@ -151,7 +131,7 @@ function ProductDetailPage() {
                         <span className='bg-sky-500 text-[10px] font-semibold px-2 py-1 rounded uppercase self-start'>
                           {related.category?.name || 'Chưa xác định'}
                         </span>
-                        <h3 className='text-sm sm:text-base font-semibold leading-snug line-clamp-2'>
+                        <h3 className='text-sm sm:text-base font-semibold leading-snug line-clamp-2 uppercase'>
                           {related.name || 'Tên sản phẩm chưa có'}
                         </h3>
                       </div>

@@ -9,6 +9,7 @@ import { ContextType, IProduct } from '@/common/types.interface'
 import Description from './Description'
 import Link from 'antd/es/typography/Link'
 import { getImageUrl } from '@/utils/getImageUrl'
+import { PhoneOutlined } from '@ant-design/icons'
 
 function PageHome() {
   const dispatch = useDispatch()
@@ -64,6 +65,16 @@ function PageHome() {
                         <h3 className='text-base font-semibold text-gray-800 hover:text-blue-600 transition'>
                           {product.name}
                         </h3>
+                        <div className='mt-4'>
+                          <a
+                            href={`tel:0942819220`}
+                            onClick={(e) => e.stopPropagation()}
+                            className='inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded hover:bg-blue-700 transition'
+                          >
+                            <PhoneOutlined />
+                            Liên hệ
+                          </a>
+                        </div>
                       </article>
                     ))}
                   </div>

@@ -107,9 +107,10 @@ function PageProduct() {
                           <img
                             src={getImageUrl(Product.imageUrl)}
                             alt={Product.name}
-                            className='w-100 h-40 object-cover rounded-md flex-shrink-0'
+                            className='w-40 h-40 object-cover rounded-md flex-shrink-0'
                           />
-                          <div>
+
+                          <div className='flex flex-col flex-1'>
                             <div className='text-sm text-indigo-500 font-medium'>{Product.category?.name}</div>
                             <div className='text-lg font-semibold text-gray-800'>{Product.name}</div>
                             <div
@@ -123,6 +124,15 @@ function PageProduct() {
                                 [&_ul]:pl-6 
                                 [&_a]:text-blue-600 [&_a:hover]:underline'
                             ></div>
+                            <div className='mt-auto pt-2'>
+                              <a
+                                href={`tel:0942819220`}
+                                onClick={(e) => e.stopPropagation()}
+                                className='mt-2 inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700 transition'
+                              >
+                                Liên hệ
+                              </a>
+                            </div>
                           </div>
                         </div>
                       )
