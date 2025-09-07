@@ -26,7 +26,7 @@ function TabCategory() {
   const handleCategoryDetail = (slug: string) => {
     const category = categories.dataList.find((c: ICategory) => c.slug === slug)
     if (!category) return
-    navigate(`/san-pham-theo-chu-de/${slug}`)
+    navigate(`/loai-san-pham/${slug}`)
   }
 
   const handleSearch = (e: React.FormEvent) => {

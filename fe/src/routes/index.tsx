@@ -41,7 +41,7 @@ export default function Router() {
             <Route path='tim-kiem' element={<PageSearch />} />
             <Route path='tat-ca-san-pham' element={<PageProduct />} />
             <Route path='chi-tiet-san-pham/:slug' element={<ProductDetailPage />} />
-            <Route path='san-pham-theo-chu-de/:slug' element={<CategoryDetailPage />} />
+            <Route path='loai-san-pham/:slug' element={<CategoryDetailPage />} />
             <Route path='bai-viet' element={<PageBlog />} />
             <Route path='tin-tuc' element={<PageBlog />} />
             <Route path='bai-viet/:slug' element={<BlogDetailPage />} />

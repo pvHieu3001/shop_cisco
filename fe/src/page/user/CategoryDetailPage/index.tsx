@@ -117,7 +117,7 @@ function CategoryDetailPage() {
           {/* Nội dung chính bên trái */}
           <div className='flex-1 bg-white rounded-lg shadow-md p-6'>
             <div>
-              <div className='text-xl font-semibold text-indigo-600 mb-2'>sản phẩm - {category.name}</div>
+              <div className='text-xl font-semibold text-indigo-600 mb-2'>Sản Phẩm - {category.name}</div>
               <p className='text-gray-700 mb-6 text-base'>{category.description}</p>
             </div>
 
