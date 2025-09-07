@@ -29,21 +29,17 @@ function PageBlog() {
     let title = 'Văn Hóa Công Nghệ'
 
     switch (path) {
-      case 'game':
-        type = 'game'
-        title = 'Chính Sách Game'
+      case 'bai-viet':
+        type = 'post'
+        title = 'Đồ Gỗ Mỹ Nghệ'
         break
-      case 'san-pham-cong-nghe':
-        type = 'technology'
-        title = 'Sản Phẩm Công Nghệ'
+      case 'tin-tuc':
+        type = 'new'
+        title = 'Tin Tức Mới'
         break
-      case 'thu-thuat-huu-ich':
-        type = 'tips'
-        title = 'Thủ Thuật Hữu Ích'
-        break
-      case 'suu-tam':
-        type = 'archive'
-        title = 'Bài Viết Sưu Tầm'
+      case 'tuyen-dung':
+        type = 'hire'
+        title = 'Thông Tin Tuyển Dụng'
         break
     }
 
