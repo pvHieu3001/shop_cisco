@@ -1,24 +1,8 @@
-import styles from './styles.module.css'
-
 const Footer = () => {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>
-        {/* Footer thông tin */}
-        <div className={styles.copyrightBar}>
-          Copyright © 2025. Created by &nbsp;
-          <a
-            href='https://chiasekhoahoc.com'
-            target='_blank'
-            rel='noopener noreferrer'
-            className={styles.copyrightLink}
-          >
-            chiasekhoahoc.com
-          </a>
-          .
-        </div>
-      </div>
-    </div>
+    <footer className='text-center py-6 px-2 text-yellow-800 bg-gray-100'>
+      © 2025 Công ty Đồ Gỗ Mỹ Nghệ Hiệp Hồng. Mọi quyền được bảo lưu.
+    </footer>
   )
 }
 

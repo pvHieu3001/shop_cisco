@@ -28,6 +28,7 @@ import NetworkErrorPage from '@/page/error/NetworkErrorPage'
 import NotFoundPage from '@/page/error/NotFoundPage'
 import PageProduct from '@/page/user/PageProduct'
 import BlogDetailPage from '@/page/user/BlogDetailPage'
+import RecruitmentPage from '@/page/user/RecruitmentPage'
 
 export default function Router() {
   return (
@@ -45,7 +46,7 @@ export default function Router() {
             <Route path='bai-viet' element={<PageBlog />} />
             <Route path='tin-tuc' element={<PageBlog />} />
             <Route path='bai-viet/:slug' element={<BlogDetailPage />} />
-            <Route path='tuyen-dung' element={<PageBlog />} />
+            <Route path='tuyen-dung' element={<RecruitmentPage />} />
           </Route>
           <Route element={<GuardPage />}>
             <Route path='admin' element={<Manager />}>
