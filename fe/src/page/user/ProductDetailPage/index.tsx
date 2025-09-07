@@ -92,18 +92,12 @@ function ProductDetailPage() {
             </section>
 
             <section className='mt-10 text-center'>
-              {product.sourceUrl ? (
-                <a
-                  href={product.sourceUrl}
-                  download
-                  target='_blank'
-                  className='inline-block bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition'
-                >
-                  Tải Xuống
-                </a>
-              ) : (
-                <p className='text-gray-400 italic'>Tài liệu chưa sẵn sàng để tải.</p>
-              )}
+              <a
+                href='tel:0942819220'
+                className='inline-block bg-green-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-green-700 transition'
+              >
+                📞 Liên hệ ngay: 0942.819.220
+              </a>
             </section>
 
             <section className='max-w-7xl mx-auto mt-16 px-4'>
