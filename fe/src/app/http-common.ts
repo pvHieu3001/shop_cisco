@@ -18,17 +18,17 @@ const onErrorInterceptorResponse = (error) => {
     const status = error.response.status
     if (status === 401) {
       console.log('Lỗi 401: Không xác thực')
-      // goToWorkspace()
+      goToWorkspace()
     } else if (status === 403) {
       console.log('Lỗi 403: Không có quyền truy cập')
-      // goToWorkspace()
+      goToWorkspace()
     } else {
       console.log(`Lỗi HTTP ${status}:`, error.response.data)
     }
   } else if (error.request) {
     console.log('Lỗi mạng hoặc server không phản hồi:', error.message)
     console.log('Chi tiết request:', error.request)
-    // window.location.href = `${DOMAIN_URL}network-error`
+    window.location.href = `${DOMAIN_URL}network-error`
   } else {
     console.log('Lỗi không xác định:', error.message)
   }
