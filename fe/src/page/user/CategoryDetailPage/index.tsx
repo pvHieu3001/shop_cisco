@@ -139,12 +139,12 @@ function CategoryDetailPage() {
                         <div
                           key={Product.id}
                           onClick={() => handleProductClick(Product)}
-                          className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex items-center space-x-4'
+                          className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4'
                         >
                           <img
                             src={getImageUrl(Product.imageUrl)}
                             alt={Product.name}
-                            className='w-100 h-40 object-cover rounded-md flex-shrink-0'
+                            className='w-full sm:w-100 h-40 object-cover rounded-md flex-shrink-0'
                           />
                           <div>
                             <div className='text-sm text-indigo-500 font-medium'>{category.name}</div>
