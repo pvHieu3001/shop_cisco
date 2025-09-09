@@ -102,33 +102,38 @@ function PageProduct() {
                         <div
                           key={Product.id}
                           onClick={() => handleProductClick(Product)}
-                          className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4'
+                          className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex flex-col sm:flex-row items-start sm:items-center gap-4'
                         >
+                          {/* Ảnh sản phẩm */}
                           <img
                             src={getImageUrl(Product.imageUrl)}
                             alt={Product.name}
-                            className='w-full sm:w-100 h-40 object-cover rounded-md flex-shrink-0'
+                            className='w-full sm:w-48 h-40 object-cover rounded-md flex-shrink-0'
                           />
 
+                          {/* Nội dung */}
                           <div className='flex flex-col flex-1'>
-                            <div className='text-sm text-indigo-500 font-medium'>{Product.category?.name}</div>
-                            <div className='text-lg font-semibold text-gray-800'>{Product.name}</div>
+                            <div className='text-sm text-indigo-600 font-medium mb-1'>{Product.category?.name}</div>
+
+                            <div className='text-lg font-semibold text-gray-800 mb-1'>{Product.name}</div>
+
                             <div
                               dangerouslySetInnerHTML={{ __html: shortDescription }}
-                              className='text-gray-600 text-base mt-1 [&_p]:mb-4 
-                                [&_p]:text-xl
-                                [&_h1]:text-4xl 
-                                [&_h2]:text-3xl 
-                                [&_h3]:text-2xl 
+                              className='text-gray-600 text-base mt-1 overflow-hidden line-clamp-4 
+                                [&_p]:mb-2
+                                [&_p]:text-base
                                 [&_ul]:list-disc 
-                                [&_ul]:pl-6 
-                                [&_a]:text-blue-600 [&_a:hover]:underline'
+                                [&_ul]:pl-5 
+                                [&_a]:text-blue-600 
+                                [&_a:hover]:underline'
                             ></div>
-                            <div className='mt-auto pt-2'>
+
+                            {/* Nút liên hệ */}
+                            <div className='mt-4'>
                               <a
-                                href={`tel:0942819220`}
+                                href='tel:0942819220'
                                 onClick={(e) => e.stopPropagation()}
-                                className='mt-2 inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700 transition'
+                                className='inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700 transition'
                               >
                                 Liên hệ
                               </a>

@@ -139,27 +139,42 @@ function CategoryDetailPage() {
                         <div
                           key={Product.id}
                           onClick={() => handleProductClick(Product)}
-                          className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4'
+                          className='cursor-pointer bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm p-4 transition flex flex-col sm:flex-row items-start gap-4'
                         >
+                          {/* Ảnh sản phẩm */}
                           <img
                             src={getImageUrl(Product.imageUrl)}
                             alt={Product.name}
-                            className='w-full sm:w-100 h-40 object-cover rounded-md flex-shrink-0'
+                            className='w-full sm:w-52 h-40 object-cover rounded-md flex-shrink-0'
                           />
-                          <div>
+
+                          {/* Nội dung */}
+                          <div className='flex flex-col flex-1'>
                             <div className='text-sm text-indigo-500 font-medium'>{category.name}</div>
-                            <div className='text-lg font-semibold text-gray-800'>{Product.name}</div>
+
+                            <div className='text-lg font-semibold text-gray-800 mt-1'>{Product.name}</div>
+
                             <div
                               dangerouslySetInnerHTML={{ __html: shortDescription }}
-                              className='text-gray-600 text-base mt-1 [&_p]:mb-4 
-                                [&_p]:text-xl
-                                [&_h1]:text-4xl 
-                                [&_h2]:text-3xl 
-                                [&_h3]:text-2xl 
+                              className='text-gray-600 text-base mt-2
+                                [&_p]:mb-3
+                                [&_p]:text-base
+                                [&_h1]:text-3xl 
+                                [&_h2]:text-2xl 
+                                [&_h3]:text-xl 
                                 [&_ul]:list-disc 
-                                [&_ul]:pl-6 
+                                [&_ul]:pl-5 
                                 [&_a]:text-blue-600 [&_a:hover]:underline'
-                            ></div>
+                            />
+                            <div className='mt-4'>
+                              <a
+                                href='tel:0942819220'
+                                onClick={(e) => e.stopPropagation()}
+                                className='inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-700 transition'
+                              >
+                                Liên hệ
+                              </a>
+                            </div>
                           </div>
                         </div>
                       )
