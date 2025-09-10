@@ -1,12 +1,10 @@
 package online.wooden.market.controller;
 
-import java.io.IOException;
-import java.nio.file.*;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import online.wooden.market.entity.dto.ApiResponse;
 import online.wooden.market.entity.dto.category.CategoryDto;
 import online.wooden.market.entity.dto.product.ProductDto;
@@ -16,6 +14,7 @@ import online.wooden.market.entity.model.Category;
 import online.wooden.market.entity.model.Product;
 import online.wooden.market.service.CategoryService;
 import online.wooden.market.service.LogService;
+import online.wooden.market.service.ProductService;
 import online.wooden.market.utils.DataUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,11 +22,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import online.wooden.market.service.ProductService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.annotation.PostConstruct;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static online.wooden.market.utils.Constant.*;
 
@@ -142,6 +148,10 @@ public class AdminProductController {
             Category category = categoryService.getById(dto.getCategoryId());
             product.setCategory(category);
             Product productDb = productService.save(product);
+            categoryService.refreshProductCount(
+                    Stream.of(product.getCategory() !=null ? product.getCategory().getId() : null)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toSet()));
             logService.save(env, request, 1, productDb.getId(), LOG_CREATE_PRODUCT, LOG_ACTION_CREATE_NEW_PRODUCT);
             return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Created", toDto(productDb)));
         } catch (IOException e) {
