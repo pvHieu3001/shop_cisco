@@ -39,8 +39,8 @@ function TabCategory() {
   return (
     <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
       <ShopeeAffiliateBanner
-        link='https://s.shopee.vn/70AfFlkqy1'
-        imageUrl='https://down-tx-vn.img.susercontent.com/vn-11134207-7r98o-ls7z4wtwk32x44.webp'
+        link='https://s.shopee.vn/9zoGq0pQBI'
+        imageUrl='https://down-tx-vn.img.susercontent.com/vn-11134207-7r98o-lrol6kavr6hl42.webp'
         alt='Mua ngay trên Shopee'
         width='100%'
         height={180}
