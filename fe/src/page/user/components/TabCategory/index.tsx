@@ -36,6 +36,17 @@ function TabCategory() {
 
   return (
     <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
+      <amp-ad
+        width='100vw'
+        height='320'
+        type='adsense'
+        data-ad-client='ca-pub-4891764773451333'
+        data-ad-slot='7245553594'
+        data-auto-format='rspv'
+        data-full-width=''
+      >
+        <div overflow=''></div>
+      </amp-ad>
       {/* Tìm kiếm */}
       <div>
         <h2 className='text-lg font-semibold text-gray-800 mb-3'>Tìm kiếm sản phẩm</h2>
