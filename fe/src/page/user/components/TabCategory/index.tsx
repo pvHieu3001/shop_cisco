@@ -36,6 +36,20 @@ function TabCategory() {
 
   return (
     <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
+      <script
+        async
+        src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4891764773451333'
+        crossorigin='anonymous'
+      ></script>
+      <ins
+        class='adsbygoogle'
+        style='display:block'
+        data-ad-client='ca-pub-4891764773451333'
+        data-ad-slot='7245553594'
+        data-ad-format='auto'
+        data-full-width-responsive='true'
+      ></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       <amp-ad
         width='100vw'
         height='320'
