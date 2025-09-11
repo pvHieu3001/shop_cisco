@@ -37,7 +37,6 @@ function TabCategory() {
 
   return (
     <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
-      <GoogleAdsence client="ca-pub-4891764773451333" slot="7245553594" format='auto' />
       {/* Tìm kiếm */}
       <div>
         <h2 className='text-lg font-semibold text-gray-800 mb-3'>Tìm kiếm sản phẩm</h2>
@@ -88,6 +87,7 @@ function TabCategory() {
           ))}
         </ul>
       </div>
+      <GoogleAdsence client="ca-pub-4891764773451333" slot="7245553594" format='auto' />
     </aside>
   )
 }
