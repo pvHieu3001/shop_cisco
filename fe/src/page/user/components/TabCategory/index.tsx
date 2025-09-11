@@ -7,6 +7,7 @@ import { RootState } from '@/app/store'
 import { ICategory } from '@/common/types.interface'
 import { Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
+import GoogleAdsence from '../GoogleAdsence'
 
 function TabCategory() {
   const dispatch = useDispatch()
@@ -23,18 +24,6 @@ function TabCategory() {
     }
   }, [])
 
-  useEffect(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        // Đảm bảo script được load trước khi push quảng cáo
-        const adsbygoogle = (window.adsbygoogle = window.adsbygoogle || [])
-        adsbygoogle.push({})
-      }
-    } catch (e) {
-      console.error('Adsense error', e)
-    }
-  }, [])
-
   const handleCategoryDetail = (slug: string) => {
     const category = categories.dataList.find((c: ICategory) => c.slug === slug)
     if (!category) return
@@ -48,27 +37,7 @@ function TabCategory() {
 
   return (
     <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
-      <ins
-        className='adsbygoogle'
-        style={{ display: 'block' }}
-        data-ad-client='ca-pub-4891764773451333'
-        data-ad-slot='7245553594'
-        data-ad-format='auto'
-        data-full-width-responsive='true'
-      ></ins>
-
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      <amp-ad
-        width='100vw'
-        height='320'
-        type='adsense'
-        data-ad-client='ca-pub-4891764773451333'
-        data-ad-slot='7245553594'
-        data-auto-format='rspv'
-        data-full-width=''
-      >
-        <div overflow=''></div>
-      </amp-ad>
+      <GoogleAdsence client="ca-pub-4891764773451333" slot="7245553594" format='auto' />
       {/* Tìm kiếm */}
       <div>
         <h2 className='text-lg font-semibold text-gray-800 mb-3'>Tìm kiếm sản phẩm</h2>
