@@ -103,6 +103,22 @@ export interface IBlog {
   isDisplayHot: string // blank: all, 0: false, 1: true
 }
 
+export interface IAffiliate {
+  id: number
+  productId: string
+  affiliateCode: string
+  targetUrl: string
+  expiredAt: string
+  clickCount: number
+  conversionCount: number
+  status: boolean
+  price: string
+  updatedAt: string
+  updatedBy: IUser
+  discount: string
+  image: string
+}
+
 export type ContextType = {
   setIsShowRecommendProducts: (value: boolean) => void
 }

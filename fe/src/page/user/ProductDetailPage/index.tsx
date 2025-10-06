@@ -47,7 +47,7 @@ function ProductDetailPage() {
               <img
                 src={getImageUrl(product.imageUrl)}
                 alt={product.name || 'Ảnh sản phẩm'}
-                className='rounded-lg shadow-md w-full max-w-sm h-48 object-cover'
+                className='rounded-lg shadow-md w-full max-w-md h-64 object-cover mx-auto'
               />
             </section>
 

@@ -102,6 +102,11 @@
 		    <artifactId>spring-security-test</artifactId>
 		    <scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.deevvi</groupId>
+			<artifactId>device-detector</artifactId>
+			<version>1.14.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

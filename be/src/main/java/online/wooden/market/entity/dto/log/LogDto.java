@@ -8,10 +8,13 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LogDto {
-    private Integer userId;
-    private Integer productId;
+    private String pageId;
     private String name;
     private String action;
     private String ipAddress;
     private String userAgent;
+    private String referer;
+    private String device;
+    private String url;
+    private String method;
 } 

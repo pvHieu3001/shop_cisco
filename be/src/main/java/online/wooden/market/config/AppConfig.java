@@ -1,6 +1,7 @@
 package online.wooden.market.config;
 
 import online.wooden.market.utils.Constant;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +30,14 @@ public class AppConfig {
     @Bean
     public SpringSecurityAuditorAware auditorProvider() {
         return new SpringSecurityAuditorAware();
+    }
+
+    @Bean
+    public FilterRegistrationBean<DeviceDetectionFilter> deviceDetectionFilter() {
+        FilterRegistrationBean<DeviceDetectionFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new DeviceDetectionFilter());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setOrder(1);
+        return registrationBean;
     }
 }

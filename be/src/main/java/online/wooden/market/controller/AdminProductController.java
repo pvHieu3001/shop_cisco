@@ -18,6 +18,7 @@ import online.wooden.market.service.ProductService;
 import online.wooden.market.utils.DataUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -86,7 +87,7 @@ public class AdminProductController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String isDisplayHot,
             HttpServletRequest request) {
-        logService.save(env, request, 1, null, LOG_VIEW_PRODUCT, LOG_ACTION_GET_ALL_PRODUCT);
+        logService.save(env, request, LOG_VIEW_PRODUCT, LOG_ACTION_GET_ALL_PRODUCT, HttpMethod.GET.name());
         Boolean displayHot =
                 isDisplayHot == null || isDisplayHot.isBlank() ? null :
                         "1".equals(isDisplayHot) ? Boolean.TRUE :
@@ -110,7 +111,7 @@ public class AdminProductController {
     @Operation(description = "Get by id endpoint for Product", summary = "This is a summary for Product get by id endpoint")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductDto>> getById(@PathVariable Integer id, HttpServletRequest request) {
-        logService.save(env, request, 1, null, LOG_DETAIL_PRODUCT, LOG_ACTION_GET_DETAIL_PRODUCT);
+        logService.save(env, request, LOG_DETAIL_PRODUCT, LOG_ACTION_GET_DETAIL_PRODUCT, HttpMethod.GET.name());
 
         Product product = productService.getById(id);
         if (product == null) {
@@ -152,7 +153,7 @@ public class AdminProductController {
                     Stream.of(product.getCategory() !=null ? product.getCategory().getId() : null)
                             .filter(Objects::nonNull)
                             .collect(Collectors.toSet()));
-            logService.save(env, request, 1, productDb.getId(), LOG_CREATE_PRODUCT, LOG_ACTION_CREATE_NEW_PRODUCT);
+            logService.save(env, request, LOG_CREATE_PRODUCT, LOG_ACTION_CREATE_NEW_PRODUCT, HttpMethod.POST.name());
             return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Created", toDto(productDb)));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -188,7 +189,7 @@ public class AdminProductController {
 
             Product product = modelMapper.map(dto, Product.class);
             Product productDb = productService.update(product, id, dto.getCategoryId());
-            logService.save(env, request, 1, productDb.getId(), LOG_CREATE_PRODUCT, LOG_ACTION_UPDATE_PRODUCT);
+            logService.save(env, request, LOG_CREATE_PRODUCT, LOG_ACTION_UPDATE_PRODUCT, HttpMethod.PUT.name());
             return ResponseEntity.ok(ApiResponse.success("Updated", toDto(productDb)));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -199,7 +200,7 @@ public class AdminProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Integer id, HttpServletRequest request) {
         productService.deleteById(id);
-        logService.save(env, request, 1, id, LOG_DELETE_PRODUCT, LOG_ACTION_DELETE_PRODUCT);
+        logService.save(env, request, LOG_DELETE_PRODUCT, LOG_ACTION_DELETE_PRODUCT, HttpMethod.DELETE.name());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.success("Deleted", null));
     }
 }

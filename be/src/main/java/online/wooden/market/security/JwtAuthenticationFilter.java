@@ -45,7 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Pattern.compile(".*/auth.*$"),
             Pattern.compile(".*/user/product.*$"),
             Pattern.compile(".*/user/category.*$"),
-            Pattern.compile(".*/user/blog.*$"));
+            Pattern.compile(".*/user/blog.*$"),
+            Pattern.compile(".*/user/affiliate.*$"));
 
     private boolean isWhitelisted(String path) {
         return WHITE_LIST_URL.stream().anyMatch(pattern -> pattern.matcher(path).matches());

@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import online.wooden.market.service.ProductService;
@@ -78,7 +79,7 @@ public class ProductController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String isDisplayHot,
             HttpServletRequest request) {
-        logService.save(env, request, 1, null, LOG_VIEW_PRODUCT, LOG_ACTION_GET_ALL_PRODUCT);
+        logService.save(env, request, LOG_VIEW_PRODUCT, LOG_ACTION_GET_ALL_PRODUCT, HttpMethod.GET.name());
         Boolean displayHot =
                 isDisplayHot == null || isDisplayHot.isBlank() ? null :
                         "1".equals(isDisplayHot) ? Boolean.TRUE :
@@ -117,7 +118,7 @@ public class ProductController {
     @GetMapping("/slug/{slug}")
     public ResponseEntity<ApiResponse<ProductDto>> getById(@PathVariable String slug, HttpServletRequest request) {
         Product product = productService.getBySlug(slug);
-        logService.save(env, request, 1, product.getId(), LOG_CREATE_PRODUCT, LOG_ACTION_GET_DETAIL_PRODUCT);
+        logService.save(env, request, LOG_CREATE_PRODUCT, LOG_ACTION_GET_DETAIL_PRODUCT, HttpMethod.GET.name());
         return ResponseEntity.ok(ApiResponse.success(toDto(product)));
     }
 

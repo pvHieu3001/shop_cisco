@@ -59,13 +59,17 @@ function PageHome() {
                           loading='lazy'
                           className='w-full aspect-video object-cover rounded-md mb-4'
                         />
-                        <Link className='text-blue-600 text-xs font-semibold uppercase mb-1 hover:underline'>
+                        <Link
+                          to={`/loai-san-pham/${product.category?.slug}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className='text-blue-600 text-xs font-semibold uppercase mb-1 hover:underline'
+                        >
                           {product.category?.name}
                         </Link>
-                        <h3 className='text-base font-semibold text-gray-800 hover:text-blue-600 transition'>
+                        <h3 className='text-base font-semibold text-gray-800 hover:text-blue-600 transition line-clamp-2'>
                           {product.name}
                         </h3>
-                        <div className='mt-4'>
+                        <div className='mt-4 pt-4 border-t mt-auto'>
                           <a
                             href={`tel:0942819220`}
                             onClick={(e) => e.stopPropagation()}

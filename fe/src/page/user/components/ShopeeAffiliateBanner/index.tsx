@@ -1,3 +1,5 @@
+import ShopeeLogo from '@/assets/images/shopee.png'
+
 type ShopeeBannerProps = {
   link: string
   imageUrl: string
@@ -11,11 +13,36 @@ const ShopeeAffiliateBanner = ({
   imageUrl,
   alt = 'Shopee Banner',
   width = '100%',
-  height = 'auto'
+  height = '20rem'
 }: ShopeeBannerProps) => {
   return (
-    <a href={link} target='_blank' rel='noopener noreferrer'>
-      <img src={imageUrl} alt={alt} style={{ width, height }} />
+    <a
+      href={link}
+      target='_blank'
+      rel='noopener noreferrer'
+      className='group relative block overflow-hidden rounded-lg shadow-lg'
+      style={{ width: width }}
+    >
+      <img
+        src={imageUrl}
+        alt={alt}
+        className='w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105'
+        style={{ height: height }}
+      />
+
+      <div className='absolute bottom-0 left-0 w-full bg-[#ee4d2d] px-2 py-1.5 flex flex-wrap items-center justify-between gap-x-2 gap-y-1'>
+        <div className='flex items-center gap-1.5'>
+          <img src={ShopeeLogo} alt='Logo Shopee' className='w-4 h-auto' />
+          <span className='text-white font-bold text-sm tracking-wide'>Shopee</span>
+        </div>
+
+        <div className='flex items-baseline gap-2'>
+          <span className='text-white font-bold text-xl sm:text-2xl'>
+            149.000<span className='text-sm font-semibold align-super'>đ</span>
+          </span>
+          <span className='text-gray-200 text-xs sm:text-sm line-through'>599.000</span>
+        </div>
+      </div>
     </a>
   )
 }
