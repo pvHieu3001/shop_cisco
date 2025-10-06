@@ -17,9 +17,9 @@ export default function ListAffiliate() {
 
   useEffect(() => {
     dispatch(affiliateActions.getAdminAffiliates(searchValue) as unknown as AnyAction)
-  }, [searchValue])
+  }, [dispatch, searchValue])
 
-  const handlerDistableCategory = async (id: string) => {
+  const handlerDistableAffiliate = async (id: string) => {
     try {
       dispatch(affiliateActions.deleteAffiliate(id) as unknown as AnyAction)
       dispatch(affiliateActions.getAdminAffiliates('') as unknown as AnyAction)
@@ -50,15 +50,15 @@ export default function ListAffiliate() {
       key: 'name',
       align: 'center',
       width: 140,
-      render: (text) => <a>{text}</a>
+      render: (text) => <a className='block w-64 truncate text-blue-600 hover:underline'>{text}</a>
     },
     {
-      title: 'Danh mục cha',
-      dataIndex: 'parent_id',
-      key: 'parent_id',
+      title: 'Lượt click',
+      dataIndex: 'clickCount',
+      key: 'clickCount',
       align: 'center',
       width: 100,
-      render: (text) => <>{text ? text : 'không có'}</>
+      render: (text) => <>{text ?? 0}</>
     },
     {
       title: 'Trạng thái',
@@ -86,8 +86,8 @@ export default function ListAffiliate() {
           </Link>
           <Popconfirm
             placement='topRight'
-            title={record.active == 1 ? 'Are you sure distable this category?' : 'Are you sure enable this category?'}
-            onConfirm={() => handlerDistableCategory(record.id)}
+            title={record.active == 1 ? 'Are you sure distable this affiliate?' : 'Are you sure enable this affiliate?'}
+            onConfirm={() => handlerDistableAffiliate(record.id)}
             onCancel={() => {}}
             okText='Đồng ý'
             cancelText='Hủy bỏ'

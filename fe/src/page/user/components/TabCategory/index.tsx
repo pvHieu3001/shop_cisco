@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AnyAction } from '@reduxjs/toolkit'
-import { categoryActions } from '@/app/actions'
+import { affiliateActions, categoryActions } from '@/app/actions'
 import { useNavigate } from 'react-router-dom'
 import { RootState } from '@/app/store'
 import { ICategory } from '@/common/types.interface'
@@ -14,6 +14,7 @@ function TabCategory() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const categories = useSelector((state: RootState) => state.category)
+  const affiliateStore = useSelector((state: RootState) => state.affiliate)
   const hasLoaded = useRef(false)
   const [keyword, setKeyword] = useState('')
   const router = useNavigate()
@@ -23,7 +24,18 @@ function TabCategory() {
       hasLoaded.current = true
       dispatch(categoryActions.getCategories('') as unknown as AnyAction)
     }
-  }, [])
+  }, [categories.dataList, categories.isLoading, dispatch])
+
+  useEffect(() => {
+    dispatch(affiliateActions.getRandomAffiliate() as unknown as AnyAction)
+    const intervalId = setInterval(() => {
+      console.log('Fetching new affiliate data...')
+      dispatch(affiliateActions.getRandomAffiliate() as unknown as AnyAction)
+    }, 30000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [dispatch])
 
   const handleCategoryDetail = (slug: string) => {
     const category = categories.dataList.find((c: ICategory) => c.slug === slug)
@@ -37,13 +49,14 @@ function TabCategory() {
   }
 
   return (
-    <aside className='w-full lg:w-[20%] bg-white p-6 rounded-lg shadow-md space-y-8' role='complementary'>
+    <aside className='w-full lg:w-[100%] bg-white p-6 rounded-lg shadow-md space-y-8 sticky top-4' role='complementary'>
       <ShopeeAffiliateBanner
-        link='https://s.shopee.vn/9zoGq0pQBI'
-        imageUrl='https://down-tx-vn.img.susercontent.com/vn-11134207-7r98o-lrol6kavr6hl42.webp'
+        link={affiliateStore?.dataRandom?.targetUrl || 'https://shopee.vn/'}
+        imageUrl={affiliateStore?.dataRandom?.image || 'https://cf.shopee.vn/file/sg-11134201-22100-2p0q3k3l1e4d6e'}
+        price={affiliateStore?.dataRandom?.price}
+        originalPrice={affiliateStore?.dataRandom?.originalPrice}
         alt='Mua ngay trên Shopee'
         width='100%'
-        height={180}
       />
       {/* Tìm kiếm */}
       <div>

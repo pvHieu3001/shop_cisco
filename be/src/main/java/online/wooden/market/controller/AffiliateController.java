@@ -65,15 +65,14 @@ public class AffiliateController {
     @GetMapping("/random")
     public ResponseEntity<ApiResponse<AffiliateLinkDto>> getRandomAffiliateLink(@RequestParam(required = false) String search, HttpServletRequest request) {
         logService.save(env, request, LOG_VIEW_BLOG, LOG_ACTION_GET_ALL_BLOG, HttpMethod.GET.name());
-        Optional<AffiliateLink> link = affiliateService.getRandomAffiliateLink();
-        List<AffiliateLinkDto> linkDtoList = affiliateService.getAllAffiliateLinks().stream().map(this::toDto).collect(Collectors.toList());
-        return ResponseEntity.ok(ApiResponse.success(linkDtoList.get(0)));
+        AffiliateLink randomAffiliateLink = affiliateService.getRandomAffiliateLink();
+        return ResponseEntity.ok(ApiResponse.success(toDto(randomAffiliateLink)));
     }
 
     @Operation(description = "Get pageable endpoint for Blog", summary = "Get pageable Blog")
-    @GetMapping("/click/{code}")
-    public Void handleClick(@PathVariable String code) {
-        affiliateService.recordClick(code);
+    @GetMapping("/click/{id}")
+    public Void handleClick(@PathVariable Long id) {
+        affiliateService.recordClick(id);
         return null;
     }
 } 

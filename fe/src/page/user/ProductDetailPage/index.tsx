@@ -144,7 +144,12 @@ function ProductDetailPage() {
         )}
       </div>
 
-      <TabCategory />
+      <aside
+        className='w-full lg:w-[20%] sticky top-4'
+        role='complementary'
+      >
+        <TabCategory />
+      </aside>
     </div>
   )
 }

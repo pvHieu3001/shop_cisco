@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { DeleteOutlined } from '@ant-design/icons'
-import { Form, Input, Button, Switch, Select, Drawer, Col, Row } from 'antd'
+import { Form, Input, Button, Switch, Drawer, Col, Row } from 'antd'
 import { useEffect, useState } from 'react'
 import { popupError, popupSuccess } from '@/page/shared/Toast'
 import ErrorLoad from '../../components/util/ErrorLoad'
@@ -11,7 +10,6 @@ import { IAffiliate } from '@/common/types.interface'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { Modal, Spin } from 'antd'
 import { RootState } from '@/app/store'
-import { getImageUrl } from '@/utils/getImageUrl'
 
 export default function EditAffiliate() {
   const params = useParams()
@@ -26,36 +24,21 @@ export default function EditAffiliate() {
   const [form] = Form.useForm()
   const [isDirty, setIsDirty] = useState(false)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const dataCategories = Array.isArray(affiliateStore.dataList)
-    ? (affiliateStore.dataList as IAffiliate[])
-        .filter((item) => item.id !== parseInt(params.id ?? '0'))
-        .map((item) => ({
-          label: item.name,
-          value: item.id.toString()
-        }))
-    : []
-
-  const [imageUrl, setImageUrl] = useState<File>()
-  const [displayPic, setDisplayPic] = useState<string>()
-
   useEffect(() => {
     if (affiliateStore.data) {
       const data = affiliateStore.data as IAffiliate
-      if (data.image) setDisplayPic(getImageUrl(data.image))
 
       form.setFieldsValue({
-        parent_id: data.parentId ? data.parentId.toString() : '',
+        targetUrl: data.targetUrl,
         status: data.status,
         name: data.name,
-        description: data.description ?? '',
-        content: data.content ?? '',
-        isQuickView: data.isQuickView ?? false
+        price: data.price,
+        originalPrice: data.originalPrice,
+        image: data.image
       })
     }
   }, [affiliateStore, form])
 
-  // Xác nhận khi rời nếu có thay đổi
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (isDirty) {
@@ -83,44 +66,37 @@ export default function EditAffiliate() {
   const handleSubmit = async () => {
     const name = form.getFieldValue('name')
     const active = form.getFieldValue('status')
-    const parent_id = form.getFieldValue('parent_id')
     const formData = new FormData()
 
     formData.append('name', name)
     formData.append('status', active.toString())
-    formData.append('isQuickView', form.getFieldValue('isQuickView'))
-    formData.append('content', form.getFieldValue('content'))
-    formData.append('description', form.getFieldValue('description'))
-    if (parent_id) {
-      formData.append('parentId', parent_id.toString())
-    }
-
-    if (imageUrl) {
-      formData.append('imageFile', imageUrl)
-    }
+    formData.append('targetUrl', form.getFieldValue('image'))
+    formData.append('image', form.getFieldValue('image'))
+    formData.append('price', form.getFieldValue('price'))
+    formData.append('originalPrice', form.getFieldValue('originalPrice'))
 
     try {
-      await dispatch(affiliateStore.updateCategory(params.id, formData) as unknown as AnyAction)
-      await dispatch(affiliateStore.getAdminCategories('') as unknown as AnyAction)
-      popupSuccess('Cập nhật danh mục thành công')
+      await dispatch(affiliateActions.updateAffiliate(params.id, formData) as unknown as AnyAction)
+      await dispatch(affiliateActions.getAdminAffiliates('') as unknown as AnyAction)
+      popupSuccess('Cập nhật link afiliate thành công')
       setIsDirty(false)
       navigate('..')
     } catch (error) {
-      console.error('Error updating category:', error)
-      popupError('Cập nhật danh mục thất bại')
+      console.error('Error updating afiliate:', error)
+      popupError('Cập nhật link afiliate thất bại')
     }
   }
 
   // Đánh dấu form đã thay đổi
   const onValuesChange = () => setIsDirty(true)
 
-  if (categoryStore.error_message) {
+  if (affiliateStore.error_message) {
     return <ErrorLoad />
   }
   return (
     <Drawer
       width='70%'
-      title={<span className='font-bold text-xl'>Chỉnh sửa danh mục</span>}
+      title={<span className='font-bold text-xl'>Chỉnh sửa link afiliate</span>}
       onClose={handleCancel}
       open={true}
       bodyStyle={{ padding: 24, maxHeight: 'calc(100vh - 120px)', overflowY: 'auto' }}
@@ -129,7 +105,7 @@ export default function EditAffiliate() {
           <Button onClick={handleCancel} style={{ marginRight: 8 }}>
             Hủy
           </Button>
-          <Button type='primary' htmlType='submit' form='category-form' loading={affiliateStore.isLoading}>
+          <Button type='primary' htmlType='submit' form='affiliate-form' loading={affiliateStore.isLoading}>
             Cập nhật
           </Button>
         </div>
@@ -138,9 +114,9 @@ export default function EditAffiliate() {
       <Spin spinning={affiliateStore.isLoading} tip='Đang tải...'>
         {affiliateStore.data && (
           <Form
-            id='category-form'
+            id='affiliate-form'
             form={form}
-            name='category'
+            name='affiliate'
             layout='vertical'
             onFinish={handleSubmit}
             onValuesChange={onValuesChange}
@@ -150,66 +126,12 @@ export default function EditAffiliate() {
               {/* Cột trái: Ảnh và Cài đặt */}
               <Col xs={24} md={8}>
                 <Form.Item
-                  label={<span className='font-semibold'>Ảnh đại diện</span>}
+                  label={<span className='font-semibold'>Link ảnh sản phẩm</span>}
                   className='border p-6 rounded-md bg-[#fafbfc]'
                   style={{ boxShadow: '0px 3px 4px rgba(0, 0, 0, 0.03)' }}
+                  name='image'
                 >
-                  <div className='flex flex-col items-center'>
-                    <label
-                      htmlFor='image-upload'
-                      className='flex flex-col items-center justify-center w-[180px] h-[180px] border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100'
-                    >
-                      {!imageUrl && displayPic && (
-                        <div className='h-[180px] w-[180px] rounded-lg overflow-hidden relative'>
-                          <img
-                            src={displayPic}
-                            alt='Ảnh hiện tại'
-                            className='object-cover h-full w-full object-center rounded-lg border border-gray-300 bg-white'
-                          />
-                        </div>
-                      )}
-                      {imageUrl ? (
-                        <div className='relative group w-[180px] h-[180px] mb-2'>
-                          <img
-                            src={URL.createObjectURL(imageUrl as Blob)}
-                            alt='Ảnh danh mục'
-                            className='object-cover w-full h-full rounded-lg border shadow'
-                          />
-                          <Button
-                            type='text'
-                            danger
-                            icon={<DeleteOutlined />}
-                            className='absolute top-2 right-2 opacity-80 hover:opacity-100 bg-white/80'
-                            onClick={() => {
-                              setDisplayPic('')
-                              setImageUrl(undefined)
-                              setIsDirty(true)
-                            }}
-                          >
-                            Xóa
-                          </Button>
-                        </div>
-                      ) : (
-                        <input
-                          id='image-upload'
-                          type='file'
-                          accept='image/*'
-                          name='image'
-                          className='hidden'
-                          style={{ display: 'none' }}
-                          onChange={(e) => {
-                            if (!e.target.files || e.target.files.length === 0) return
-                            const file = e.target.files[0]
-                            if (file.size > 2 * 1024 * 1024) {
-                              popupError('Ảnh phải nhỏ hơn 2MB')
-                              return
-                            }
-                            setImageUrl(file)
-                          }}
-                        />
-                      )}
-                    </label>
-                  </div>
+                  <Input size='large' placeholder='Nhập tên link ảnh afiliate...' />
                 </Form.Item>
 
                 <div
@@ -226,7 +148,7 @@ export default function EditAffiliate() {
                       <Switch />
                     </Form.Item>
                   </div>
-                  <div className='text-xs text-gray-400 px-2 pb-2'>Bật để danh mục này hiển thị trên website.</div>
+                  <div className='text-xs text-gray-400 px-2 pb-2'>Bật để link afiliate này hiển thị trên website.</div>
 
                   <div className='flex justify-between items-center p-2'>
                     <span>Hiện thị trên trang chủ</span>
@@ -237,7 +159,6 @@ export default function EditAffiliate() {
                 </div>
               </Col>
 
-              {/* Cột phải: Tổng quan */}
               <Col xs={24} md={16}>
                 <div
                   className='border p-6 rounded-md bg-[#fafbfc]'
@@ -248,49 +169,34 @@ export default function EditAffiliate() {
                     <Col xs={24} sm={12}>
                       <Form.Item
                         name='name'
-                        label='Tên danh mục'
+                        label='Tên link afiliate'
+                        className='w-full max-w-[350px]'
                         rules={[
-                          { required: true, message: 'Vui lòng nhập tên danh mục!' },
+                          { required: true, message: 'Vui lòng nhập tên link afiliate!' },
                           { max: 120, message: 'Tên không vượt quá 120 ký tự' },
-                          { whitespace: true, message: 'Tên danh mục không được để trống!' }
+                          { whitespace: true, message: 'Tên link afiliate không được để trống!' }
                         ]}
                       >
-                        <Input size='large' placeholder='Nhập tên danh mục...' />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={12}>
-                      <Form.Item name='parent_id' label='Danh mục cha'>
-                        <Select
-                          showSearch
-                          loading={affiliateStore.isLoading}
-                          placeholder='Chọn danh mục cha (nếu có)'
-                          optionFilterProp='label'
-                          filterOption={(input, option) =>
-                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                          }
-                          options={[{ value: '', label: 'Không có' }, ...dataCategories]}
-                          allowClear
-                        />
+                        <Input size='large' placeholder='Nhập tên link afiliate...' />
                       </Form.Item>
                     </Col>
                     <Col span={24}>
                       <Form.Item
-                        name='description'
+                        name='targetUrl'
                         label='Mô tả ngắn'
-                        rules={[{ max: 300, message: 'Mô tả không vượt quá 300 ký tự' }]}
+                        rules={[{ max: 120, message: 'Mô tả không vượt quá 120 ký tự' }]}
                       >
-                        <Input.TextArea
-                          rows={3}
-                          placeholder='Nhập mô tả ngắn về danh mục...'
-                          showCount
-                          maxLength={300}
-                          size='large'
-                        />
+                        <Input size='large' placeholder='Nhập link afiliate...' />
                       </Form.Item>
                     </Col>
                     <Col span={24}>
-                      <Form.Item name='content' label='Nội dung chi tiết'>
-                        <Input.TextArea rows={6} placeholder='Nhập nội dung chi tiết...' size='large' />
+                      <Form.Item name='price' label='Giá gốc'>
+                        <Input size='large' placeholder='Nhập giá gốc...' />
+                      </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                      <Form.Item name='originalPrice' label='giá khuyến mãi'>
+                        <Input size='large' placeholder='Nhập giá khuyến mãi...' />
                       </Form.Item>
                     </Col>
                   </Row>

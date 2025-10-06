@@ -12,7 +12,9 @@ import {
   deleteFailure,
   deleteSuccessfully,
   getByIdSuccessFailure,
-  getByIdSuccessFully
+  getByIdSuccessFully,
+  getRandomAffiliateSuccessFully,
+  getRandomAffiliateSuccessFailure
 } from '../slices/affiliate.reducer'
 
 export const getAffiliates = (searchValue: string) => (dispatch: Dispatch) => {
@@ -63,17 +65,17 @@ export const getAffiliateById = (id: string) => (dispatch: Dispatch) => {
     .finally(() => dispatch(fetchedDone()))
 }
 
-export const getAffiliateBySlug = (slug: string) => (dispatch: Dispatch) => {
+export const getRandomAffiliate = () => (dispatch: Dispatch) => {
   dispatch(isFetching())
 
   return affiliateServices
-    .getAffiliateBySlug(slug)
+    .getRandomAffiliate()
     .then((res) => {
-      dispatch(getByIdSuccessFully(res.data))
+      dispatch(getRandomAffiliateSuccessFully(res.data))
       return res
     })
     .catch((error) => {
-      dispatch(getByIdSuccessFailure(error.toString()))
+      dispatch(getRandomAffiliateSuccessFailure(error.toString()))
       throw error
     })
     .finally(() => dispatch(fetchedDone()))
@@ -131,7 +133,7 @@ export const affiliateActions = {
   getAffiliates,
   getAdminAffiliates,
   getAffiliateById,
-  getAffiliateBySlug,
+  getRandomAffiliate,
   createAffiliate,
   updateAffiliate,
   deleteAffiliate

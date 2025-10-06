@@ -9,13 +9,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AffiliateLinkDto {
     private Long id;
-    private Long userId;
-    private Long productId;
-    private String affiliateCode;
+    private String name;
     private String targetUrl;
-    private LocalDateTime expiredAt;
     private Integer clickCount = 0;
-    private Integer conversionCount = 0;
     private Boolean status = true;
+    private String price;
+    private String originalPrice;
     private String image;
 }

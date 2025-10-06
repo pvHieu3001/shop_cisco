@@ -9,8 +9,8 @@ function getAdminAffiliates(search: string) {
 function getAffiliateById(id: string) {
   return http.get(`/api/v1/admin/affiliate/${id}`)
 }
-function getAffiliateBySlug(slug: string) {
-  return http.get(`/api/v1/user/affiliate/slug/${slug}`)
+function getRandomAffiliate() {
+  return http.get(`/api/v1/user/affiliate/random`)
 }
 function updateAffiliate(id?: string, data?: FormData) {
   return http.put(`/api/v1/admin/affiliate/${id}`, data)
@@ -29,7 +29,7 @@ export const affiliateServices = {
   getAffiliates,
   getAdminAffiliates,
   getAffiliateById,
-  getAffiliateBySlug,
+  getRandomAffiliate,
   updateAffiliate,
   createAffiliate,
   deleteAffiliate,

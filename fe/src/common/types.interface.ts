@@ -105,18 +105,15 @@ export interface IBlog {
 
 export interface IAffiliate {
   id: number
-  productId: string
-  affiliateCode: string
+  name: string
   targetUrl: string
-  expiredAt: string
   clickCount: number
-  conversionCount: number
   status: boolean
   price: string
+  originalPrice: string
+  image: string
   updatedAt: string
   updatedBy: IUser
-  discount: string
-  image: string
 }
 
 export type ContextType = {

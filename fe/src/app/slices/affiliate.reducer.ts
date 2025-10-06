@@ -7,6 +7,7 @@ const initialState = {
   message: '',
   error_message: '',
   data: <IAffiliate>(<unknown>null),
+  dataRandom: <IAffiliate>(<unknown>null),
   dataList: <IAffiliate[]>(<unknown>null)
 }
 
@@ -33,6 +34,14 @@ const affiliateSlice = createSlice({
       state.isLoading = false
     },
     getByIdSuccessFailure: (state, { payload }) => {
+      state.message = payload
+      state.isLoading = false
+    },
+    getRandomAffiliateSuccessFully: (state, { payload }) => {
+      state.dataRandom = payload.data
+      state.isLoading = false
+    },
+    getRandomAffiliateSuccessFailure: (state, { payload }) => {
       state.message = payload
       state.isLoading = false
     },
@@ -72,6 +81,8 @@ export const {
   getAffiliatesSuccessFailure,
   getByIdSuccessFailure,
   getByIdSuccessFully,
+  getRandomAffiliateSuccessFully,
+  getRandomAffiliateSuccessFailure,
   createFailure,
   createSuccessfully,
   updateFailure,

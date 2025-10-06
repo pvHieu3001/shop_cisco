@@ -60,7 +60,12 @@ function PageSearch() {
           </div>
           <div className={styles.breaker}></div>
         </section>
-        <TabCategory />
+        <aside
+          className='w-full lg:w-[20%] sticky top-4'
+          role='complementary'
+        >
+          <TabCategory />
+        </aside>
       </main>
     </div>
   )
