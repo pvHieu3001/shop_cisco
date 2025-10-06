@@ -190,13 +190,13 @@ export default function EditAffiliate() {
                       </Form.Item>
                     </Col>
                     <Col span={24}>
-                      <Form.Item name='price' label='Giá gốc'>
-                        <Input size='large' placeholder='Nhập giá gốc...' />
+                      <Form.Item name='price' label='Giá khuyến mãi'>
+                        <Input size='large' placeholder='Nhập giá khuyến mãi...' />
                       </Form.Item>
                     </Col>
                     <Col span={24}>
-                      <Form.Item name='originalPrice' label='giá khuyến mãi'>
-                        <Input size='large' placeholder='Nhập giá khuyến mãi...' />
+                      <Form.Item name='originalPrice' label='Giá gốc'>
+                        <Input size='large' placeholder='Nhập giá gốc...' />
                       </Form.Item>
                     </Col>
                   </Row>
