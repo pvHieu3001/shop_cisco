@@ -39,7 +39,7 @@ export default function EditBlog() {
         type: data.type,
         content: data.content,
         isDisplayHot: data.isDisplayHot,
-        image: data.image,
+        image: data.image
       })
     }
   }, [blogStore, form])
@@ -193,8 +193,10 @@ export default function EditBlog() {
                         />
                       )}
                     </label>
-                    <Input size='large' placeholder='Nhập link ảnh bài viết...' />
                   </div>
+                </Form.Item>
+                <Form.Item label={<span className='font-semibold'>Link Ảnh</span>} name='image'>
+                  <Input size='large' placeholder='Nhập link ảnh bài viết...' />
                 </Form.Item>
                 <div className='bg-white rounded-md shadow-sm p-4 space-y-4'>
                   <h2 className='text-lg font-semibold text-gray-700'>Cài đặt hiển thị</h2>
@@ -218,7 +220,6 @@ export default function EditBlog() {
                     label='Tiêu đề bài viết'
                     rules={[
                       { required: true, message: 'Vui lòng nhập tiêu đề bài viết!' },
-                      { max: 120, message: 'Tiêu đề không vượt quá 120 ký tự' },
                       { whitespace: true, message: 'Tiêu đề bài viết không được để trống!' }
                     ]}
                   >

@@ -152,6 +152,8 @@ export default function AddBlog() {
                     )}
                   </label>
                 </div>
+              </Form.Item>
+              <Form.Item label={<span className='font-semibold'>Link Ảnh</span>} name='image'>
                 <Input size='large' placeholder='Nhập link ảnh bài viết...' />
               </Form.Item>
               <div className='bg-white rounded-md shadow-sm p-4 space-y-4'>
