@@ -34,7 +34,7 @@ function PageBlog() {
         title = 'Đồ Gỗ Mỹ Nghệ'
         break
       case 'tin-tuc':
-        type = 'new'
+        type = 'news'
         title = 'Tin Tức Mới'
         break
       case 'tuyen-dung':
