@@ -102,16 +102,13 @@ public class AdminBlogController {
                     .body(ApiResponse.error(400, "Blog title is required"));
             }
 
-            String imageFilename = "";
+            String imageFilename = dto.getImage();
             if (dto.getImageFile() != null && !dto.getImageFile().isEmpty()) {
                 imageFilename = UUID.randomUUID() + "_" + dto.getImageFile().getOriginalFilename();
                 Path imagePath = uploadDir.resolve(imageFilename);
                 Files.copy(dto.getImageFile().getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-                log.info("Image saved: {}", imageFilename);
-                dto.setImage(imageFilename);
-            } else {
-                dto.setImage(""); // No image uploaded
             }
+            dto.setImage(imageFilename);
 
 
             dto.setSlug(DataUtils.toSlug(dto.getTitle()));
@@ -144,16 +141,16 @@ public class AdminBlogController {
 
             Blog existingBlog = blogService.getById(id);
 
-            String imageFilename = "";
+            String imageFilename = dto.getImage();
             if (dto.getImageFile() != null && !dto.getImageFile().isEmpty()) {
-                // New image uploaded
                 imageFilename = UUID.randomUUID() + "_" + dto.getImageFile().getOriginalFilename();
                 Path imagePath = uploadDir.resolve(imageFilename);
                 Files.copy(dto.getImageFile().getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
-                log.info("New image saved: {}", imageFilename);
+            }
+
+            if(imageFilename != null) {
                 dto.setImage(imageFilename);
-            } else {
-                // Keep existing image
+            }else{
                 dto.setImage(existingBlog.getImage());
             }
 

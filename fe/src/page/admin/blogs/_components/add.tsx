@@ -52,6 +52,7 @@ export default function AddBlog() {
     formData.append('status', form.getFieldValue('status').toString())
     formData.append('isDisplayHot', form.getFieldValue('isDisplayHot') || false)
     formData.append('content', content)
+    formData.append('image', form.getFieldValue('image'))
     if (imageUrl) {
       formData.append('imageFile', imageUrl)
     }
@@ -107,7 +108,7 @@ export default function AddBlog() {
                 className='border-[1px] p-[24px] rounded-md border-[#F1F1F4] bg-[#fafbfc]'
                 style={{ boxShadow: '0px 3px 4px 0px rgba(0, 0, 0, 0.03)' }}
               >
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col pb-4 items-center'>
                   <label
                     htmlFor='image-upload'
                     className='flex flex-col items-center justify-center w-[180px] h-[180px] border rounded-md cursor-pointer bg-white hover:bg-gray-100'
@@ -151,6 +152,7 @@ export default function AddBlog() {
                     )}
                   </label>
                 </div>
+                <Input size='large' placeholder='Nhập link ảnh bài viết...' />
               </Form.Item>
               <div className='bg-white rounded-md shadow-sm p-4 space-y-4'>
                 <h2 className='text-lg font-semibold text-gray-700'>Cài đặt hiển thị</h2>

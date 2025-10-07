@@ -38,7 +38,8 @@ export default function EditBlog() {
         title: data.title,
         type: data.type,
         content: data.content,
-        isDisplayHot: data.isDisplayHot
+        isDisplayHot: data.isDisplayHot,
+        image: data.image,
       })
     }
   }, [blogStore, form])
@@ -77,6 +78,7 @@ export default function EditBlog() {
     formData.append('content', form.getFieldValue('content'))
     formData.append('type', form.getFieldValue('type'))
     formData.append('isDisplayHot', form.getFieldValue('isDisplayHot') || false)
+    formData.append('image', form.getFieldValue('image'))
     if (imageUrl) {
       formData.append('imageFile', imageUrl)
     }
@@ -136,7 +138,7 @@ export default function EditBlog() {
                   className='border p-6 rounded-md bg-[#fafbfc]'
                   style={{ boxShadow: '0px 3px 4px rgba(0, 0, 0, 0.03)' }}
                 >
-                  <div className='flex flex-col items-center'>
+                  <div className='flex pb-4 flex-col items-center'>
                     <label
                       htmlFor='image-upload'
                       className='flex flex-col items-center justify-center w-[180px] h-[180px] border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-100'
@@ -191,6 +193,7 @@ export default function EditBlog() {
                         />
                       )}
                     </label>
+                    <Input size='large' placeholder='Nhập link ảnh bài viết...' />
                   </div>
                 </Form.Item>
                 <div className='bg-white rounded-md shadow-sm p-4 space-y-4'>
