@@ -3,12 +3,7 @@ import UseSidenav from '../../../utils/UseSidenav'
 import { useEffect, useState } from 'react'
 import type { MenuProps } from 'antd'
 import ShopeeLogo from '@/assets/images/shopee_v2.png'
-import {
-  ReadOutlined,
-  TagsOutlined,
-  UsergroupAddOutlined,
-  DashboardOutlined
-} from '@ant-design/icons'
+import { ReadOutlined, TagsOutlined, UsergroupAddOutlined, DashboardOutlined } from '@ant-design/icons'
 
 function Sidenav() {
   const [stateOpenKeys, setStateOpenKeys] = useState<string[]>([])
