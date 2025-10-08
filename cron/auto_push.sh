@@ -3,7 +3,7 @@ set -e
 
 cd /var/www/html/online-wooden || { echo "Lỗi: Không tìm thấy thư mục repository."; exit 1; }
 
-echo "Bắt đầu auto-push lúc $(date)..."
+echo "================Bắt đầu backup online-wooden lúc $(date)=============================="
 
 # (Quan trọng) Cập nhật trạng thái từ remote trước khi push để tránh lỗi
 git pull
