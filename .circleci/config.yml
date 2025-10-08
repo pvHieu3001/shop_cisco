@@ -118,18 +118,6 @@ jobs:
 
             echo "🚀 Starting frontend deployment to ${SERVER_HOST}..."
 
-            # Create backup directory if it doesn't exist
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${BACKUP_PATH}"
-
-            # Create timestamp for backup
-            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-
-            # Backup current frontend if it exists
-            if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "[ -d ${WOODEN_FRONTEND_PATH} ]"; then
-              echo "📦 Creating backup of current frontend..."
-              ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "tar -czf ${BACKUP_PATH}/frontend_backup_${TIMESTAMP}.tar.gz -C ${WOODEN_FRONTEND_PATH} ."
-            fi
-
             # Create frontend directory if it doesn't exist
             ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${WOODEN_FRONTEND_PATH}"
 
@@ -181,18 +169,18 @@ jobs:
             SERVER_HOST="${SERVER_HOST:-your-server.com}"
             SERVER_USER="${SERVER_USER:-deploy}"
             WOODEN_BACKEND_PATH="${BACKEND_PATH:-/var/www/html/online-wooden/be}"
-            BACKUP_PATH="${BACKUP_PATH:-/var/www/backups}"
+            DATABASE_PATH="/var/www/html/online-wooden/database"
             WOODEN_DOCKER_IMAGE_NAME="${DOCKER_IMAGE_NAME:-online-wooden-backend}"
             WOODEN_DOCKER_IMAGE_TAG="${DOCKER_IMAGE_TAG:-v2.0.0}"
             WOODEN_DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_NAME:-online-wooden-backend}"
+            DB_NAME="${DB_NAME:-online_wooden}"
+            DB_USER="${DB_USER:-user}"
+            DB_PASSWORD="${DB_PASSWORD:-password}"
 
             echo "🚀 Starting backend deployment to ${SERVER_HOST}..."
 
-            # Create backup directory if it doesn't exist
-            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${BACKUP_PATH}"
-
-            # Create timestamp for backup
-            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            # Create database directory if it doesn't exist
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${DATABASE_PATH}"
 
             # Find the JAR file (fix path)
             JAR_FILE=$(find be/target -name "*.jar" -not -name "*sources.jar" -not -name "*javadoc.jar" | head -1)
@@ -209,11 +197,16 @@ jobs:
             # Create backend directory if it doesn't exist
             ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "mkdir -p ${WOODEN_BACKEND_PATH}"
 
-            # Backup current Docker image if it exists
-            #if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker images | grep -q ${WOODEN_DOCKER_IMAGE_NAME}"; then
-            #  echo "📦 Creating backup of current Docker image..."
-            #  ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker save ${WOODEN_DOCKER_IMAGE_NAME}:latest | gzip > ${BACKUP_PATH}/backend_docker_backup_${TIMESTAMP}.tar.gz"
-            #fi
+            # Backup database
+            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "
+              if systemctl is-active --quiet mysql; then
+                echo '✅ MySQL service is running. Creating backup...'
+                mysqldump -u\"${DB_USER}\" -p\"${DB_PASSWORD}\" \"${DB_NAME}\" | gzip > ${DATABASE_PATH}/db_backup.sql.gz
+                echo '✅ Database backup completed successfully.'
+              else
+                echo '🤔 MySQL service is not running or not found. Skipping backup.'
+              fi
+            "
 
             # Stop and remove current container if it exists
             if ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_HOST} "docker ps -a | grep -q ${WOODEN_DOCKER_CONTAINER_NAME}"; then
