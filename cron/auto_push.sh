@@ -6,7 +6,7 @@ cd /var/www/html/online-wooden || { echo "Lỗi: Không tìm thấy thư mục r
 echo "Bắt đầu auto-push lúc $(date)..."
 
 # (Quan trọng) Cập nhật trạng thái từ remote trước khi push để tránh lỗi
-git pull --rebase origin develop
+git pull
 
 # Thêm tất cả các file mới hoặc đã thay đổi
 git add .
@@ -15,7 +15,7 @@ git add .
 if ! git diff-index --quiet --cached HEAD; then
   echo "Phát hiện thay đổi, đang commit..."
   git commit -m "Auto Backup: Cập nhật ngày $(date +'%Y-%m-%d %H:%M:%S')"
-  git push origin develop
+  git push
   echo "Push thành công."
 else
   echo "Không có thay đổi nào để push."
