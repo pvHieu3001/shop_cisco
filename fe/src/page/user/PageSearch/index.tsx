@@ -21,7 +21,7 @@ function PageSearch() {
 
   useEffect(() => {
     dispatch(productActions.getProducts('active', search, '') as unknown as AnyAction)
-  }, [search])
+  }, [dispatch, search])
 
   const handleDetail = (slug: string) => {
     const product = dataList.find((c: IProduct) => c.slug === slug)
@@ -60,10 +60,7 @@ function PageSearch() {
           </div>
           <div className={styles.breaker}></div>
         </section>
-        <aside
-          className='w-full lg:w-[20%] sticky top-4'
-          role='complementary'
-        >
+        <aside className='w-full lg:w-[20%] sticky top-4' role='complementary'>
           <TabCategory />
         </aside>
       </main>
