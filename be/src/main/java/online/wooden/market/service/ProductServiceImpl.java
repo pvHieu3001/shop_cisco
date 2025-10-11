@@ -68,11 +68,8 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.findById(catId)
                 .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
         productDb.setName(product.getName());
-        productDb.setContent(product.getContent());
         productDb.setDescription(product.getDescription());
         productDb.setProductBenefits(product.getProductBenefits());
-        productDb.setLanguage(product.getLanguage());
-        productDb.setLevel(product.getLevel());
         productDb.setPrice(product.getPrice());
         productDb.setSlug(product.getSlug());
         productDb.setRating(product.getRating());

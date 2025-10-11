@@ -17,16 +17,12 @@ public class Product extends BaseEntity {
     private String imageUrl;
     private String name;
     @Column(columnDefinition = "TEXT")
-    private String content;
-    @Column(columnDefinition = "TEXT")
     private String description;
     @Column(columnDefinition = "TEXT")
     private String productBenefits;
     private String sourceUrl;
     private String slug;
     private Integer price;
-    private String level;
-    private String language;
     private String status;
     private Boolean isDisplayHot;
 
@@ -35,6 +31,5 @@ public class Product extends BaseEntity {
     private Category category;
 
     private Double rating;
-    private Integer totalStudents;
     private Integer totalRating;
 }

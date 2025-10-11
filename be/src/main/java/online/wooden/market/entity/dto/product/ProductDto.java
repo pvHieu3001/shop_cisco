@@ -14,18 +14,14 @@ public class ProductDto {
     private Integer id;
     private String imageUrl;
     private String name;
-    private String content;
     private String description;
     private String productBenefits;
     private String sourceUrl;
     private String slug;
     private Integer price;
-    private String level;
-    private String language;
     private String status;
     private Boolean isDisplayHot;
     private Double rating;
-    private Integer totalStudents;
     private Integer totalRating;
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;

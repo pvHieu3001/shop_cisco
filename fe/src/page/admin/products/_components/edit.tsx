@@ -24,7 +24,6 @@ function EditProduct() {
   const [form] = Form.useForm()
   const [imageUrl, setImageUrl] = useState<Blob>()
   const [description, setDescription] = useState<string>('')
-  const [content, setContent] = useState<string>('')
   const [productBenefits, setProductBenefits] = useState<string>('')
   const [displayPic, setDisplayPic] = useState<string>()
 
@@ -37,7 +36,6 @@ function EditProduct() {
 
   useEffect(() => {
     setDescription(productStore.data?.description ?? '')
-    setContent(productStore.data?.content ?? '')
     setProductBenefits(productStore.data?.productBenefits ?? '')
     if (productStore.data?.imageUrl) {
       setDisplayPic(getImageUrl(productStore.data.imageUrl))
@@ -48,8 +46,6 @@ function EditProduct() {
     const id = productStore.data?.id
     const name = form.getFieldValue('name')
     const categoryId = form.getFieldValue('categoryId')
-    const language = form.getFieldValue('language')
-    const level = form.getFieldValue('level')
     const price = form.getFieldValue('price')
     const sourceUrl = form.getFieldValue('sourceUrl')
     const status = form.getFieldValue('status')
@@ -59,12 +55,9 @@ function EditProduct() {
     formdata.append('id', id as string)
     formdata.append('name', name)
     formdata.append('categoryId', categoryId)
-    formdata.append('content', content)
     formdata.append('description', description)
     formdata.append('productBenefits', productBenefits)
     formdata.append('sourceUrl', sourceUrl)
-    formdata.append('language', language)
-    formdata.append('level', level)
     formdata.append('price', price ?? 0)
     formdata.append('status', status ? 'active' : 'inactive')
     formdata.append('isDisplayHot', isDisplayHot)
@@ -150,11 +143,6 @@ function EditProduct() {
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={12} md={8}>
-                  <Form.Item name='total_students' label='Tổng số học viên'>
-                    <InputNumber disabled className='w-full' min={0} placeholder='Nhập tổng số học viên' />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={12} md={8}>
                   <Form.Item name='total_rating' label='Tổng số đánh giá'>
                     <InputNumber disabled className='w-full' min={0} placeholder='Nhập tổng số đánh giá' />
                   </Form.Item>
@@ -183,15 +171,15 @@ function EditProduct() {
                 </Col>
               </Row>
             </Card>
-            <Card title='Thông tin khoá học' size='small' style={{ marginBottom: 24 }}>
+            <Card title='Thông tin sản phẩm' size='small' style={{ marginBottom: 24 }}>
               <Row gutter={[16, 16]}>
                 <Col xs={24} md={12}>
                   <Form.Item
                     name='name'
-                    label='Tên khoá học'
-                    rules={[{ required: true, message: 'Vui lòng nhập tên khoá học!' }]}
+                    label='Tên sản phẩm'
+                    rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm!' }]}
                   >
-                    <Input placeholder='Nhập tên khoá học' size='large' />
+                    <Input placeholder='Nhập tên sản phẩm' size='large' />
                   </Form.Item>
                   {categoryStore.dataList?.length > 0 && (
                     <Form.Item
@@ -215,28 +203,9 @@ function EditProduct() {
                       </Select>
                     </Form.Item>
                   )}
-                  <Form.Item name='sourceUrl' label='Nguồn video'>
-                    <Input placeholder='Nhập URL nguồn video' size='large' />
-                  </Form.Item>
                 </Col>
 
                 <Col xs={24} md={12}>
-                  <Form.Item name='language' label='Ngôn ngữ'>
-                    <Select placeholder='Chọn ngôn ngữ' size='large'>
-                      <Select.Option value='vi'>Tiếng Việt</Select.Option>
-                      <Select.Option value='en'>English</Select.Option>
-                      <Select.Option value='jp'>日本語</Select.Option>
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item name='level' label='Trình độ'>
-                    <Select placeholder='Chọn trình độ' size='large'>
-                      <Select.Option value='beginner'>Dễ</Select.Option>
-                      <Select.Option value='intermediate'>Trung Bình</Select.Option>
-                      <Select.Option value='advanced'>Khó</Select.Option>
-                    </Select>
-                  </Form.Item>
-
                   <Row gutter={[16, 16]}>
                     <Col xs={24} sm={12} md={8}>
                       <Form.Item name='price' label='Giá'>
@@ -256,21 +225,18 @@ function EditProduct() {
                       </Form.Item>
                     </Col>
                   </Row>
+                  <Row gutter={[16, 16]}>
+                    <Col xs={24} sm={24} md={24}>
+                      <Form.Item name='sourceUrl' label='Nguồn video'>
+                        <Input placeholder='Nhập URL nguồn video' size='large' />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Card>
             <Card size='small' style={{ marginBottom: 24 }}>
-              <Form.Item name='content' className='m-0' label={'Nội dung khoá học'}>
-                <TextEditor
-                  content={content ?? ''}
-                  onHandleChange={(value) => {
-                    setContent(value)
-                  }}
-                />
-              </Form.Item>
-            </Card>
-            <Card size='small' style={{ marginBottom: 24 }}>
-              <Form.Item name='description' className='m-0' label={'Mô tả chi tiết khoá học'}>
+              <Form.Item name='description' className='m-0' label={'Mô tả chi tiết sản phẩm'}>
                 <TextEditor
                   content={description ?? ''}
                   onHandleChange={(value) => {
@@ -280,7 +246,7 @@ function EditProduct() {
               </Form.Item>
             </Card>
             <Card size='small' style={{ marginBottom: 24 }}>
-              <Form.Item name='productBenefits' className='m-0' label={'Lợi ích khoá học'}>
+              <Form.Item name='productBenefits' className='m-0' label={'Lợi ích sản phẩm'}>
                 <TextEditor
                   content={productBenefits ?? ''}
                   onHandleChange={(value) => {
